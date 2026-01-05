@@ -20,7 +20,7 @@ export default function LoginPage() {
             setLoading(false)
         } else if (result?.success) {
             // Client-side redirect ensures cookies are set
-            router.push('/')
+            router.push('/dashboard')
         }
     }
 

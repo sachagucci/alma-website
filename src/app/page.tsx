@@ -597,7 +597,10 @@ export default function VitrinePage() {
                 <Link href="/onboarding" className="h-14 px-8 flex items-center justify-center bg-white text-black font-bold rounded-xl hover:scale-105 transition-transform">
                   {t.cta.trial}
                 </Link>
-                <button className="h-14 px-8 flex items-center justify-center bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors backdrop-blur-md border border-white/10">
+                <button
+                  onClick={() => setIsContactOpen(true)}
+                  className="h-14 px-8 flex items-center justify-center bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors backdrop-blur-md border border-white/10"
+                >
                   {t.cta.demo}
                 </button>
               </div>
