@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { DashboardShell } from '@/components/DashboardShell'
-import { getAgentConfig, updateAgentConfig, getCompanyKnowledge, addCompanyKnowledge, deleteCompanyKnowledge, getCompanyInfo, updateCompanyInfo } from './actions'
-import { Loader2, Save, Upload, FileText, Trash2, Check, Bot, BookOpen, ArrowLeft, Building2 } from 'lucide-react'
+import { getAgentConfig, updateAgentConfig, getCompanyKnowledge, addCompanyKnowledge, deleteCompanyKnowledge, getCompanyInfo, updateCompanyInfo, getTrustedSources, updateTrustedSources } from './actions'
+import { Loader2, Save, Upload, FileText, Trash2, Check, Bot, BookOpen, ArrowLeft, Building2, Link2, Plus } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
@@ -53,6 +53,11 @@ export default function SettingsPage() {
     })
     const [savingCompany, setSavingCompany] = useState(false)
 
+    // Trusted sources state
+    const [trustedSources, setTrustedSources] = useState<string[]>([])
+    const [newSourceUrl, setNewSourceUrl] = useState('')
+    const [savingSources, setSavingSources] = useState(false)
+
     // Load initial data
     useEffect(() => {
         loadData()
@@ -75,6 +80,13 @@ export default function SettingsPage() {
         if (companyRes.success && companyRes.company) {
             setCompanyInfo(companyRes.company)
         }
+
+        // Load trusted sources
+        const sourcesRes = await getTrustedSources()
+        if (sourcesRes.success && sourcesRes.sources) {
+            setTrustedSources(sourcesRes.sources)
+        }
+
         setLoading(false)
     }
 
@@ -199,7 +211,7 @@ export default function SettingsPage() {
             <div className="p-8 max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
-                    <Link href="/" className="text-gray-500 hover:text-black text-sm flex items-center gap-1 mb-4">
+                    <Link href="/dashboard" className="text-gray-500 hover:text-black text-sm flex items-center gap-1 mb-4">
                         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
                     </Link>
                     <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
@@ -456,14 +468,100 @@ export default function SettingsPage() {
                             </button>
                         </div>
 
-                        {/* Documents List */}
+                        {/* Trusted Sources Section */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6">
+                            <div className="flex items-center gap-2 mb-4">
+                                <Link2 className="w-5 h-5 text-gray-700" />
+                                <h3 className="font-semibold text-gray-900">Trusted Sources</h3>
+                            </div>
+                            <p className="text-sm text-gray-500 mb-4">
+                                Add URLs that you trust as reference sources. The chat assistant can use these to provide more accurate answers.
+                            </p>
+
+                            {/* Add new URL */}
+                            <div className="flex gap-2 mb-4">
+                                <input
+                                    type="url"
+                                    value={newSourceUrl}
+                                    onChange={(e) => setNewSourceUrl(e.target.value)}
+                                    placeholder="https://example.com/resource"
+                                    className="flex-1 px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-black/5 focus:border-black outline-none text-sm"
+                                />
+                                <button
+                                    onClick={async () => {
+                                        if (!newSourceUrl.trim()) return
+                                        try {
+                                            new URL(newSourceUrl) // Validate URL
+                                            const newSources = [...trustedSources, newSourceUrl.trim()]
+                                            setSavingSources(true)
+                                            const result = await updateTrustedSources(newSources)
+                                            if (result.success) {
+                                                setTrustedSources(result.sources || newSources)
+                                                setNewSourceUrl('')
+                                                setMessage({ type: 'success', text: 'Source added!' })
+                                            } else {
+                                                setMessage({ type: 'error', text: result.error || 'Failed to add' })
+                                            }
+                                            setSavingSources(false)
+                                        } catch {
+                                            setMessage({ type: 'error', text: 'Please enter a valid URL' })
+                                        }
+                                    }}
+                                    disabled={savingSources || !newSourceUrl.trim()}
+                                    className="px-4 py-2 bg-black text-white rounded-xl font-medium flex items-center gap-2 hover:bg-gray-800 transition-all disabled:opacity-50"
+                                >
+                                    <Plus className="w-4 h-4" />
+                                    Add
+                                </button>
+                            </div>
+
+                            {/* Sources list - no delete button, just display */}
+                            {trustedSources.length === 0 ? (
+                                <p className="text-gray-400 text-sm">No trusted sources added yet</p>
+                            ) : (
+                                <div className="space-y-2">
+                                    {trustedSources.map((url, idx) => (
+                                        <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                                            <div className="flex items-center gap-3 min-w-0">
+                                                <Link2 className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                                <a
+                                                    href={url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-sm text-blue-600 hover:underline truncate"
+                                                >
+                                                    {url}
+                                                </a>
+                                            </div>
+                                            <button
+                                                onClick={async () => {
+                                                    const newSources = trustedSources.filter((_, i) => i !== idx)
+                                                    setSavingSources(true)
+                                                    const result = await updateTrustedSources(newSources)
+                                                    if (result.success) {
+                                                        setTrustedSources(result.sources || newSources)
+                                                        setMessage({ type: 'success', text: 'Source removed' })
+                                                    }
+                                                    setSavingSources(false)
+                                                }}
+                                                className="p-2 text-gray-400 hover:text-red-500 transition-all flex-shrink-0"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Documents List - at the bottom */}
                         <div className="bg-white rounded-2xl border border-gray-200 p-6">
                             <h3 className="font-semibold text-gray-900 mb-4">Knowledge Base Documents</h3>
-                            {documents.length === 0 ? (
+                            {documents.filter(doc => doc.file_name !== '_trusted_sources').length === 0 ? (
                                 <p className="text-gray-500 text-sm">No documents uploaded yet</p>
                             ) : (
                                 <div className="space-y-2">
-                                    {documents.map(doc => (
+                                    {documents.filter(doc => doc.file_name !== '_trusted_sources').map(doc => (
                                         <div key={doc.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                                             <div className="flex items-center gap-3">
                                                 <FileText className="w-5 h-5 text-gray-400" />

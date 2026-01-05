@@ -23,7 +23,7 @@ export function Sidebar() {
                 </div>
 
                 <nav className="space-y-2 w-full">
-                    <Link href="/" className={`flex items-center gap-3 p-3 rounded-xl font-medium transition-all ${isActive('/')}`}>
+                    <Link href="/dashboard" className={`flex items-center gap-3 p-3 rounded-xl font-medium transition-all ${isActive('/dashboard')}`}>
                         <span className="hidden lg:block">Overview</span>
                     </Link>
                     <Link href="/triage" className={`flex items-center gap-3 p-3 rounded-xl font-medium transition-all ${isActive('/triage')}`}>

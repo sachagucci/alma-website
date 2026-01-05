@@ -364,3 +364,84 @@ export async function updateCompanyInfo(info: {
         client.release()
     }
 }
+
+// Get trusted sources URLs from company_knowledge (stored as JSONB array)
+export async function getTrustedSources() {
+    const session = await getCompanyIdFromSession()
+    if (!session) {
+        return { error: 'Not authenticated' }
+    }
+
+    const client = await pool.connect()
+    try {
+        // Get trusted sources from the special row with file_name = '_trusted_sources'
+        const result = await client.query(
+            `SELECT trusted_sources FROM company_knowledge 
+             WHERE company_id = $1 AND file_name = '_trusted_sources' AND (is_active IS NULL OR is_active = TRUE)
+             LIMIT 1`,
+            [session.companyId]
+        )
+
+        let sources: string[] = []
+        if (result.rows[0]?.trusted_sources) {
+            sources = Array.isArray(result.rows[0].trusted_sources)
+                ? result.rows[0].trusted_sources
+                : []
+        }
+
+        return { success: true, sources }
+    } finally {
+        client.release()
+    }
+}
+
+// Update trusted sources URLs (stored as JSONB array in company_knowledge)
+export async function updateTrustedSources(sources: string[]) {
+    const session = await getCompanyIdFromSession()
+    if (!session) {
+        return { error: 'Not authenticated' }
+    }
+
+    // Validate URLs
+    const validUrls = sources.filter(url => {
+        try {
+            new URL(url)
+            return true
+        } catch {
+            return false
+        }
+    })
+
+    const client = await pool.connect()
+    try {
+        // Check if trusted sources row exists
+        const existing = await client.query(
+            `SELECT id FROM company_knowledge 
+             WHERE company_id = $1 AND file_name = '_trusted_sources' AND (is_active IS NULL OR is_active = TRUE)`,
+            [session.companyId]
+        )
+
+        if (existing.rows.length > 0) {
+            // Update existing row
+            await client.query(
+                `UPDATE company_knowledge SET trusted_sources = $1 
+                 WHERE company_id = $2 AND file_name = '_trusted_sources'`,
+                [JSON.stringify(validUrls), session.companyId]
+            )
+        } else {
+            // Insert new row
+            await client.query(
+                `INSERT INTO company_knowledge (company_id, file_name, raw_text, trusted_sources, is_active, created_at) 
+                 VALUES ($1, '_trusted_sources', '', $2, TRUE, NOW())`,
+                [session.companyId, JSON.stringify(validUrls)]
+            )
+        }
+
+        return { success: true, sources: validUrls }
+    } catch (error: any) {
+        console.error('Error updating trusted sources:', error)
+        return { error: error.message || 'Failed to update trusted sources' }
+    } finally {
+        client.release()
+    }
+}
