@@ -14,8 +14,8 @@ export default async function TriagePage() {
             <div className="max-w-7xl mx-auto px-6 py-10 h-screen flex flex-col">
 
                 <header className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Triage Station</h1>
-                    <p className="text-gray-500 mt-1 font-medium">Prioritize patient needs and monitor live activity.</p>
+                    <h1 className="text-2xl font-bold text-gray-900">Call Log</h1>
+                    <p className="text-gray-500 mt-1 font-medium">Review incoming calls and service requests.</p>
                 </header>
 
                 <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-0">
@@ -25,17 +25,17 @@ export default async function TriagePage() {
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                                 <div className="w-2 h-2 rounded-full bg-black animate-pulse"></div>
-                                Urgent Callbacks
+                                Priority Callbacks
                                 <span className="bg-black text-white text-xs px-2 py-0.5 rounded-full">
                                     {urgentCalls.length}
                                 </span>
                             </h2>
                         </div>
 
-                        <div className="bg-white rounded-[2rem] border border-gray-200/50 shadow-sm flex-1 overflow-y-auto p-2 space-y-2">
+                        <div className="bg-white rounded-2xl border border-gray-200 flex-1 overflow-y-auto p-2 space-y-2">
                             {urgentCalls.length === 0 ? (
                                 <div className="h-full flex flex-col items-center justify-center text-gray-400">
-                                    <p>No urgent callbacks required</p>
+                                    <p>No priority callbacks required</p>
                                 </div>
                             ) : (
                                 urgentCalls.map((call: any) => (
@@ -52,7 +52,7 @@ export default async function TriagePage() {
                                         </div>
                                         <div className="pl-6">
                                             <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                                                Patient reporting: {call.transcript ? "See transcript..." : "No details available."}
+                                                Client reporting: {call.transcript ? "See transcript..." : "No details available."}
                                             </p>
                                             <form action={resolveCallbackAction.bind(null, call.call_id)}>
                                                 <button className="text-xs font-semibold bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors w-full sm:w-auto">
@@ -76,7 +76,7 @@ export default async function TriagePage() {
                             </span>
                         </div>
 
-                        <div className="glass-card rounded-[2rem] p-6 flex-1 overflow-y-auto">
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 flex-1 overflow-y-auto">
                             <div className="relative border-l border-gray-100 ml-3 space-y-8">
                                 {recentMessages.map((msg: any) => (
                                     <div key={msg.message_id} className="relative pl-8 group">

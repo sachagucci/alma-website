@@ -7,24 +7,27 @@ import { getAgentConfig, updateAgentConfig, getCompanyKnowledge, addCompanyKnowl
 import { Loader2, Save, Upload, FileText, Trash2, Check, Bot, BookOpen, ArrowLeft, Building2, Link2, Plus } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useLanguage } from '@/hooks/useLanguage'
 
-const personalities = [
-    { id: 'professional', title: 'Professional', description: 'Formal and precise', defaultName: 'Leo' },
-    { id: 'friendly', title: 'Friendly', description: 'Warm and approachable', defaultName: 'Mia' },
-    { id: 'empathetic', title: 'Empathetic', description: 'Caring and supportive', defaultName: 'Gab' }
-]
+// Default agent names by personality - no longer needed as default
+// but useful for logic
+const getPersonalityDefaults = (t: any) => ({
+    professional: { title: t.settings.agent.personalities.professional.title, description: t.settings.agent.personalities.professional.desc, defaultName: 'Leo' },
+    friendly: { title: t.settings.agent.personalities.friendly.title, description: t.settings.agent.personalities.friendly.desc, defaultName: 'Mia' },
+    empathetic: { title: t.settings.agent.personalities.empathetic.title, description: t.settings.agent.personalities.empathetic.desc, defaultName: 'Gab' }
+})
 
-// Default agent names by personality
 const defaultAgentNames: Record<string, string> = {
     professional: 'Leo',
     friendly: 'Mia',
     empathetic: 'Gab'
 }
 
-const languages = ['English', 'French']
+const languages = ['French', 'English']
 
 export default function SettingsPage() {
     const router = useRouter()
+    const { t, lang: interfaceLang, setLang: setInterfaceLang, mounted } = useLanguage()
     const [activeTab, setActiveTab] = useState<'agent' | 'knowledge'>('agent')
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
@@ -102,9 +105,11 @@ export default function SettingsPage() {
         })
 
         if (result.success) {
-            setMessage({ type: 'success', text: 'Configuration saved successfully!' })
+            // @ts-ignore
+            setMessage({ type: 'success', text: t.settings.messages.configSaved })
         } else {
-            setMessage({ type: 'error', text: result.error || 'Failed to save' })
+            // @ts-ignore
+            setMessage({ type: 'error', text: result.error || t.settings.messages.configError })
         }
         setSaving(false)
     }
@@ -122,9 +127,11 @@ export default function SettingsPage() {
         })
 
         if (result.success) {
-            setMessage({ type: 'success', text: 'Company info updated successfully!' })
+            // @ts-ignore
+            setMessage({ type: 'success', text: t.settings.messages.companySaved })
         } else {
-            setMessage({ type: 'error', text: result.error || 'Failed to update' })
+            // @ts-ignore
+            setMessage({ type: 'error', text: result.error || t.settings.messages.companyError })
         }
         setSavingCompany(false)
     }
@@ -178,7 +185,8 @@ export default function SettingsPage() {
         }
 
         if (successCount > 0) {
-            setMessage({ type: 'success', text: `${successCount} document(s) uploaded and processed!` })
+            // @ts-ignore
+            setMessage({ type: 'success', text: `${successCount} ${t.settings.messages.docUploaded}` })
         }
 
         setStagedFiles([])
@@ -190,9 +198,11 @@ export default function SettingsPage() {
         const result = await deleteCompanyKnowledge(id)
         if (result.success) {
             setDocuments(docs => docs.filter(d => d.id !== id))
-            setMessage({ type: 'success', text: 'Document deleted' })
+            // @ts-ignore
+            setMessage({ type: 'success', text: t.settings.messages.docDeleted })
         } else {
-            setMessage({ type: 'error', text: result.error || 'Delete failed' })
+            // @ts-ignore
+            setMessage({ type: 'error', text: result.error || t.settings.messages.docError })
         }
     }
 
@@ -206,16 +216,54 @@ export default function SettingsPage() {
         )
     }
 
+    if (!mounted) return null
+
+    // Helper for personalities
+    const currentPersonalities = [
+        // @ts-ignore
+        { id: 'professional', ...getPersonalityDefaults(t).professional, defaultName: 'Leo' },
+        // @ts-ignore
+        { id: 'friendly', ...getPersonalityDefaults(t).friendly, defaultName: 'Mia' },
+        // @ts-ignore
+        { id: 'empathetic', ...getPersonalityDefaults(t).empathetic, defaultName: 'Gab' }
+    ]
+
     return (
         <DashboardShell>
             <div className="p-8 max-w-4xl mx-auto">
                 {/* Header */}
-                <div className="mb-8">
-                    <Link href="/dashboard" className="text-gray-500 hover:text-black text-sm flex items-center gap-1 mb-4">
-                        <ArrowLeft className="w-4 h-4" /> Back to Dashboard
-                    </Link>
-                    <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-                    <p className="text-gray-500 mt-1">Configure your AI agent and manage knowledge base</p>
+                <div className="mb-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                    <div>
+                        <Link href="/dashboard" className="text-gray-500 hover:text-black text-sm flex items-center gap-1 mb-4">
+                            {/* @ts-ignore */}
+                            <ArrowLeft className="w-4 h-4" /> {t.settings.back}
+                        </Link>
+                        {/* @ts-ignore */}
+                        <h1 className="text-3xl font-bold text-gray-900">{t.settings.title}</h1>
+                        {/* @ts-ignore */}
+                        <p className="text-gray-500 mt-1">{t.settings.subtitle}</p>
+                    </div>
+
+                    <div className="flex items-center gap-2 bg-white border border-gray-200 p-1 rounded-xl shadow-sm">
+                        <button
+                            onClick={() => setInterfaceLang('fr')}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${interfaceLang === 'fr'
+                                ? 'bg-black text-white shadow-sm'
+                                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                                }`}
+                        >
+                            Français
+                        </button>
+                        <button
+                            onClick={() => setInterfaceLang('en')}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${interfaceLang === 'en'
+                                ? 'bg-black text-white shadow-sm'
+                                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                                }`}
+                        >
+                            English
+                        </button>
+                    </div>
                 </div>
 
                 {/* Tabs */}
@@ -227,7 +275,8 @@ export default function SettingsPage() {
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                     >
-                        <Bot className="w-4 h-4" /> Agent Configuration
+                        {/* @ts-ignore */}
+                        <Bot className="w-4 h-4" /> {t.settings.tabs.agent}
                     </button>
                     <button
                         onClick={() => setActiveTab('knowledge')}
@@ -236,7 +285,7 @@ export default function SettingsPage() {
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                     >
-                        <BookOpen className="w-4 h-4" /> Company Knowledge
+                        <BookOpen className="w-4 h-4" /> {t.settings.tabs.knowledge}
                     </button>
                 </div>
 
@@ -259,24 +308,30 @@ export default function SettingsPage() {
                         animate={{ opacity: 1 }}
                         className="bg-white rounded-2xl border border-gray-200 p-6 space-y-6"
                     >
+
+
                         {/* Agent Name */}
                         <div className="space-y-2">
-                            <label className="text-sm font-semibold text-gray-900">Agent Name</label>
+                            {/* @ts-ignore */}
+                            <label className="text-sm font-semibold text-gray-900">{t.settings.agent.name}</label>
                             <input
                                 type="text"
                                 value={config.agentName}
                                 onChange={e => setConfig(c => ({ ...c, agentName: e.target.value }))}
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-black/5 focus:border-black outline-none"
-                                placeholder={`Default: ${defaultAgentNames[config.personality] || 'Mia'}`}
+                                // @ts-ignore
+                                placeholder={`${t.settings.agent.namePlaceholder}${defaultAgentNames[config.personality] || 'Mia'}`}
                             />
                             <p className="text-xs text-gray-500">
-                                This is how the agent will introduce itself. Default based on personality: {defaultAgentNames[config.personality] || 'Mia'}
+                                {/* @ts-ignore */}
+                                {t.settings.agent.nameHint}
                             </p>
                         </div>
 
                         {/* Language */}
                         <div className="space-y-2">
-                            <label className="text-sm font-semibold text-gray-900">Language</label>
+                            {/* @ts-ignore */}
+                            <label className="text-sm font-semibold text-gray-900">{t.settings.agent.language}</label>
                             <select
                                 value={config.language}
                                 onChange={e => setConfig(c => ({ ...c, language: e.target.value }))}
@@ -288,9 +343,10 @@ export default function SettingsPage() {
 
                         {/* Personality */}
                         <div className="space-y-3">
-                            <label className="text-sm font-semibold text-gray-900">Personality</label>
+                            {/* @ts-ignore */}
+                            <label className="text-sm font-semibold text-gray-900">{t.settings.agent.personality}</label>
                             <div className="grid grid-cols-3 gap-3">
-                                {personalities.map(p => (
+                                {currentPersonalities.map(p => (
                                     <button
                                         key={p.id}
                                         onClick={() => setConfig(c => ({
@@ -318,8 +374,10 @@ export default function SettingsPage() {
                             disabled={saving}
                             className="w-full bg-black text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-gray-900 transition-all disabled:opacity-50"
                         >
+                            {/* @ts-ignore */}
                             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                            Save Configuration
+                            {/* @ts-ignore */}
+                            {saving ? t.settings.agent.saving : t.settings.agent.save}
                         </button>
                     </motion.div>
                 )}
@@ -335,13 +393,15 @@ export default function SettingsPage() {
                         <div className="bg-white rounded-2xl border border-gray-200 p-6">
                             <div className="flex items-center gap-2 mb-4">
                                 <Building2 className="w-5 h-5 text-gray-700" />
-                                <h3 className="font-semibold text-gray-900">Company Information</h3>
+                                {/* @ts-ignore */}
+                                <h3 className="font-semibold text-gray-900">{t.settings.knowledge.companyInfo}</h3>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4 mb-4">
                                 {/* Business Name */}
                                 <div className="col-span-2">
-                                    <label className="text-sm font-medium text-gray-700 mb-1 block">Business Name</label>
+                                    {/* @ts-ignore */}
+                                    <label className="text-sm font-medium text-gray-700 mb-1 block">{t.settings.knowledge.businessName}</label>
                                     <input
                                         type="text"
                                         value={companyInfo.name || ''}
@@ -353,7 +413,8 @@ export default function SettingsPage() {
 
                                 {/* Service Type */}
                                 <div>
-                                    <label className="text-sm font-medium text-gray-700 mb-1 block">Service Type</label>
+                                    {/* @ts-ignore */}
+                                    <label className="text-sm font-medium text-gray-700 mb-1 block">{t.settings.knowledge.serviceType}</label>
                                     <select
                                         value={companyInfo.service_type || ''}
                                         onChange={e => setCompanyInfo(c => ({ ...c, service_type: e.target.value }))}
@@ -370,7 +431,8 @@ export default function SettingsPage() {
 
                                 {/* Company Size */}
                                 <div>
-                                    <label className="text-sm font-medium text-gray-700 mb-1 block">Company Size</label>
+                                    {/* @ts-ignore */}
+                                    <label className="text-sm font-medium text-gray-700 mb-1 block">{t.settings.knowledge.companySize}</label>
                                     <select
                                         value={companyInfo.company_size || ''}
                                         onChange={e => setCompanyInfo(c => ({ ...c, company_size: e.target.value }))}
@@ -386,13 +448,15 @@ export default function SettingsPage() {
 
                                 {/* Description */}
                                 <div className="col-span-2">
-                                    <label className="text-sm font-medium text-gray-700 mb-1 block">Description</label>
+                                    {/* @ts-ignore */}
+                                    <label className="text-sm font-medium text-gray-700 mb-1 block">{t.settings.knowledge.description}</label>
                                     <textarea
                                         value={companyInfo.description || ''}
                                         onChange={e => setCompanyInfo(c => ({ ...c, description: e.target.value }))}
                                         rows={3}
                                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-black/5 focus:border-black outline-none resize-none"
-                                        placeholder="Brief description of your business..."
+                                        // @ts-ignore
+                                        placeholder={t.settings.knowledge.descriptionPlaceholder}
                                     />
                                 </div>
                             </div>
@@ -403,13 +467,15 @@ export default function SettingsPage() {
                                 className="w-full bg-black text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-gray-900 transition-all disabled:opacity-50"
                             >
                                 {savingCompany ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                                Save Company Info
+                                {/* @ts-ignore */}
+                                {t.settings.knowledge.saveCompany}
                             </button>
                         </div>
 
                         {/* Upload Section */}
                         <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                            <h3 className="font-semibold text-gray-900 mb-4">Upload New Document</h3>
+                            {/* @ts-ignore */}
+                            <h3 className="font-semibold text-gray-900 mb-4">{t.settings.knowledge.uploadTitle}</h3>
 
                             {/* File selector */}
                             <label className="block mb-4">
@@ -423,14 +489,16 @@ export default function SettingsPage() {
                                 />
                                 <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-gray-300 transition-all">
                                     <Upload className="w-6 h-6 mx-auto text-gray-400 mb-2" />
-                                    <p className="text-sm text-gray-600">Click to select PDF or images</p>
+                                    {/* @ts-ignore */}
+                                    <p className="text-sm text-gray-600">{t.settings.knowledge.clickToSelect}</p>
                                 </div>
                             </label>
 
                             {/* Staged files list */}
                             {stagedFiles.length > 0 && (
                                 <div className="space-y-2 mb-4">
-                                    <p className="text-sm font-medium text-gray-700">Files ready to upload:</p>
+                                    {/* @ts-ignore */}
+                                    <p className="text-sm font-medium text-gray-700">{t.settings.knowledge.readyToUpload}</p>
                                     {stagedFiles.map(file => (
                                         <div key={file.name} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
                                             <div className="flex items-center gap-2">
@@ -457,12 +525,13 @@ export default function SettingsPage() {
                                 {uploading ? (
                                     <>
                                         <Loader2 className="w-4 h-4 animate-spin" />
-                                        Processing with OCR...
+                                        Processing...
                                     </>
                                 ) : (
                                     <>
                                         <Upload className="w-4 h-4" />
-                                        Upload & Process ({stagedFiles.length} file{stagedFiles.length !== 1 ? 's' : ''})
+                                        {/* @ts-ignore */}
+                                        {t.settings.knowledge.uploadProcess} ({stagedFiles.length})
                                     </>
                                 )}
                             </button>
@@ -472,10 +541,12 @@ export default function SettingsPage() {
                         <div className="bg-white rounded-2xl border border-gray-200 p-6">
                             <div className="flex items-center gap-2 mb-4">
                                 <Link2 className="w-5 h-5 text-gray-700" />
-                                <h3 className="font-semibold text-gray-900">Trusted Sources</h3>
+                                {/* @ts-ignore */}
+                                <h3 className="font-semibold text-gray-900">{t.settings.knowledge.trustedSources}</h3>
                             </div>
                             <p className="text-sm text-gray-500 mb-4">
-                                Add URLs that you trust as reference sources. The chat assistant can use these to provide more accurate answers.
+                                {/* @ts-ignore */}
+                                {t.settings.knowledge.trustedSourcesDesc}
                             </p>
 
                             {/* Add new URL */}
@@ -498,26 +569,31 @@ export default function SettingsPage() {
                                             if (result.success) {
                                                 setTrustedSources(result.sources || newSources)
                                                 setNewSourceUrl('')
-                                                setMessage({ type: 'success', text: 'Source added!' })
+                                                // @ts-ignore
+                                                setMessage({ type: 'success', text: t.settings.messages.sourceAdded })
                                             } else {
-                                                setMessage({ type: 'error', text: result.error || 'Failed to add' })
+                                                // @ts-ignore
+                                                setMessage({ type: 'error', text: result.error || t.settings.messages.sourceError })
                                             }
                                             setSavingSources(false)
                                         } catch {
-                                            setMessage({ type: 'error', text: 'Please enter a valid URL' })
+                                            // @ts-ignore
+                                            setMessage({ type: 'error', text: t.settings.messages.validUrl })
                                         }
                                     }}
                                     disabled={savingSources || !newSourceUrl.trim()}
                                     className="px-4 py-2 bg-black text-white rounded-xl font-medium flex items-center gap-2 hover:bg-gray-800 transition-all disabled:opacity-50"
                                 >
                                     <Plus className="w-4 h-4" />
-                                    Add
+                                    {/* @ts-ignore */}
+                                    {t.settings.knowledge.addSource}
                                 </button>
                             </div>
 
                             {/* Sources list - no delete button, just display */}
                             {trustedSources.length === 0 ? (
-                                <p className="text-gray-400 text-sm">No trusted sources added yet</p>
+                                // @ts-ignore
+                                <p className="text-gray-400 text-sm">{t.settings.knowledge.noSources}</p>
                             ) : (
                                 <div className="space-y-2">
                                     {trustedSources.map((url, idx) => (
@@ -540,7 +616,8 @@ export default function SettingsPage() {
                                                     const result = await updateTrustedSources(newSources)
                                                     if (result.success) {
                                                         setTrustedSources(result.sources || newSources)
-                                                        setMessage({ type: 'success', text: 'Source removed' })
+                                                        // @ts-ignore
+                                                        setMessage({ type: 'success', text: t.settings.messages.sourceRemoved })
                                                     }
                                                     setSavingSources(false)
                                                 }}
@@ -556,9 +633,11 @@ export default function SettingsPage() {
 
                         {/* Documents List - at the bottom */}
                         <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                            <h3 className="font-semibold text-gray-900 mb-4">Knowledge Base Documents</h3>
+                            {/* @ts-ignore */}
+                            <h3 className="font-semibold text-gray-900 mb-4">{t.settings.knowledge.documents}</h3>
                             {documents.filter(doc => doc.file_name !== '_trusted_sources').length === 0 ? (
-                                <p className="text-gray-500 text-sm">No documents uploaded yet</p>
+                                // @ts-ignore
+                                <p className="text-gray-500 text-sm">{t.settings.knowledge.noDocs}</p>
                             ) : (
                                 <div className="space-y-2">
                                     {documents.filter(doc => doc.file_name !== '_trusted_sources').map(doc => (

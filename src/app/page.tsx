@@ -1,197 +1,23 @@
 'use client'
 
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
-import {
-  ArrowRight,
-  Play,
-  Zap,
-  Globe,
-  Shield,
-  Phone,
-  X
-} from 'lucide-react'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { useState, useRef, useEffect } from 'react'
+import { ArrowRight, Play, X, Phone } from 'lucide-react'
 import Link from 'next/link'
+import { useLanguage } from '@/hooks/useLanguage'
 
-type Language = 'en' | 'fr'
+type Language = 'fr' | 'en'
 
-const translations = {
-  en: {
-    nav: {
-      product: "Product",
-      solutions: "Solutions",
-      pricing: "Pricing",
-      signIn: "Sign In",
-      getStarted: "Get Started"
-    },
-    hero: {
-      badge: "Now available",
-      title1: "Meet Mia,",
-      title2: "The AI Receptionist.",
-      subtitle: "Automate phone calls, scheduling, and patient intake with a voice AI that feels completely human.",
-      deploy: "Hire Mia now",
-      contactSales: "Contact Sales",
-      clinics: "Become an innovator and gain your market"
-    },
-    contactModal: {
-      title: "Contact Sales",
-      description: "Enter your email to get a personalized demo.",
-      placeholder: "name@company.com",
-      submit: "Submit",
-      success: "Thanks! We'll be in touch."
-    },
-    socialProof: "Join the Future of Healthcare",
-    demo: {
-      title: "Mia",
-      viewPatient: "View Patient",
-      bookAppointment: "Book Appointment",
-      messages: [
-        { role: 'ai', text: "Alma Health context: Hello, calling to schedule a follow-up." },
-        { role: 'user', text: "Hi, I need to see Dr. Chen next week." },
-        { role: 'ai', text: "I have an opening Tuesday at 10am. Does that work?" },
-        { role: 'user', text: "Yes, that's perfect." },
-      ]
-    },
-    features: {
-      title: "Build your remote\nfront desk.",
-      subtitle: "Everything you need to automate patient communication, fully integrated with your EMR.",
-      triage: {
-        title: "Instant Triage",
-        desc: "AI analyzes urgency in real-time. Emergency calls are routed to staff immediately, while routine bookings are handled automatically.",
-        urgent: "URGENT",
-        now: "Now",
-        msg: "\"My chest hurts and I feel dizzy...\""
-      },
-      multilingual: {
-        title: "Multilingual",
-        desc: "Fluent in English, French, and Spanish. Auto-detects caller language."
-      },
-      hipaa: {
-        title: "HIPAA Compliant",
-        desc: "Enterprise-grade encryption and data handling standards built-in."
-      },
-      list: ['EMR Sync', 'SMS Follow-up', 'Analytics', '24/7 Service'],
-      listDesc: "Automated and seamless."
-    },
-    cta: {
-      title: "Ready to modernize?",
-      trial: "Start Free Trial",
-      demo: "Book Demo"
-    },
-    footer: {
-      tagline: "The operating system for modern clinics.",
-      product: "Product",
-      company: "Company",
-      legal: "Legal",
-      links: {
-        features: "Features",
-        pricing: "Pricing",
-        changelog: "Changelog",
-        docs: "Docs",
-        about: "About",
-        blog: "Blog",
-        careers: "Careers",
-        contact: "Contact",
-        privacy: "Privacy",
-        terms: "Terms",
-        security: "Security"
-      }
-    }
-  },
-  fr: {
-    nav: {
-      product: "Produit",
-      solutions: "Solutions",
-      pricing: "Tarifs",
-      signIn: "Connexion",
-      getStarted: "Commencer"
-    },
-    hero: {
-      badge: "Maintenant disponible",
-      title1: "Rencontrez Mia,",
-      title2: "votre réceptionniste IA.",
-      subtitle: "Automatisez les appels, la prise de rendez-vous et l'admission des patients avec une IA vocale parfaitement humaine.",
-      deploy: "Embauchez Mia maintenant",
-      contactSales: "Contacter les ventes",
-      clinics: "Devenez un innovateur et gagnez votre marché"
-    },
-    contactModal: {
-      title: "Contacter les ventes",
-      description: "Entrez votre email pour obtenir une démo personnalisée.",
-      placeholder: "nom@entreprise.com",
-      submit: "Envoyer",
-      success: "Merci ! Nous vous recontacterons."
-    },
-    socialProof: "Rejoignez le futur de la santé",
-    demo: {
-      title: "Mia",
-      viewPatient: "Voir Patient",
-      bookAppointment: "Prendre RDV",
-      messages: [
-        { role: 'ai', text: "Contexte Alma: Bonjour, j'appelle pour le suivi." },
-        { role: 'user', text: "Bonjour, je dois voir Dr. Chen la semaine prochaine." },
-        { role: 'ai', text: "J'ai une dispo mardi à 10h. Ça vous va ?" },
-        { role: 'user', text: "Oui, c'est parfait." },
-      ]
-    },
-    features: {
-      title: "Votre secrétariat\nà distance.",
-      subtitle: "Tout ce dont vous avez besoin pour automatiser la communication patient, intégré à votre DME.",
-      triage: {
-        title: "Triage Instantané",
-        desc: "L'IA analyse l'urgence en temps réel. Les urgences sont transmises au personnel, les RDV de routine sont gérés automatiquement.",
-        urgent: "URGENT",
-        now: "Maintenant",
-        msg: "\"J'ai mal à la poitrine et je me sens étourdi...\""
-      },
-      multilingual: {
-        title: "Multilingue",
-        desc: "Parle anglais, français et espagnol. Détecte automatiquement la langue."
-      },
-      hipaa: {
-        title: "Conforme LPRPDE", // Using Canadian equivalent broadly or HIPAA for brand recog
-        desc: "Cryptage de niveau entreprise et normes de traitement des données intégrés."
-      },
-      list: ['Synchro DME', 'Suivi SMS', 'Analytiques', 'Service 24/7'],
-      listDesc: "Automatisé et fluide."
-    },
-    cta: {
-      title: "Prêt à moderniser ?",
-      trial: "Essai Gratuit",
-      demo: "Réserver une Démo"
-    },
-    footer: {
-      tagline: "Le système d'exploitation des cliniques modernes.",
-      product: "Produit",
-      company: "Entreprise",
-      legal: "Légal",
-      links: {
-        features: "Fonctionnalités",
-        pricing: "Tarifs",
-        changelog: "Changelog",
-        docs: "Docs",
-        about: "À propos",
-        blog: "Blog",
-        careers: "Carrières",
-        contact: "Contact",
-        privacy: "Confidentialité",
-        terms: "Conditions",
-        security: "Sécurité"
-      }
-    }
-  }
-}
-
-// --- SUB-COMPONENT: CONTACT SALES MODAL ---
+// Contact Modal Component
 function ContactModal({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () => void; lang: Language }) {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
-  const t = translations[lang].contactModal
+  const { t } = useLanguage() // Use the hook directly in the modal
+  const contactTranslations = t.contact // Access the contact specific translations
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically send the email to your backend
-    console.log("Contact Sales Email:", email)
+    console.log("Contact request:", email)
     setSubmitted(true)
     setTimeout(() => {
       setSubmitted(false)
@@ -209,36 +35,37 @@ function ContactModal({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] bg-black/30 backdrop-blur-sm"
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.98, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[70] w-full max-w-md p-6 bg-white rounded-2xl shadow-2xl border border-gray-100"
+            exit={{ opacity: 0, scale: 0.98, y: 10 }}
+            transition={{ duration: 0.2 }}
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[70] w-full max-w-md p-8 bg-white rounded-2xl shadow-xl"
           >
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+              className="absolute right-4 top-4 p-2 text-stone-400 hover:text-stone-600 rounded-full hover:bg-stone-50 transition-colors"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
             </button>
 
             <div className="mb-6">
-              <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
-                <Zap className="w-5 h-5 text-blue-600" />
+              <div className="w-12 h-12 rounded-xl bg-stone-100 flex items-center justify-center mb-4">
+                <Phone className="w-5 h-5 text-stone-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.title}</h3>
-              <p className="text-sm text-gray-500">{t.description}</p>
+              <h3 className="text-xl font-semibold text-stone-900 mb-2">{contactTranslations.title}</h3>
+              <p className="text-stone-500 text-sm">{contactTranslations.description}</p>
             </div>
 
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-4 bg-green-50 text-green-700 rounded-xl text-center font-medium text-sm"
+                className="p-4 bg-stone-50 text-stone-700 rounded-xl text-center text-sm"
               >
-                {t.success}
+                {contactTranslations.success}
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -247,14 +74,14 @@ function ContactModal({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () 
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t.placeholder}
-                  className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium text-sm"
+                  placeholder={contactTranslations.placeholder}
+                  className="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200 focus:border-stone-300 transition-all text-sm"
                 />
                 <button
                   type="submit"
-                  className="w-full py-3 bg-black text-white font-bold rounded-xl hover:bg-gray-800 transition-all active:scale-[0.98]"
+                  className="w-full py-3 bg-stone-900 text-white font-medium rounded-xl hover:bg-stone-800 transition-all text-sm"
                 >
-                  {t.submit}
+                  {contactTranslations.submit}
                 </button>
               </form>
             )}
@@ -265,138 +92,258 @@ function ContactModal({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () 
   )
 }
 
-// --- VISUAL COMPONENT: DEMO CALL SIMULATOR ---
-function DemoCall({ lang }: { lang: Language }) {
-  const [step, setStep] = useState(0)
-  const t = translations[lang].demo
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setStep((prev) => (prev + 1) % 4)
-    }, 2500)
-    return () => clearInterval(timer)
-  }, [])
+// Video Placeholder Component
+function VideoPlaceholder({ hint }: { hint: string }) {
+  const [isPlaying, setIsPlaying] = useState(false)
 
   return (
-    <div className="relative w-full max-w-md mx-auto aspect-[9/16] md:aspect-square bg-white rounded-[2.5rem] border border-gray-200 overflow-hidden shadow-2xl">
-      {/* Dynamic Background */}
-      <div className="absolute inset-0 bg-gray-50/50">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-blue-100/50 blur-[100px] animate-pulse" />
-      </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className="relative w-full max-w-3xl mx-auto aspect-[16/9] rounded-2xl overflow-hidden shadow-lg group bg-stone-900"
+    >
+      {isPlaying ? (
+        <iframe
+          src="https://www.youtube.com/embed/Th8JoIan4dg?autoplay=1&rel=0"
+          title="Alma Demo"
+          className="w-full h-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      ) : (
+        <button
+          onClick={() => setIsPlaying(true)}
+          className="block w-full h-full relative cursor-pointer"
+        >
+          {/* Thumbnail */}
+          <img
+            src="https://img.youtube.com/vi/Th8JoIan4dg/maxresdefault.jpg"
+            alt="Video Thumbnail"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
 
-      {/* Interface */}
-      <div className="relative h-full flex flex-col p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center shadow-md shadow-blue-200">
-              <Phone className="w-4 h-4 text-white fill-white" />
-            </div>
-            <div>
-              <p className="text-gray-900 font-semibold text-sm">{t.title}</p>
-              <p className="text-blue-600 text-xs font-medium">00:4{step}</p>
-            </div>
-          </div>
-        </div>
+          {/* Soft dark overlay for better text contrast */}
+          <div className="absolute inset-0 bg-stone-900/40 group-hover:bg-stone-900/30 transition-colors duration-300" />
 
-        {/* Waveform Visualization */}
-        <div className="flex-1 flex items-center justify-center gap-1.5 min-h-[100px]">
-          {[...Array(12)].map((_, i) => (
+          {/* Play button */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
             <motion.div
-              key={i}
-              animate={{
-                height: [20, Math.random() * 60 + 20, 20],
-                opacity: [0.5, 1, 0.5]
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                delay: i * 0.1,
-                ease: "easeInOut"
-              }}
-              className="w-1.5 bg-blue-500 rounded-full"
-            />
-          ))}
-        </div>
-
-        {/* Live Transcript */}
-        <div className="mt-8 space-y-3">
-          <AnimatePresence mode='wait'>
-            {t.messages.map((msg, i) => (
-              <motion.div
-                key={`${lang}-${i}`} // Force re-render on lang change
-                initial={{ opacity: 0, y: 10 }}
-                animate={{
-                  opacity: i <= step ? 1 : 0,
-                  y: i <= step ? 0 : 10
-                }}
-                className={`p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] shadow-sm ${msg.role === 'ai'
-                  ? 'bg-white border border-gray-100 text-gray-700 self-start mr-auto rounded-tl-sm'
-                  : 'bg-blue-600 text-white self-end ml-auto rounded-tr-sm'
-                  }`}
-              >
-                {msg.text}
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-
-        {/* Footer Actions */}
-        <div className="mt-8 grid grid-cols-2 gap-3">
-          <div className="h-10 rounded-full bg-white flex items-center justify-center border border-gray-200 shadow-sm">
-            <span className="text-[10px] text-gray-500 font-medium">{t.viewPatient}</span>
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30 mb-4 group-hover:bg-white/30 transition-all shadow-lg"
+            >
+              <Play className="w-6 h-6 text-white fill-white ml-0.5" />
+            </motion.div>
+            <p className="text-white font-medium text-shadow-sm group-hover:text-white/90 transition-colors">{hint}</p>
           </div>
-          <div className="h-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100">
-            <span className="text-[10px] text-blue-600 font-medium">{t.bookAppointment}</span>
-          </div>
-        </div>
-      </div>
+        </button>
+      )}
+    </motion.div>
+  )
+}
+
+// Feature Card Component
+function FeatureCard({ title, desc, delay }: { title: string; desc: string; delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay }}
+      className="p-8"
+    >
+      <h3 className="text-lg font-semibold text-stone-900 mb-3">
+        {title}
+      </h3>
+      <p className="text-stone-500 leading-relaxed text-sm">{desc}</p>
+    </motion.div>
+  )
+}
+
+// Logo Component for Social Proof
+function PartnerLogo({ name }: { name: string }) {
+  return (
+    <div className="flex items-center justify-center h-12 px-6 opacity-40 hover:opacity-70 transition-opacity duration-300">
+      <span className="text-sm font-medium text-stone-600 tracking-wide">{name}</span>
     </div>
   )
 }
 
+// Agent Selector Button (left side)
+function AgentButton({
+  name,
+  isSelected,
+  onClick
+}: {
+  name: string
+  isSelected: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full text-left px-6 py-5 rounded-2xl transition-all duration-300 ${isSelected
+        ? 'bg-stone-900 text-white shadow-lg'
+        : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+        }`}
+    >
+      <span className="text-xl font-semibold">{name}</span>
+    </button>
+  )
+}
 
-// --- MAIN PAGE COMPONENT ---
-export default function VitrinePage() {
-  const [lang, setLang] = useState<Language>('en')
-  const [isContactOpen, setIsContactOpen] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ container: containerRef })
-  const t = translations[lang]
+// Agent Detail Panel (right side)
+function AgentDetailPanel({
+  name,
+  title,
+  subtitle,
+  points
+}: {
+  name: string
+  title: string
+  subtitle: string
+  points: string[]
+}) {
+  return (
+    <motion.div
+      key={name}
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      transition={{ duration: 0.3 }}
+      className="h-[320px] p-8 rounded-2xl bg-gradient-to-br from-stone-50 to-stone-100/50 border border-stone-200/50"
+    >
+      <div className="mb-4">
+        <h3 className="text-3xl font-bold text-stone-900 mb-1">{name}</h3>
+        <p className="text-stone-500 font-medium">{title}</p>
+      </div>
 
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95])
+      <p className="text-stone-700 mb-5 text-sm">{subtitle}</p>
+
+      <div className="flex flex-wrap gap-2">
+        {points.map((point, i) => (
+          <motion.span
+            key={i}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.08 }}
+            whileHover={{ scale: 1.02 }}
+            className="inline-block px-4 py-2 rounded-full bg-white border border-stone-200 text-sm text-stone-600 cursor-default transition-all duration-300 hover:bg-gradient-to-r hover:from-amber-300 hover:via-orange-400 hover:to-red-400 hover:border-transparent hover:text-white hover:shadow-md"
+          >
+            {point}
+          </motion.span>
+        ))}
+      </div>
+    </motion.div>
+  )
+}
+
+// Hero Section Component
+function HeroSection({ t }: { t: any }) {
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  })
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  const heroY = useTransform(scrollYProgress, [0, 0.5], [0, -50])
 
   return (
-    <div
-      ref={containerRef}
-      className="h-screen overflow-y-auto bg-white text-gray-900 font-sans scroll-smooth"
-    >
+    <section ref={heroRef} className="pt-28 pb-16 px-6">
+      <motion.div
+        style={{ opacity: heroOpacity, y: heroY }}
+        className="max-w-5xl mx-auto"
+      >
+        {/* Tagline */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold tracking-tight leading-[1.2] mb-4 text-stone-900">
+            <span className="block">{t.hero.tagline}</span>
+            <span className="block">{t.hero.tagline2}</span>
+            <span className="block bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 bg-clip-text text-transparent">{t.hero.tagline3}</span>
+          </h1>
+          <p className="text-stone-500 text-base max-w-2xl mx-auto">{t.hero.subheadline}</p>
+        </motion.div>
+
+        {/* Video Placeholder */}
+        <div className="mb-8">
+          <VideoPlaceholder hint={t.hero.videoHint} />
+        </div>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-3"
+        >
+          <Link
+            href="/contact"
+            className="h-12 px-6 flex items-center justify-center bg-stone-900 text-white font-medium rounded-xl hover:bg-stone-800 transition-all text-sm"
+          >
+            {t.hero.ctaPrimary}
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Link>
+          <Link
+            href="/onboarding"
+            className="h-12 px-6 flex items-center justify-center text-stone-600 font-medium rounded-xl border border-stone-200 hover:border-stone-300 hover:text-stone-900 transition-all text-sm"
+          >
+            {t.hero.ctaSecondary}
+          </Link>
+        </motion.div>
+      </motion.div>
+    </section>
+  )
+}
+
+// Main Page Component
+export default function AlmaLandingPage() {
+  const { lang, setLang, t, mounted } = useLanguage()
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isContactOpen, setIsContactOpen] = useState(false)
+  const [openAgent, setOpenAgent] = useState<'mia' | 'leo' | 'eva' | null>('mia')
+
+  if (!mounted) return null // Prevent hydration mismatch
+
+  return (
+    <div className="min-h-screen bg-white text-stone-900 font-sans">
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} lang={lang} />
 
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md border-b border-gray-100 bg-white/80">
-        <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center shadow-lg shadow-black/20">
-              <span className="text-white font-bold text-sm">A</span>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-100">
+        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between relative">
+          {/* Logo */}
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-stone-900 rounded-lg flex items-center justify-center">
+              <span className="text-white font-semibold text-sm">A</span>
             </div>
-            <span className="text-lg font-semibold tracking-tight text-gray-900">Alma</span>
+            <span className="text-lg font-medium tracking-tight">Alma</span>
           </div>
 
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
-          </div>
+          {/* Center: Phone Number (Absolute) */}
+          <a
+            href="tel:+14385009000"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm text-stone-500 hover:text-stone-900 transition-colors hidden md:flex items-center gap-2 whitespace-nowrap z-10"
+          >
+            <span className="hidden lg:inline">{t.nav.callUs}:</span>
+            <span className="font-medium">+1 438 500 9000</span>
+          </a>
 
-          <div className="flex items-center gap-4">
-            {/* Language Toggler */}
-            <div className="flex bg-gray-100 rounded-full p-1">
-              {(['en', 'fr'] as const).map((l) => (
+          {/* Right: Language & CTAs */}
+          <div className="flex items-center gap-3 relative z-20 bg-white/50 backdrop-blur-sm rounded-full pl-2">
+            {/* Language Toggle */}
+            <div className="flex bg-stone-100 rounded-full p-0.5">
+              {(['fr', 'en'] as const).map((l) => (
                 <button
                   key={l}
                   onClick={() => setLang(l)}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${lang === l
-                    ? 'bg-white text-black shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
+                  className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${lang === l
+                    ? 'bg-white text-stone-900 shadow-sm'
+                    : 'text-stone-500 hover:text-stone-700'
                     }`}
                 >
                   {l.toUpperCase()}
@@ -404,220 +351,181 @@ export default function VitrinePage() {
               ))}
             </div>
 
-            <Link href="/login" className="text-sm font-medium text-gray-500 hover:text-black transition-colors">
+            <Link
+              href="/login"
+              className="text-sm text-stone-500 hover:text-stone-900 transition-colors hidden sm:block"
+            >
               {t.nav.signIn}
             </Link>
             <Link
-              href="/onboarding"
-              className="px-4 py-2 bg-black text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition-colors shadow-lg shadow-black/20"
+              href="/contact"
+              className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-lg hover:bg-stone-800 transition-colors"
             >
-              {t.nav.getStarted}
+              {t.nav.demo}
             </Link>
           </div>
         </div>
       </nav>
 
-      <main className="relative pt-32 pb-20 overflow-hidden">
-        {/* Hero Background Effects - Subtle Light Mode */}
-        <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
-        <div className="absolute top-0 left-0 -translate-y-1/4 -translate-x-1/4 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-[128px] pointer-events-none" />
+      <main>
+        {/* Hero Section */}
+        <HeroSection t={t} />
 
-        {/* HERO SECTION */}
-        <motion.section
-          style={{ opacity: heroOpacity, scale: heroScale }}
-          className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center mb-32"
-        >
-          <div className="text-left flex flex-col items-start">
-            <motion.div
-              key={lang} // Animate on lang switch
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 mb-8 px-3 py-1 rounded-full border border-blue-100 bg-blue-50 text-blue-600 text-xs font-semibold tracking-wide uppercase"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-              {t.hero.badge}
-            </motion.div>
-
-            <motion.h1
-              key={`h1-${lang}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.95] mb-8 text-gray-900"
-            >
-              {t.hero.title1}
-              <br />
-              <span className="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600 bg-clip-text text-transparent">{t.hero.title2}</span>
-            </motion.h1>
-
-            <motion.p
-              key={`p-${lang}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-xl text-gray-500 max-w-lg leading-relaxed mb-10"
-            >
-              {t.hero.subtitle}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-            >
-              <Link
-                href="/onboarding"
-                className="h-12 px-8 flex items-center justify-center bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors shadow-lg shadow-black/20"
-              >
-                {t.hero.deploy}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-
-              <button
-                onClick={() => setIsContactOpen(true)}
-                className="h-12 px-8 flex items-center justify-center bg-white text-gray-900 border border-gray-200 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm"
-              >
-                {t.hero.contactSales}
-              </button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="mt-12 flex items-center gap-4 text-sm text-gray-500"
-            >
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-gray-200" />
-                ))}
-              </div>
-              <div>
-                <span className="text-gray-900 font-semibold">{t.hero.clinics}</span>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Hero Visual */}
+        {/* "Bâti par des gens d'ici" Section */}
+        <section className="py-12 px-6">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7 }}
-            className="relative hidden lg:block"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mx-auto text-center"
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-100/50 to-purple-100/50 blur-[100px] pointer-events-none" />
-            <DemoCall lang={lang} />
-          </motion.div>
-        </motion.section>
-
-        {/* LOGO CLOUD */}
-        <section className="border-y border-gray-100 bg-gray-50/50 py-12 mb-32">
-          <div className="max-w-[1400px] mx-auto px-6">
-            <p className="text-center text-sm text-gray-500 mb-8 font-medium">{t.socialProof}</p>
-            <div className="flex flex-wrap justify-center gap-12 opacity-40 hover:opacity-100 transition-all duration-500">
-              {['Cleveland Clinic', 'One Medical', 'Cedar', 'Oscar', 'Maven'].map((brand) => (
-                <span key={brand} className="text-xl font-bold font-mono text-gray-900">{brand}</span>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* BENTO GRID FEATURES */}
-        <section id="features" className="max-w-[1400px] mx-auto px-6 mb-32">
-          <div className="text-center mb-20 max-w-2xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-gray-900 whitespace-pre-line">
-              {t.features.title}
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-3 text-stone-900">
+              {t.local.title}
             </h2>
-            <p className="text-lg text-gray-500">{t.features.subtitle}</p>
-          </div>
+            <p className="text-sm text-stone-500 mb-4">
+              {t.local.subtitle}
+            </p>
+            <p className="text-stone-500 leading-relaxed text-sm">
+              {t.local.description}
+            </p>
+          </motion.div>
+        </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[600px]">
-            {/* Large Left Card */}
-            <div className="md:col-span-2 relative p-8 rounded-3xl bg-gray-50 border border-gray-100 overflow-hidden group hover:border-blue-200/50 transition-colors">
-              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/5 blur-[80px] group-hover:bg-blue-500/10 transition-all duration-500" />
+        {/* Agents Section */}
+        <section className="py-12 px-6 bg-stone-50/50">
+          <div className="max-w-5xl mx-auto">
+            {/* Section Title */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-4xl font-bold text-stone-900 text-center mb-8"
+            >
+              {t.agents.sectionTitle}
+            </motion.h2>
 
-              <div className="relative z-10 h-full flex flex-col justify-between">
-                <div>
-                  <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-6">
-                    <Zap className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2 text-gray-900">{t.features.triage.title}</h3>
-                  <p className="text-gray-500 max-w-sm">{t.features.triage.desc}</p>
-                </div>
+            {/* Two Column Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Left: Agent Buttons */}
+              <div className="space-y-3">
+                <AgentButton
+                  name={t.agents.mia.name}
+                  isSelected={openAgent === 'mia'}
+                  onClick={() => setOpenAgent('mia')}
+                />
+                <AgentButton
+                  name={t.agents.leo.name}
+                  isSelected={openAgent === 'leo'}
+                  onClick={() => setOpenAgent('leo')}
+                />
+                <AgentButton
+                  name={t.agents.eva.name}
+                  isSelected={openAgent === 'eva'}
+                  onClick={() => setOpenAgent('eva')}
+                />
+              </div>
 
-                {/* Fake UI Preview */}
-                <div className="mt-8 bg-white rounded-xl border border-gray-100 p-4 shadow-lg shadow-gray-200/50 translate-y-4 group-hover:translate-y-2 transition-transform duration-500">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                      <span className="text-xs font-mono text-red-500 font-medium">{t.features.triage.urgent}</span>
-                    </div>
-                    <span className="text-xs text-gray-400">{t.features.triage.now}</span>
-                  </div>
-                  <p className="text-sm text-gray-600">{t.features.triage.msg}</p>
-                </div>
+              {/* Right: Detail Panel */}
+              <div className="md:col-span-2 min-h-[320px]">
+                <AnimatePresence mode="wait">
+                  {openAgent === 'mia' && (
+                    <AgentDetailPanel
+                      name={t.agents.mia.name}
+                      title={t.agents.mia.title}
+                      subtitle={t.agents.mia.subtitle}
+                      points={t.agents.mia.points}
+                    />
+                  )}
+                  {openAgent === 'leo' && (
+                    <AgentDetailPanel
+                      name={t.agents.leo.name}
+                      title={t.agents.leo.title}
+                      subtitle={t.agents.leo.subtitle}
+                      points={t.agents.leo.points}
+                    />
+                  )}
+                  {openAgent === 'eva' && (
+                    <AgentDetailPanel
+                      name={t.agents.eva.name}
+                      title={t.agents.eva.title}
+                      subtitle={t.agents.eva.subtitle}
+                      points={t.agents.eva.points}
+                    />
+                  )}
+                  {!openAgent && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="h-full flex items-center justify-center p-8 rounded-2xl bg-gradient-to-br from-stone-50 to-stone-100/50 border border-stone-200/50 border-dashed"
+                    >
+                      <p className="text-stone-400 text-center">
+                        {lang === 'fr' ? 'Cliquez sur un nom pour en savoir plus' : 'Click a name to learn more'}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
-
-            {/* Right Column Stack */}
-            <div className="flex flex-col gap-6">
-              <div className="flex-1 p-8 rounded-3xl bg-gray-50 border border-gray-100 hover:border-gray-200 transition-colors group">
-                <Globe className="w-8 h-8 text-indigo-500 mb-4" />
-                <h3 className="text-xl font-bold mb-2 text-gray-900">{t.features.multilingual.title}</h3>
-                <p className="text-sm text-gray-500">{t.features.multilingual.desc}</p>
-              </div>
-              <div className="flex-1 p-8 rounded-3xl bg-gray-50 border border-gray-100 hover:border-gray-200 transition-colors group">
-                <Shield className="w-8 h-8 text-green-500 mb-4" />
-                <h3 className="text-xl font-bold mb-2 text-gray-900">{t.features.hipaa.title}</h3>
-                <p className="text-sm text-gray-500">{t.features.hipaa.desc}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Second Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            {t.features.list.map((feat, i) => (
-              <div key={i} className="p-6 rounded-3xl bg-white border border-gray-100 hover:shadow-md transition-all">
-                <h4 className="font-bold text-lg mb-1 text-gray-900">{feat}</h4>
-                <p className="text-xs text-gray-500">{t.features.listDesc}</p>
-              </div>
-            ))}
           </div>
         </section>
 
-        {/* CTA BANNER */}
-        <section className="max-w-[1400px] mx-auto px-6 mb-20">
-          <div className="relative rounded-[2.5rem] bg-gray-900 p-12 md:p-24 text-center overflow-hidden shadow-2xl shadow-gray-900/20">
-            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-            <div className="relative z-10">
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-8 text-white">{t.cta.title}</h2>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/onboarding" className="h-14 px-8 flex items-center justify-center bg-white text-black font-bold rounded-xl hover:scale-105 transition-transform">
-                  {t.cta.trial}
-                </Link>
-                <button
-                  onClick={() => setIsContactOpen(true)}
-                  className="h-14 px-8 flex items-center justify-center bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors backdrop-blur-md border border-white/10"
+        {/* CTA Banner */}
+        <section className="py-12 px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto"
+          >
+            <div className="bg-gradient-to-r from-amber-300 via-orange-400 to-red-400 backdrop-blur-sm rounded-2xl px-8 py-10 text-center shadow-lg border border-orange-300/50">
+              <h2 className="text-2xl font-semibold text-white mb-6">
+                {t.cta.title}
+              </h2>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link
+                  href="/contact"
+                  className="h-12 px-6 flex items-center justify-center bg-white text-orange-600 font-medium rounded-xl hover:bg-orange-50 transition-all text-sm shadow-md"
                 >
-                  {t.cta.demo}
-                </button>
+                  {t.hero.ctaPrimary}
+                </Link>
+                <Link
+                  href="/onboarding"
+                  className="h-12 px-6 flex items-center justify-center text-white font-medium rounded-xl border border-white/40 hover:bg-white/20 transition-all text-sm"
+                >
+                  {t.hero.ctaSecondary}
+                </Link>
               </div>
             </div>
-          </div>
+          </motion.div>
         </section>
+      </main>
 
-        {/* FOOTER */}
-        <footer className="border-t border-gray-100 bg-gray-50 pt-16 pb-8">
-          <div className="max-w-[1400px] mx-auto px-6">
-            <div className="flex justify-center items-center text-xs text-gray-500">
-              <p>© 2026 Alma Health Inc.</p>
+      {/* Footer */}
+      <footer className="py-10 px-6 border-t border-stone-100">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-stone-500">
+            {/* Logo & Tagline */}
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 bg-stone-900 rounded flex items-center justify-center">
+                <span className="text-white font-medium text-xs">A</span>
+              </div>
+              <span className="text-stone-900 font-medium">Alma</span>
+              <span className="text-stone-400">·</span>
+              <span className="text-stone-400">{t.footer.tagline}</span>
+            </div>
+
+            {/* Contact & Copyright */}
+            <div className="text-center md:text-right text-xs">
+              <a href="tel:+14385009000" className="text-stone-500 hover:text-stone-700 transition-colors">+1 438 500 9000</a>
+              <span className="text-stone-300 mx-2">·</span>
+              <span className="text-stone-500">{t.footer.email}</span>
+              <span className="text-stone-300 mx-2">·</span>
+              <span className="text-stone-400">{t.footer.copyright}</span>
             </div>
           </div>
-        </footer>
-
-      </main>
+        </div>
+      </footer>
     </div>
   )
 }

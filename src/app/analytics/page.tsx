@@ -37,13 +37,13 @@ export default function AnalyticsPage() {
             <div className="max-w-7xl mx-auto px-6 py-10">
 
                 <header className="mb-12">
-                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Clinic Health</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">Clinic Health</h1>
                     <p className="text-gray-500 mt-1 font-medium">Performance metrics and ROI analysis.</p>
                 </header>
 
                 {/* KPI Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div className="glass-card p-6 rounded-[2rem] flex items-center gap-4">
+                    <div className="bg-white rounded-2xl border border-gray-200 p-6 flex items-center gap-4">
                         <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-600">
 
                         </div>
@@ -53,7 +53,7 @@ export default function AnalyticsPage() {
                             <p className="text-xs text-gray-600 font-semibold">+98% increase</p>
                         </div>
                     </div>
-                    <div className="glass-card p-6 rounded-[2rem] flex items-center gap-4">
+                    <div className="bg-white rounded-2xl border border-gray-200 p-6 flex items-center gap-4">
                         <div className="w-12 h-12 rounded-2xl bg-black flex items-center justify-center text-white">
 
                         </div>
@@ -62,7 +62,7 @@ export default function AnalyticsPage() {
                             <h3 className="text-2xl font-bold text-gray-900">{financials.totalCalls}</h3>
                         </div>
                     </div>
-                    <div className="glass-card p-6 rounded-[2rem] flex items-center gap-4">
+                    <div className="bg-white rounded-2xl border border-gray-200 p-6 flex items-center gap-4">
                         <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-600">
 
                         </div>
@@ -79,7 +79,7 @@ export default function AnalyticsPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="glass-card p-8 rounded-[2rem]"
+                        className="bg-white rounded-2xl border border-gray-200 p-8"
                     >
                         <div className="mb-6">
                             <h3 className="text-lg font-bold text-gray-900">AI Deflection Rate</h3>
@@ -114,7 +114,7 @@ export default function AnalyticsPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="glass-card p-8 rounded-[2rem]"
+                        className="bg-white rounded-2xl border border-gray-200 p-8"
                     >
                         <div className="mb-6">
                             <h3 className="text-lg font-bold text-gray-900">Peak Call Hours</h3>

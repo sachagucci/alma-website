@@ -1,5 +1,5 @@
 import { Sidebar } from '@/components/Sidebar'
-import { getPatientDetails } from '../actions'
+import { getClientDetails } from '../actions'
 import { Phone, MessageSquare, ArrowLeft, Clock, FileText } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 export default async function PatientDetailPage({ params }: { params: { id: string } }) {
     const { id } = await params
     const decodedId = decodeURIComponent(id)
-    const timeline = await getPatientDetails(decodedId)
+    const timeline = await getClientDetails(decodedId)
 
     return (
         <div className="min-h-screen flex bg-[#FAFAFA]">
@@ -19,11 +19,11 @@ export default async function PatientDetailPage({ params }: { params: { id: stri
                 <div className="max-w-5xl mx-auto px-6 py-10">
 
                     <div className="mb-8">
-                        <Link href="/patients" className="inline-flex items-center gap-2 text-gray-500 hover:text-black mb-6 transition-colors font-medium">
-                            <ArrowLeft className="w-4 h-4" /> Back to Patients
+                        <Link href="/clients" className="inline-flex items-center gap-2 text-gray-500 hover:text-black mb-6 transition-colors font-medium">
+                            <ArrowLeft className="w-4 h-4" /> Back to Clients
                         </Link>
                         <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{decodedId}</h1>
-                        <p className="text-gray-500 mt-1 font-medium">Patient History • {timeline.length} Interactions</p>
+                        <p className="text-gray-500 mt-1 font-medium">Client History • {timeline.length} Interactions</p>
                     </div>
 
                     <div className="space-y-8">
@@ -83,7 +83,7 @@ export default async function PatientDetailPage({ params }: { params: { id: stri
                         ))}
                         {timeline.length === 0 && (
                             <div className="text-center py-20 text-gray-400">
-                                No history found for this patient.
+                                No history found for this client.
                             </div>
                         )}
                     </div>

@@ -5,10 +5,11 @@ export function middleware(request: NextRequest) {
     const authCookie = request.cookies.get('alma_auth')
     const isLoginPage = request.nextUrl.pathname === '/login'
     const isOnboardingPage = request.nextUrl.pathname === '/onboarding'
+    const isContactPage = request.nextUrl.pathname === '/contact'
     const isRootPage = request.nextUrl.pathname === '/'
 
-    // Allow access to login, onboarding, and root page without auth
-    if (!authCookie && !isLoginPage && !isOnboardingPage && !isRootPage) {
+    // Allow access to login, onboarding, contact, and root page without auth
+    if (!authCookie && !isLoginPage && !isOnboardingPage && !isContactPage && !isRootPage) {
         return NextResponse.redirect(new URL('/login', request.url))
     }
 

@@ -9,9 +9,11 @@ import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell
 import { formatDistanceToNow, format, subDays, addDays, startOfDay, isToday } from 'date-fns'
 import { RefreshControl } from '@/components/RefreshControl'
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/hooks/useLanguage'
 
 export default function DashboardPage() {
   const router = useRouter()
+  const { t } = useLanguage()
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
@@ -41,7 +43,7 @@ export default function DashboardPage() {
           <div className="animate-pulse flex flex-col items-center">
             <div className="h-12 w-12 bg-gray-200 rounded-full mb-4"></div>
             <div className="h-4 w-32 bg-gray-200 rounded"></div>
-            <p className="text-gray-400 text-sm mt-4">Loading Dashboard...</p>
+            <p className="text-gray-400 text-sm mt-4">{t.dashboard.loading}</p>
           </div>
         </div>
       </DashboardShell>
@@ -53,8 +55,8 @@ export default function DashboardPage() {
       <DashboardShell>
         <div className="flex-1 flex items-center justify-center h-screen">
           <div className="text-center">
-            <h2 className="text-xl font-bold mb-2">Authentication Required</h2>
-            <p className="text-gray-500 mb-4">Redirecting you to login...</p>
+            <h2 className="text-xl font-bold mb-2">{t.dashboard.auth.required}</h2>
+            <p className="text-gray-500 mb-4">{t.dashboard.auth.redirecting}</p>
             <div className="animate-spin h-6 w-6 border-2 border-black border-t-transparent rounded-full mx-auto"></div>
           </div>
         </div>
@@ -71,8 +73,8 @@ export default function DashboardPage() {
 
         <header className="mb-8 flex justify-between items-end">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Mission Control</h1>
-            <p className="text-gray-500 mt-1 font-medium">Live clinic performance cockpit.</p>
+            <h1 className="text-2xl font-bold text-gray-900">{t.dashboard.title}</h1>
+            <p className="text-gray-500 mt-1 font-medium">{t.dashboard.subtitle}</p>
           </div>
           <div className="text-right text-sm text-gray-400">
             <p>Live Data</p>
@@ -83,33 +85,33 @@ export default function DashboardPage() {
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 
           {/* Total Calls */}
-          <div className="glass-card p-6 rounded-[2rem] hover:shadow-md transition-shadow cursor-pointer group flex flex-col justify-between h-32 relative overflow-hidden">
+          <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer group flex flex-col justify-between h-32 relative overflow-hidden">
             <div className="flex items-center gap-2 mb-2 z-10">
-              <p className="text-sm text-gray-500 font-semibold uppercase tracking-wide">Total Calls</p>
+              <p className="text-sm text-gray-500 font-semibold uppercase tracking-wide">{t.dashboard.stats.calls}</p>
             </div>
             <h3 className="text-2xl font-bold text-gray-900 z-10">{kpi.totalCalls}</h3>
           </div>
 
           {/* Total SMS */}
-          <div className="glass-card p-6 rounded-[2rem] hover:shadow-md transition-shadow cursor-pointer group flex flex-col justify-between h-32 relative overflow-hidden">
+          <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer group flex flex-col justify-between h-32 relative overflow-hidden">
             <div className="flex items-center gap-2 mb-2 z-10">
-              <p className="text-sm text-gray-500 font-semibold uppercase tracking-wide">Total SMS</p>
+              <p className="text-sm text-gray-500 font-semibold uppercase tracking-wide">{t.dashboard.stats.sms}</p>
             </div>
             <h3 className="text-2xl font-bold text-gray-900 z-10">{kpi.totalSms}</h3>
           </div>
 
           {/* Total Conversations */}
-          <div className="glass-card p-6 rounded-[2rem] hover:shadow-md transition-shadow cursor-pointer group flex flex-col justify-between h-32 relative overflow-hidden">
+          <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer group flex flex-col justify-between h-32 relative overflow-hidden">
             <div className="flex items-center gap-2 mb-2 z-10">
-              <p className="text-sm text-gray-500 font-semibold uppercase tracking-wide">Active Threads</p>
+              <p className="text-sm text-gray-500 font-semibold uppercase tracking-wide">{t.dashboard.stats.activeThreads}</p>
             </div>
             <h3 className="text-2xl font-bold text-gray-900 z-10">{kpi.totalConversations}</h3>
           </div>
 
           {/* Total Minutes */}
-          <div className="glass-card p-6 rounded-[2rem] hover:shadow-md transition-shadow cursor-pointer group flex flex-col justify-between h-32 relative overflow-hidden">
+          <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer group flex flex-col justify-between h-32 relative overflow-hidden">
             <div className="flex items-center gap-2 mb-2 z-10">
-              <p className="text-sm text-gray-500 font-semibold uppercase tracking-wide">AI Talk Time</p>
+              <p className="text-sm text-gray-500 font-semibold uppercase tracking-wide">{t.dashboard.stats.efficiency}</p>
             </div>
             <h3 className="text-2xl font-bold text-gray-900 z-10">{kpi.totalMinutes}m</h3>
           </div>
@@ -122,15 +124,15 @@ export default function DashboardPage() {
           {/* 2. ACTION CENTER (Left - 3 Cols) */}
           <div className="lg:col-span-3 flex flex-col gap-6 h-[500px]">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-900">Action Center</h2>
+              <h2 className="text-lg font-bold text-gray-900">{t.dashboard.quickActions.title}</h2>
               <span className="bg-black text-white text-xs font-bold px-2 py-1 rounded-full">{actionCenter.length}</span>
             </div>
 
-            <div className="glass-card rounded-[2rem] flex-1 overflow-hidden flex flex-col">
+            <div className="bg-white rounded-2xl border border-gray-200 flex-1 overflow-hidden flex flex-col">
               <div className="overflow-y-auto p-2 space-y-1 flex-1">
                 {actionCenter.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center text-gray-400">
-                    <p className="text-xs">All clear.</p>
+                    <p className="text-xs">{t.dashboard.activity.allClear}</p>
                   </div>
                 ) : (
                   actionCenter.map((action: any) => (
@@ -144,7 +146,7 @@ export default function DashboardPage() {
           {/* 3. PRODUCTIVITY MAP (Center - 6 Cols) */}
           <div className="lg:col-span-6 flex flex-col gap-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-900">Productivity Map</h2>
+              <h2 className="text-lg font-bold text-gray-900">{t.dashboard.productivity.title}</h2>
 
               {/* Date Navigation */}
               <div className="flex items-center gap-3">
@@ -174,7 +176,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="glass-card p-6 rounded-[2rem]">
+            <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <div className="flex justify-between items-center mb-6">
                 <p className="text-sm text-gray-500 font-medium">
                   {format(selectedDate, 'EEEE, MMMM d, yyyy')}
@@ -207,11 +209,11 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="glass-card p-6 rounded-[2rem] flex items-center justify-between">
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 flex items-center justify-between">
               <div className="space-y-1">
-                <p className="text-sm text-gray-500 font-medium">Conversion Funnel</p>
+                <p className="text-sm text-gray-500 font-medium">{t.dashboard.productivity.funnel}</p>
                 <h4 className="text-2xl font-bold text-gray-900">42%</h4>
-                <p className="text-xs text-gray-400">Booking Rate</p>
+                <p className="text-xs text-gray-400">{t.dashboard.productivity.bookingRate}</p>
               </div>
               <div className="flex gap-1 items-end h-24">
                 {productivity.funnel.map((step: any) => (
@@ -229,9 +231,9 @@ export default function DashboardPage() {
 
           {/* 4. RECENT ACTIVITY (Updated Feed) */}
           <div className="lg:col-span-3 flex flex-col gap-6">
-            <h2 className="text-lg font-bold text-gray-900">Recent Activity</h2>
+            <h2 className="text-lg font-bold text-gray-900">{t.dashboard.activity.title}</h2>
 
-            <div className="glass-card p-0 rounded-[2rem] overflow-hidden">
+            <div className="bg-white rounded-2xl border border-gray-200 p-0 overflow-hidden">
               <div className="max-h-[500px] overflow-y-auto p-6 space-y-6">
                 {feed.map((item: any, idx: number) => (
                   <div key={idx} className="flex gap-4 relative">

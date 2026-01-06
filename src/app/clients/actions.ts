@@ -4,7 +4,7 @@ import pool from '@/lib/db'
 
 import { cookies } from 'next/headers'
 
-export async function getPatients(query: string = '') {
+export async function getClients(query: string = '') {
     const client = await pool.connect()
     try {
         const cookieStore = await cookies()
@@ -41,7 +41,7 @@ export async function getPatients(query: string = '') {
     }
 }
 
-export async function getPatientDetails(phone: string) {
+export async function getClientDetails(phone: string) {
     const client = await pool.connect()
     try {
         const cookieStore = await cookies()

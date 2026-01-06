@@ -38,33 +38,33 @@ export default function ReportsPage() {
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black text-white text-xs font-bold uppercase tracking-wide mb-3">
                         Monthly Review
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">AI Performance Report</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">AI Performance Report</h1>
                     <p className="text-gray-500 mt-1 font-medium">{executiveSummary?.report_month || "Current Month"}</p>
                 </header>
 
                 {/* 1. EXECUTIVE SUMMARY */}
                 {executiveSummary && (
                     <section className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                        <div className="glass-card p-6 rounded-[2rem]">
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6">
                             <p className="text-sm text-gray-500 font-medium mb-2">Total Calls</p>
                             <h3 className="text-3xl font-bold text-gray-900">{executiveSummary.total_calls}</h3>
                             <div className="mt-4 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                                 <div className="h-full bg-black w-full rounded-full"></div>
                             </div>
                         </div>
-                        <div className="glass-card p-6 rounded-[2rem]">
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6">
                             <p className="text-sm text-gray-500 font-medium mb-2">Total Minutes</p>
                             <h3 className="text-3xl font-bold text-gray-900">{executiveSummary.total_minutes}</h3>
                             <p className="text-xs text-gray-600 mt-2 font-bold">+5% vs last month</p>
                         </div>
-                        <div className="glass-card p-6 rounded-[2rem]">
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6">
                             <p className="text-sm text-gray-500 font-medium mb-2">Avg Duration</p>
                             <h3 className="text-3xl font-bold text-gray-900">{executiveSummary.avg_call_duration}</h3>
                             <div className="flex items-center gap-1 mt-2 text-xs text-gray-400">
                                 MM:SS
                             </div>
                         </div>
-                        <div className="glass-card p-6 rounded-[2rem]">
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6">
                             <p className="text-sm text-gray-500 font-medium mb-2">Booking Success</p>
                             <h3 className="text-3xl font-bold text-gray-900">{executiveSummary.booking_success_rate}</h3>
                             <p className="text-xs text-gray-400 mt-2">Conversion Rate</p>
@@ -75,7 +75,7 @@ export default function ReportsPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
 
                     {/* 2. EFFICIENCY TREND */}
-                    <div className="glass-card p-8 rounded-[2rem]">
+                    <div className="bg-white rounded-2xl border border-gray-200 p-8">
                         <div className="flex justify-between items-center mb-8">
                             <div>
                                 <h3 className="text-lg font-bold text-gray-900">Efficiency Trend</h3>
@@ -98,7 +98,7 @@ export default function ReportsPage() {
                     </div>
 
                     {/* 4. RETENTION */}
-                    <div className="glass-card p-8 rounded-[2rem]">
+                    <div className="bg-white rounded-2xl border border-gray-200 p-8">
                         <div className="flex justify-between items-center mb-8">
                             <div>
                                 <h3 className="text-lg font-bold text-gray-900">Patient Retention</h3>
@@ -129,7 +129,7 @@ export default function ReportsPage() {
                 </div>
 
                 {/* 3. SMS GROWTH */}
-                <div className="glass-card p-8 rounded-[2rem]">
+                <div className="bg-white rounded-2xl border border-gray-200 p-8">
                     <div className="flex justify-between items-center mb-8">
                         <div>
                             <h3 className="text-lg font-bold text-gray-900">SMS Engagement</h3>

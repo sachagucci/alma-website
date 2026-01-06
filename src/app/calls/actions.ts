@@ -23,7 +23,7 @@ export async function resolveCallbackAction(callId: string) {
             `UPDATE call_logs SET callback_required = FALSE WHERE call_id = $1 AND clinic_id = $2::text`,
             [callId, companyId]
         )
-        revalidatePath('/triage')
+        revalidatePath('/calls')
     } catch (err) {
         console.error('Error resolving callback:', err)
     } finally {

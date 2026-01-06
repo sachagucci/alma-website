@@ -5,6 +5,8 @@ import { DashboardShell } from '@/components/DashboardShell'
 import ReactMarkdown from 'react-markdown'
 import { Send, Loader2, MessageCircle, Bot, User, Paperclip, Camera, Receipt, X, CheckCircle, Edit2, Save } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLanguage } from '@/hooks/useLanguage'
+import { getCompanyInfo } from '@/app/settings/actions'
 
 type ChatMode = 'chat' | 'invoice'
 
@@ -54,18 +56,26 @@ export default function ChatPage() {
     const videoRef = useRef<HTMLVideoElement>(null)
     const [showCamera, setShowCamera] = useState(false)
     const [stream, setStream] = useState<MediaStream | null>(null)
+    const { t, mounted } = useLanguage()
+    const [companyName, setCompanyName] = useState<string>('')
 
-    // Load recent chats on mount
     useEffect(() => {
-        fetchChats()
+        getCompanyInfo().then(res => {
+            if (res.success && res.company?.name) {
+                setCompanyName(res.company.name)
+            }
+        })
     }, [])
 
-    // Auto-save chat when messages change
-    useEffect(() => {
-        if (messages.length > 0) {
-            saveCurrentChat(messages)
-        }
-    }, [messages])
+
+
+
+
+    // ... (keep existing useEffects and functions)
+
+    // ... (inside render)
+
+
 
     const fetchChats = async () => {
         try {
@@ -76,6 +86,25 @@ export default function ChatPage() {
             }
         } catch (e) {
             console.error('Failed to load chats', e)
+        }
+    }
+
+    const deleteChat = async (id: number, e: React.MouseEvent) => {
+        e.stopPropagation()
+        if (!confirm('Are you sure you want to delete this chat?')) return
+
+        try {
+            const res = await fetch(`/api/chats/${id}`, {
+                method: 'DELETE'
+            })
+            if (res.ok) {
+                setChats(chats.filter(c => c.id !== id))
+                if (chatId === id) {
+                    startNewChat()
+                }
+            }
+        } catch (e) {
+            console.error('Failed to delete chat', e)
         }
     }
 
@@ -157,6 +186,18 @@ export default function ChatPage() {
             console.error('Failed to save chat', e)
         }
     }
+
+    // Load recent chats on mount
+    useEffect(() => {
+        fetchChats()
+    }, [])
+
+    // Auto-save chat when messages change
+    useEffect(() => {
+        if (messages.length > 0) {
+            saveCurrentChat(messages)
+        }
+    }, [messages])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -694,6 +735,8 @@ export default function ChatPage() {
         </div>
     )
 
+    if (!mounted) return null
+
     return (
         <DashboardShell>
             <div className="flex h-screen overflow-hidden">
@@ -702,16 +745,16 @@ export default function ChatPage() {
                     <div className="p-4 border-b border-gray-200">
                         <button onClick={() => startNewChat('chat')} className="w-full flex items-center justify-center gap-2 bg-black text-white py-2.5 px-4 rounded-xl hover:bg-gray-800 transition-all shadow-sm font-medium text-sm">
                             <Plus className="w-4 h-4" />
-                            New Chat
+                            {t.chat.newChat}
                         </button>
                     </div>
                     <div className="flex-1 overflow-y-auto p-3">
                         <div className="space-y-1">
                             {chats.map(chat => (
-                                <button
+                                <div
                                     key={chat.id}
                                     onClick={() => loadChat(chat.id)}
-                                    className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-all flex items-center gap-3 group ${chatId === chat.id ? 'bg-white shadow-sm border border-gray-200 text-gray-900' : 'hover:bg-gray-200/50 text-gray-600'
+                                    className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-all flex items-center gap-3 group cursor-pointer ${chatId === chat.id ? 'bg-white shadow-sm border border-gray-200 text-gray-900' : 'hover:bg-gray-200/50 text-gray-600'
                                         }`}
                                 >
                                     <MessageSquare className={`w-4 h-4 flex-shrink-0 ${chatId === chat.id ? 'text-black' : 'text-gray-400 group-hover:text-gray-500'}`} />
@@ -721,11 +764,19 @@ export default function ChatPage() {
                                             {new Date(chat.updated_at).toLocaleDateString()}
                                         </div>
                                     </div>
-                                </button>
+                                    <button
+                                        onClick={(e) => deleteChat(chat.id, e)}
+                                        className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                                        title="Delete chat"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
                             ))}
                             {chats.length === 0 && (
                                 <div className="text-center py-8 text-xs text-gray-400">
-                                    No recent chats
+                                    {/* @ts-ignore */}
+                                    {t.chat.noRecentChats}
                                 </div>
                             )}
                         </div>
@@ -743,8 +794,7 @@ export default function ChatPage() {
                                         <MessageCircle className="w-5 h-5 text-white" />
                                     </div>
                                     <div>
-                                        <h1 className="text-lg font-bold text-gray-900">Chat Assistant</h1>
-                                        <p className="text-xs text-gray-500">Powered by Gemini</p>
+                                        <h1 className="text-lg font-bold text-gray-900">{t.chat.leo}</h1>
                                     </div>
                                 </div>
 
@@ -752,22 +802,22 @@ export default function ChatPage() {
                                     <button
                                         onClick={() => startNewChat('chat')}
                                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${mode === 'chat'
-                                            ? 'bg-white text-gray-900 shadow-sm'
+                                            ? 'bg-black text-white shadow-sm'
                                             : 'text-gray-500 hover:text-gray-700'
                                             }`}
                                     >
                                         <MessageCircle className="w-4 h-4" />
-                                        Chat
+                                        {t.chat.chatMode}
                                     </button>
                                     <button
                                         onClick={() => startNewChat('invoice')}
                                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${mode === 'invoice'
-                                            ? 'bg-white text-gray-900 shadow-sm'
+                                            ? 'bg-black text-white shadow-sm'
                                             : 'text-gray-500 hover:text-gray-700'
                                             }`}
                                     >
                                         <Receipt className="w-4 h-4" />
-                                        Process Invoice
+                                        {t.chat.invoiceMode}
                                     </button>
                                 </div>
                             </div>
@@ -818,12 +868,13 @@ export default function ChatPage() {
                                         )}
                                     </div>
                                     <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                                        {mode === 'invoice' ? 'Process an Invoice' : 'Start a conversation'}
+                                        {mode === 'invoice' ? t.chat.processInvoice : t.chat.startConversation}
                                     </h2>
                                     <p className="text-gray-500 text-sm">
                                         {mode === 'invoice'
-                                            ? 'Upload or take a photo of an invoice. Review the data before saving.'
-                                            : 'Ask me anything about your company.'}
+                                            ? t.chat.invoiceHint
+                                            // @ts-ignore
+                                            : (<>{t.chat.chatHint}{companyName || (mounted && t.logo === 'fr' ? 'votre entreprise' : 'your company')}.</>)}
                                     </p>
                                 </div>
                             )}
@@ -951,7 +1002,7 @@ export default function ChatPage() {
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    placeholder={mode === 'invoice' ? "Ask about your invoices..." : "Type your message..."}
+                                    placeholder={mode === 'invoice' ? t.chat.invoicePlaceholder : t.chat.chatPlaceholder}
                                     className="flex-1 px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all text-sm"
                                     disabled={loading || processingInvoice}
                                 />
@@ -965,7 +1016,7 @@ export default function ChatPage() {
                                     ) : (
                                         <Send className="w-4 h-4" />
                                     )}
-                                    <span className="hidden sm:inline">Send</span>
+                                    <span className="hidden sm:inline">{t.chat.send}</span>
                                 </button>
                             </form>
                         </div>

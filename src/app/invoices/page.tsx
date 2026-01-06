@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { DashboardShell } from '@/components/DashboardShell'
 import { Receipt, TrendingUp, TrendingDown, DollarSign, Calendar, Building2, Loader2 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/hooks/useLanguage'
 
 interface Invoice {
     id: number
@@ -29,6 +30,7 @@ interface Analytics {
 export default function InvoicesPage() {
     const [analytics, setAnalytics] = useState<Analytics | null>(null)
     const [loading, setLoading] = useState(true)
+    const { t } = useLanguage()
 
     useEffect(() => {
         loadAnalytics()
@@ -81,8 +83,8 @@ export default function InvoicesPage() {
                     {/* Header */}
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Invoice Analytics</h1>
-                            <p className="text-gray-500 text-sm">Track your revenue and expenses</p>
+                            <h1 className="text-2xl font-bold text-gray-900">{t.invoices.title}</h1>
+                            <p className="text-gray-500 text-sm">{t.invoices.subtitle}</p>
                         </div>
                     </div>
 
@@ -94,10 +96,10 @@ export default function InvoicesPage() {
                             className="bg-white rounded-2xl border border-gray-200 p-6"
                         >
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center">
+                                <div className="w-10 h-10 rounded-xl flex items-center justify-center">
                                     <TrendingUp className="w-5 h-5 text-green-600" />
                                 </div>
-                                <span className="text-gray-500 text-sm">Revenue</span>
+                                <span className="text-gray-500 text-sm">{t.invoices.revenue}</span>
                             </div>
                             <p className="text-2xl font-bold text-gray-900">
                                 {formatCurrency(stats.totalRevenue)}
@@ -111,10 +113,10 @@ export default function InvoicesPage() {
                             className="bg-white rounded-2xl border border-gray-200 p-6"
                         >
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center">
+                                <div className="w-10 h-10 rounded-xl flex items-center justify-center">
                                     <TrendingDown className="w-5 h-5 text-red-600" />
                                 </div>
-                                <span className="text-gray-500 text-sm">Expenses</span>
+                                <span className="text-gray-500 text-sm">{t.invoices.expenses}</span>
                             </div>
                             <p className="text-2xl font-bold text-gray-900">
                                 {formatCurrency(stats.totalExpenses)}
@@ -128,10 +130,10 @@ export default function InvoicesPage() {
                             className="bg-white rounded-2xl border border-gray-200 p-6"
                         >
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                                <div className="w-10 h-10 rounded-xl flex items-center justify-center">
                                     <Receipt className="w-5 h-5 text-blue-600" />
                                 </div>
-                                <span className="text-gray-500 text-sm">Total Invoices</span>
+                                <span className="text-gray-500 text-sm">{t.invoices.totalInvoices}</span>
                             </div>
                             <p className="text-2xl font-bold text-gray-900">
                                 {stats.invoiceCount}
@@ -147,9 +149,9 @@ export default function InvoicesPage() {
                             transition={{ delay: 0.3 }}
                             className="bg-white rounded-2xl border border-gray-200 p-6"
                         >
-                            <h3 className="font-semibold text-gray-900 mb-4">Expenses by Category</h3>
+                            <h3 className="font-semibold text-gray-900 mb-4">{t.invoices.expensesByCategory}</h3>
                             {stats.expensesByCategory.length === 0 ? (
-                                <p className="text-gray-400 text-sm">No expense data yet</p>
+                                <p className="text-gray-400 text-sm">{t.invoices.noExpenses}</p>
                             ) : (
                                 <div className="space-y-3">
                                     {stats.expensesByCategory.map((item, idx) => (
@@ -157,7 +159,7 @@ export default function InvoicesPage() {
                                             <div className="flex items-center gap-3">
                                                 <div className="w-3 h-3 rounded-full bg-gray-300"
                                                     style={{ backgroundColor: getCategoryColor(idx) }} />
-                                                <span className="text-sm text-gray-700">{item.category || 'Other'}</span>
+                                                <span className="text-sm text-gray-700">{item.category || t.invoices.other}</span>
                                             </div>
                                             <span className="text-sm font-medium">{formatCurrency(item.total)}</span>
                                         </div>
@@ -173,16 +175,15 @@ export default function InvoicesPage() {
                             transition={{ delay: 0.4 }}
                             className="bg-white rounded-2xl border border-gray-200 p-6"
                         >
-                            <h3 className="font-semibold text-gray-900 mb-4">Recent Invoices</h3>
+                            <h3 className="font-semibold text-gray-900 mb-4">{t.invoices.recentInvoices}</h3>
                             {stats.recentInvoices.length === 0 ? (
-                                <p className="text-gray-400 text-sm">No invoices yet. Upload one in Chat!</p>
+                                <p className="text-gray-400 text-sm">{t.invoices.noInvoices}</p>
                             ) : (
                                 <div className="space-y-3">
                                     {stats.recentInvoices.map((invoice) => (
                                         <div key={invoice.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                                             <div className="flex items-center gap-3">
-                                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${invoice.invoice_type === 'revenue' ? 'bg-green-100' : 'bg-red-100'
-                                                    }`}>
+                                                <div className="w-10 h-10 rounded-lg flex items-center justify-center">
                                                     {invoice.invoice_type === 'revenue' ? (
                                                         <TrendingUp className="w-5 h-5 text-green-600" />
                                                     ) : (
@@ -191,7 +192,7 @@ export default function InvoicesPage() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-medium text-gray-900">
-                                                        {invoice.vendor_name || 'Unknown Vendor'}
+                                                        {invoice.vendor_name || t.invoices.unknownVendor}
                                                     </p>
                                                     <p className="text-xs text-gray-500">
                                                         {invoice.invoice_date || new Date(invoice.created_at).toLocaleDateString()}

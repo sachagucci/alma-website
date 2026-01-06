@@ -5,6 +5,7 @@ import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, ArrowLeft, Upload, Check, Building2, User, Bot, FileText, X, Loader2 } from 'lucide-react'
 import { completeOnboardingWithData } from './actions'
+import { useLanguage } from '@/hooks/useLanguage'
 
 type Step = 1 | 2 | 3
 
@@ -58,9 +59,12 @@ const personalities = [
 
 export default function OnboardingPage() {
     const router = useRouter()
+    const { t, mounted } = useLanguage()
     const [step, setStep] = useState<Step>(1)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+
+    if (!mounted) return null
 
     // Step 1: Personal Info
     const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({
@@ -195,16 +199,16 @@ export default function OnboardingPage() {
                     <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-8">
                         <span className="text-black font-bold text-2xl">A</span>
                     </div>
-                    <h1 className="text-5xl font-bold tracking-tight mb-4">Welcome to Alma</h1>
-                    <p className="text-xl text-gray-400 max-w-md">Set up your intelligent AI receptionist in just a few steps.</p>
+                    <h1 className="text-5xl font-bold tracking-tight mb-4">{t.onboarding.welcome.title}</h1>
+                    <p className="text-xl text-gray-400 max-w-md">{t.onboarding.welcome.subtitle}</p>
                 </div>
 
                 {/* Progress Steps */}
                 <div className="relative z-10 space-y-4">
                     {[
-                        { num: 1, label: 'Personal Info', icon: User },
-                        { num: 2, label: 'Your Business', icon: Building2 },
-                        { num: 3, label: 'Agent Setup', icon: Bot }
+                        { num: 1, label: t.onboarding.steps[1], icon: User },
+                        { num: 2, label: t.onboarding.steps[2], icon: Building2 },
+                        { num: 3, label: t.onboarding.steps[3], icon: Bot }
                     ].map(({ num, label, icon: Icon }) => (
                         <div key={num} className={`flex items-center gap-4 ${step >= num ? 'text-white' : 'text-gray-600'}`}>
                             <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${step > num ? 'bg-green-500' : step === num ? 'bg-white text-black' : 'bg-gray-800'
@@ -231,19 +235,19 @@ export default function OnboardingPage() {
                                 className="space-y-6"
                             >
                                 <div>
-                                    <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Create your account</h2>
-                                    <p className="text-gray-500 mt-2">Let's start with your personal information</p>
+                                    <h2 className="text-3xl font-bold text-gray-900 tracking-tight">{t.onboarding.step1.title}</h2>
+                                    <p className="text-gray-500 mt-2">{t.onboarding.step1.subtitle}</p>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <InputField
-                                        label="First Name"
+                                        label={t.onboarding.step1.firstName}
                                         value={personalInfo.firstName}
                                         onChange={e => setPersonalInfo(p => ({ ...p, firstName: e.target.value }))}
                                         required
                                     />
                                     <InputField
-                                        label="Last Name"
+                                        label={t.onboarding.step1.lastName}
                                         value={personalInfo.lastName}
                                         onChange={e => setPersonalInfo(p => ({ ...p, lastName: e.target.value }))}
                                         required
@@ -251,7 +255,7 @@ export default function OnboardingPage() {
                                 </div>
 
                                 <InputField
-                                    label="Email Address"
+                                    label={t.onboarding.step1.email}
                                     type="email"
                                     value={personalInfo.email}
                                     onChange={e => setPersonalInfo(p => ({ ...p, email: e.target.value }))}
@@ -259,7 +263,7 @@ export default function OnboardingPage() {
                                 />
 
                                 <InputField
-                                    label="Password"
+                                    label={t.onboarding.step1.password}
                                     type="password"
                                     value={personalInfo.password}
                                     onChange={e => setPersonalInfo(p => ({ ...p, password: e.target.value }))}
@@ -267,7 +271,7 @@ export default function OnboardingPage() {
                                 />
 
                                 <InputField
-                                    label="Phone Number"
+                                    label={t.onboarding.step1.phone}
                                     type="tel"
                                     value={personalInfo.phone}
                                     onChange={e => setPersonalInfo(p => ({ ...p, phone: e.target.value }))}
@@ -277,12 +281,12 @@ export default function OnboardingPage() {
                                 {error && <ErrorMessage message={error} />}
 
                                 <SubmitButton loading={loading} onClick={handleStep1Submit}>
-                                    Continue <ArrowRight className="w-4 h-4" />
+                                    {t.onboarding.step1.submit} <ArrowRight className="w-4 h-4" />
                                 </SubmitButton>
 
                                 <p className="text-center text-sm text-gray-500">
-                                    Already have an account?{' '}
-                                    <a href="/login" className="text-black font-semibold hover:underline">Sign in</a>
+                                    {t.onboarding.step1.alreadyAccount}{' '}
+                                    <a href="/login" className="text-black font-semibold hover:underline">{t.onboarding.step1.signIn}</a>
                                 </p>
                             </motion.div>
                         )}
@@ -297,19 +301,19 @@ export default function OnboardingPage() {
                                 className="space-y-6"
                             >
                                 <div>
-                                    <h2 className="text-3xl font-bold text-gray-900 tracking-tight">About your business</h2>
-                                    <p className="text-gray-500 mt-2">Help us tailor Alma for your needs</p>
+                                    <h2 className="text-3xl font-bold text-gray-900 tracking-tight">{t.onboarding.step2.title}</h2>
+                                    <p className="text-gray-500 mt-2">{t.onboarding.step2.subtitle}</p>
                                 </div>
 
                                 <InputField
-                                    label="Company Name"
+                                    label={t.onboarding.step2.companyName}
                                     value={companyInfo.name}
                                     onChange={e => setCompanyInfo(c => ({ ...c, name: e.target.value }))}
                                     required
                                 />
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-gray-900">Service Type</label>
+                                    <label className="text-sm font-semibold text-gray-900">{t.onboarding.step2.serviceType}</label>
                                     <select
                                         value={companyInfo.serviceType}
                                         onChange={e => setCompanyInfo(c => ({ ...c, serviceType: e.target.value }))}
@@ -321,7 +325,7 @@ export default function OnboardingPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-gray-900">Company Size</label>
+                                    <label className="text-sm font-semibold text-gray-900">{t.onboarding.step2.companySize}</label>
                                     <div className="grid grid-cols-2 gap-2">
                                         {companySizes.map(size => (
                                             <button
@@ -340,27 +344,27 @@ export default function OnboardingPage() {
                                 </div>
 
                                 <InputField
-                                    label="Regions Served"
-                                    placeholder="e.g., Montreal, Quebec City, Toronto"
+                                    label={t.onboarding.step2.regions}
+                                    placeholder={t.onboarding.step2.regionsPlaceholder}
                                     value={companyInfo.regions}
                                     onChange={e => setCompanyInfo(c => ({ ...c, regions: e.target.value }))}
                                 />
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-gray-900">Tell us more about your business</label>
+                                    <label className="text-sm font-semibold text-gray-900">{t.onboarding.step2.description}</label>
                                     <textarea
                                         value={companyInfo.description}
                                         onChange={e => setCompanyInfo(c => ({ ...c, description: e.target.value }))}
                                         rows={3}
                                         className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-black/5 focus:border-black outline-none transition-all resize-none"
-                                        placeholder="What services do you offer? Who are your typical clients?"
+                                        placeholder={t.onboarding.step2.descriptionPlaceholder}
                                     />
                                 </div>
 
                                 {/* Document Upload */}
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-gray-900">Company Documents (Optional)</label>
-                                    <p className="text-xs text-gray-500">Upload brochures, service guides, or any documents that describe your business</p>
+                                    <label className="text-sm font-semibold text-gray-900">{t.onboarding.step2.docsLabel}</label>
+                                    <p className="text-xs text-gray-500">{t.onboarding.step2.docsHint}</p>
 
                                     <input
                                         type="file"
@@ -405,8 +409,8 @@ export default function OnboardingPage() {
                                             }`}
                                     >
                                         <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
-                                        <p className="text-sm text-gray-600">Drag & drop PDF or images here</p>
-                                        <p className="text-xs text-gray-400 mt-1">or click to browse</p>
+                                        <p className="text-sm text-gray-600">{t.onboarding.step2.dragDrop}</p>
+                                        <p className="text-xs text-gray-400 mt-1">{t.onboarding.step2.browse}</p>
                                     </div>
 
                                     {uploadedFiles.length > 0 && (
@@ -431,10 +435,10 @@ export default function OnboardingPage() {
                                         onClick={() => setStep(1)}
                                         className="px-6 py-3.5 rounded-xl border border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all flex items-center gap-2"
                                     >
-                                        <ArrowLeft className="w-4 h-4" /> Back
+                                        <ArrowLeft className="w-4 h-4" /> {t.onboarding.step2.back}
                                     </button>
                                     <SubmitButton loading={loading} onClick={handleStep2Submit} className="flex-1">
-                                        Continue <ArrowRight className="w-4 h-4" />
+                                        {t.onboarding.step2.continue} <ArrowRight className="w-4 h-4" />
                                     </SubmitButton>
                                 </div>
                             </motion.div>
@@ -450,12 +454,12 @@ export default function OnboardingPage() {
                                 className="space-y-6"
                             >
                                 <div>
-                                    <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Customize your AI</h2>
-                                    <p className="text-gray-500 mt-2">Choose how your receptionist should interact</p>
+                                    <h2 className="text-3xl font-bold text-gray-900 tracking-tight">{t.onboarding.step3.title}</h2>
+                                    <p className="text-gray-500 mt-2">{t.onboarding.step3.subtitle}</p>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-gray-900">Preferred Language</label>
+                                    <label className="text-sm font-semibold text-gray-900">{t.onboarding.step3.prefLang}</label>
                                     <select
                                         value={language}
                                         onChange={e => setLanguage(e.target.value)}
@@ -466,7 +470,7 @@ export default function OnboardingPage() {
                                 </div>
 
                                 <div className="space-y-3">
-                                    <label className="text-sm font-semibold text-gray-900">Agent Personality</label>
+                                    <label className="text-sm font-semibold text-gray-900">{t.onboarding.step3.personality}</label>
                                     <div className="space-y-3">
                                         {personalities.map(p => (
                                             <button
@@ -499,15 +503,15 @@ export default function OnboardingPage() {
                                         onClick={() => setStep(2)}
                                         className="px-6 py-3.5 rounded-xl border border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all flex items-center gap-2"
                                     >
-                                        <ArrowLeft className="w-4 h-4" /> Back
+                                        <ArrowLeft className="w-4 h-4" /> {t.onboarding.step2.back}
                                     </button>
                                     <SubmitButton
                                         loading={loading}
-                                        loadingText="Processing..."
+                                        loadingText={t.onboarding.step3.processing}
                                         onClick={handleStep3Submit}
                                         className="flex-1"
                                     >
-                                        Complete Setup <Check className="w-4 h-4" />
+                                        {t.onboarding.step3.complete} <Check className="w-4 h-4" />
                                     </SubmitButton>
                                 </div>
                             </motion.div>

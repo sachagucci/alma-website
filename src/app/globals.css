@@ -6,32 +6,56 @@
 }
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 249, 250, 251;
-  /* gray-50 */
-  --background-end-rgb: 255, 255, 255;
+  /* Alma Brand Colors — Minimalist, Calming */
+  --color-charcoal: #1C1C1C;
+  --color-charcoal-soft: #2D2D2D;
+  --color-stone: #44403C;
+  --color-warm-gray: #78716C;
+  --color-light-gray: #A8A29E;
+  --color-cream: #FAFAF9;
+  --color-white: #FFFFFF;
+
+  /* Semantic Colors */
+  --foreground: var(--color-charcoal);
+  --background: var(--color-white);
+  --accent: var(--color-stone);
+  --muted: var(--color-warm-gray);
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom right, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb)));
+  color: var(--foreground);
+  background: var(--background);
   min-height: 100vh;
-  antialiased: true;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(120, 113, 108, 0.2);
+  color: inherit;
+}
+
+::-moz-selection {
+  background: rgba(120, 113, 108, 0.2);
+  color: inherit;
 }
 
 @layer utilities {
-  .glass {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(40px) saturate(150%);
-    -webkit-backdrop-filter: blur(40px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+
+  /* Video placeholder styling */
+  .video-placeholder {
+    background: linear-gradient(135deg, var(--color-charcoal) 0%, var(--color-charcoal-soft) 100%);
+    aspect-ratio: 16 / 9;
   }
 
-  .glass-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(60px) saturate(180%);
-    -webkit-backdrop-filter: blur(60px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+  /* Logo grid muted effect */
+  .logo-muted {
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .logo-muted:hover {
+    opacity: 0.8;
   }
 }
