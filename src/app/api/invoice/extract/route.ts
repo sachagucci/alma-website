@@ -11,7 +11,7 @@ async function getCompanyIdFromSession(): Promise<number | null> {
     const client = await pool.connect()
     try {
         const result = await client.query(
-            'SELECT id FROM companies WHERE client_id = $1',
+            'SELECT id FROM companies WHERE client_id = $1 AND is_active = TRUE',
             [clientId]
         )
         return result.rows[0]?.id || null

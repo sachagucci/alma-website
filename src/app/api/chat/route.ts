@@ -41,7 +41,7 @@ async function getCompanyContext(companyId: number) {
         // Get company info - all relevant fields
         const companyRes = await client.query(
             `SELECT name, description, size, service_type, regions, language 
-             FROM companies WHERE id = $1`,
+             FROM companies WHERE id = $1 AND is_active = TRUE`,
             [companyId]
         )
 
@@ -107,7 +107,7 @@ async function getCompanyIdFromSession(): Promise<number | null> {
     const client = await pool.connect()
     try {
         const result = await client.query(
-            'SELECT id FROM companies WHERE client_id = $1',
+            'SELECT id FROM companies WHERE client_id = $1 AND is_active = TRUE',
             [clientIdStr]
         )
         return result.rows[0]?.id || null

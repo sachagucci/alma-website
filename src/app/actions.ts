@@ -79,8 +79,8 @@ export async function getDashboardStats(dateStr?: string) {
       return null
     }
 
-    // Get Company ID from Client ID
-    const companyRes = await client.query('SELECT id FROM companies WHERE client_id = $1', [clientIdStr])
+    // Get Company ID from Client ID (for company-specific settings only)
+    const companyRes = await client.query('SELECT id FROM companies WHERE client_id = $1 AND is_active = TRUE', [clientIdStr])
 
     if (companyRes.rows.length === 0) {
       console.warn('No company found for client:', clientIdStr)
@@ -93,8 +93,8 @@ export async function getDashboardStats(dateStr?: string) {
       }
     }
 
-    const companyId = companyRes.rows[0].id
-    console.log('Dashboard: Fetching stats for Company ID:', companyId)
+    // Use client_id for data queries (stable across company updates)
+    console.log('Dashboard: Fetching stats for client_id:', clientIdStr)
 
     // Use provided date or default to today
     const targetDate = dateStr || new Date().toISOString().split('T')[0]
@@ -186,10 +186,10 @@ export async function getDashboardStats(dateStr?: string) {
     `
 
     const [kpiRes, hourlyRes, feedRes, actionRes] = await Promise.all([
-      client.query(kpiQuery, [companyId]),
-      client.query(hourlyQuery, [companyId, targetDate]),
-      client.query(feedQuery, [companyId]),
-      client.query(actionQuery, [companyId])
+      client.query(kpiQuery, [clientIdStr]),
+      client.query(hourlyQuery, [clientIdStr, targetDate]),
+      client.query(feedQuery, [clientIdStr]),
+      client.query(actionQuery, [clientIdStr])
     ])
 
     const kpi = kpiRes.rows[0]

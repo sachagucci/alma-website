@@ -12,11 +12,7 @@ export async function getAnalyticsData() {
 
         if (!clientIdStr) return { deflection: [], peakHours: [], financials: { humanCost: 0, aiCost: 0, savings: 0, totalCalls: 0 } }
 
-        // Get Company ID
-        const companyRes = await client.query('SELECT id FROM companies WHERE client_id = $1', [clientIdStr])
-        if (companyRes.rows.length === 0) return { deflection: [], peakHours: [], financials: { humanCost: 0, aiCost: 0, savings: 0, totalCalls: 0 } }
-
-        const companyId = companyRes.rows[0].id
+        // Use stable client_id for data queries
 
         // 1. Deflection Rate
         // call_status options: ['completed', 'dropped', 'transferred', 'emergency']
@@ -54,9 +50,9 @@ export async function getAnalyticsData() {
     `
 
         const [deflectionRes, peakHoursRes, costRes] = await Promise.all([
-            client.query(deflectionQuery, [companyId]),
-            client.query(peakHoursQuery, [companyId]),
-            client.query(costQuery, [companyId])
+            client.query(deflectionQuery, [clientIdStr]),
+            client.query(peakHoursQuery, [clientIdStr]),
+            client.query(costQuery, [clientIdStr])
         ])
 
         // Process Peak Hours (Fill missing hours 0-23)

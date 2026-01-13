@@ -2,28 +2,17 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import pool from '@/lib/db'
 
-// Get company ID from session
-async function getCompanyIdFromSession(): Promise<number | null> {
+// Get stable client ID from session
+async function getClientIdFromSession(): Promise<string | null> {
     const cookieStore = await cookies()
     const clientId = cookieStore.get('alma_client_id')?.value
-    if (!clientId) return null
-
-    const client = await pool.connect()
-    try {
-        const result = await client.query(
-            'SELECT id FROM companies WHERE client_id = $1',
-            [clientId]
-        )
-        return result.rows[0]?.id || null
-    } finally {
-        client.release()
-    }
+    return clientId || null
 }
 
 export async function GET() {
     try {
-        const companyId = await getCompanyIdFromSession()
-        if (!companyId) {
+        const clientId = await getClientIdFromSession()
+        if (!clientId) {
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
         }
 
@@ -33,22 +22,22 @@ export async function GET() {
             const revenueResult = await client.query(
                 `SELECT COALESCE(SUM(total_amount), 0) as total 
                  FROM client_invoices 
-                 WHERE company_id = $1 AND invoice_type = 'revenue'`,
-                [companyId]
+                 WHERE client_id = $1 AND invoice_type = 'revenue'`,
+                [clientId]
             )
 
             // Get total expenses
             const expensesResult = await client.query(
                 `SELECT COALESCE(SUM(total_amount), 0) as total 
                  FROM client_invoices 
-                 WHERE company_id = $1 AND invoice_type = 'expense'`,
-                [companyId]
+                 WHERE client_id = $1 AND invoice_type = 'expense'`,
+                [clientId]
             )
 
             // Get invoice count
             const countResult = await client.query(
-                `SELECT COUNT(*) as count FROM client_invoices WHERE company_id = $1`,
-                [companyId]
+                `SELECT COUNT(*) as count FROM client_invoices WHERE client_id = $1`,
+                [clientId]
             )
 
             // Get recent invoices
@@ -56,20 +45,20 @@ export async function GET() {
                 `SELECT id, invoice_number, vendor_name, invoice_date, total_amount, 
                         currency, category, invoice_type, created_at
                  FROM client_invoices 
-                 WHERE company_id = $1 
+                 WHERE client_id = $1 
                  ORDER BY created_at DESC 
                  LIMIT 10`,
-                [companyId]
+                [clientId]
             )
 
             // Get expenses by category
             const categoryResult = await client.query(
                 `SELECT category, COALESCE(SUM(total_amount), 0) as total
                  FROM client_invoices 
-                 WHERE company_id = $1 AND invoice_type = 'expense'
+                 WHERE client_id = $1 AND invoice_type = 'expense'
                  GROUP BY category
                  ORDER BY total DESC`,
-                [companyId]
+                [clientId]
             )
 
             // Get monthly trend (last 6 months)
@@ -79,11 +68,11 @@ export async function GET() {
                     COALESCE(SUM(CASE WHEN invoice_type = 'expense' THEN total_amount ELSE 0 END), 0) as expenses,
                     COALESCE(SUM(CASE WHEN invoice_type = 'revenue' THEN total_amount ELSE 0 END), 0) as revenue
                  FROM client_invoices 
-                 WHERE company_id = $1 AND invoice_date IS NOT NULL
+                 WHERE client_id = $1 AND invoice_date IS NOT NULL
                  GROUP BY TO_CHAR(invoice_date, 'YYYY-MM')
                  ORDER BY month DESC
                  LIMIT 6`,
-                [companyId]
+                [clientId]
             )
 
             return NextResponse.json({

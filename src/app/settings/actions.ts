@@ -4,6 +4,7 @@ import pool from '@/lib/db'
 import { cookies } from 'next/headers'
 
 // Get company ID from session
+// IMPORTANT: clinicId is the stable client_id, companyId is the active company row (changes with versioning)
 async function getCompanyIdFromSession(): Promise<{ companyId: number; clinicId: string } | null> {
     const cookieStore = await cookies()
     const clientIdStr = cookieStore.get('alma_client_id')?.value
@@ -15,14 +16,15 @@ async function getCompanyIdFromSession(): Promise<{ companyId: number; clinicId:
     const client = await pool.connect()
     try {
         const result = await client.query(
-            'SELECT id FROM companies WHERE client_id = $1',
+            'SELECT id FROM companies WHERE client_id = $1 AND is_active = TRUE',
             [clientIdStr]
         )
         if (result.rows.length === 0) {
             return null
         }
         const companyId = result.rows[0].id
-        return { companyId, clinicId: String(companyId) }
+        // Use client_id as the stable clinicId (doesn't change with versioning)
+        return { companyId, clinicId: String(clientIdStr) }
     } finally {
         client.release()
     }
@@ -39,7 +41,7 @@ export async function getAgentConfig() {
     try {
         // Get company settings
         const companyResult = await client.query(
-            'SELECT name, language, personality, temperature FROM companies WHERE id = $1',
+            'SELECT name, language, personality, temperature FROM companies WHERE id = $1 AND is_active = TRUE',
             [session.companyId]
         )
 
@@ -95,7 +97,7 @@ export async function updateAgentConfig(config: {
 
         // Update company settings
         await client.query(
-            'UPDATE companies SET language = $1, personality = $2, temperature = $3 WHERE id = $4',
+            'UPDATE companies SET language = $1, personality = $2, temperature = $3 WHERE id = $4 AND is_active = TRUE',
             [config.language, config.personality, temperature, session.companyId]
         )
 
@@ -308,7 +310,7 @@ export async function getCompanyInfo() {
     const client = await pool.connect()
     try {
         const result = await client.query(
-            'SELECT name, description, service_type, size as company_size, language, personality FROM companies WHERE id = $1',
+            'SELECT name, description, service_type, size as company_size, language, personality FROM companies WHERE id = $1 AND is_active = TRUE',
             [session.companyId]
         )
 
@@ -338,20 +340,38 @@ export async function updateCompanyInfo(info: {
     try {
         await client.query('BEGIN')
 
-        // First, save current state to history
-        await client.query(
-            `INSERT INTO companies_history (company_id, name, description, service_type, company_size, language, personality, temperature, changed_at)
-             SELECT id, name, description, service_type, company_size, language, personality, temperature, NOW()
-             FROM companies WHERE id = $1`,
+        // Step 1: Get current company data
+        const currentResult = await client.query(
+            'SELECT client_id, language, personality, temperature FROM companies WHERE id = $1 AND is_active = TRUE',
             [session.companyId]
         )
 
-        // Then update the company
+        if (currentResult.rows.length === 0) {
+            throw new Error('Company not found')
+        }
+
+        const current = currentResult.rows[0]
+
+        // Step 2: Deactivate the old row
         await client.query(
-            `UPDATE companies 
-             SET name = $1, description = $2, service_type = $3, size = $4
-             WHERE id = $5`,
-            [info.name, info.description, info.serviceType, info.companySize, session.companyId]
+            'UPDATE companies SET is_active = FALSE WHERE id = $1',
+            [session.companyId]
+        )
+
+        // Step 3: Insert new active row with updated data
+        await client.query(
+            `INSERT INTO companies (client_id, name, description, service_type, size, language, personality, temperature, is_active, updated_at)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, TRUE, NOW())`,
+            [
+                current.client_id,
+                info.name,
+                info.description,
+                info.serviceType,
+                info.companySize,
+                current.language,
+                current.personality,
+                current.temperature
+            ]
         )
 
         await client.query('COMMIT')

@@ -2,27 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import pool from '@/lib/db'
 
-async function getCompanyIdFromSession(): Promise<number | null> {
+async function getClientIdFromSession(): Promise<string | null> {
     const cookieStore = await cookies()
     const clientId = cookieStore.get('alma_client_id')?.value
-    if (!clientId) return null
-
-    const client = await pool.connect()
-    try {
-        const result = await client.query(
-            'SELECT id FROM companies WHERE client_id = $1',
-            [clientId]
-        )
-        return result.rows[0]?.id || null
-    } finally {
-        client.release()
-    }
+    return clientId || null
 }
 
 export async function GET(request: NextRequest) {
     try {
-        const companyId = await getCompanyIdFromSession()
-        if (!companyId) {
+        const clientId = await getClientIdFromSession()
+        if (!clientId) {
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
         }
 
@@ -31,10 +20,10 @@ export async function GET(request: NextRequest) {
             const result = await client.query(
                 `SELECT id, title, created_at, updated_at 
                  FROM user_chats 
-                 WHERE company_id = $1 
+                 WHERE client_id = $1 
                  ORDER BY updated_at DESC 
                  LIMIT 50`,
-                [companyId]
+                [clientId]
             )
             return NextResponse.json({ chats: result.rows })
         } finally {
@@ -48,8 +37,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
-        const companyId = await getCompanyIdFromSession()
-        if (!companyId) {
+        const clientId = await getClientIdFromSession()
+        if (!clientId) {
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
         }
 
@@ -58,10 +47,10 @@ export async function POST(request: NextRequest) {
         const client = await pool.connect()
         try {
             const result = await client.query(
-                `INSERT INTO user_chats (company_id, title, messages) 
+                `INSERT INTO user_chats (client_id, title, messages) 
                  VALUES ($1, $2, $3) 
                  RETURNING id, title, created_at, updated_at`,
-                [companyId, title || 'New Chat', JSON.stringify(messages || [])]
+                [clientId, title || 'New Chat', JSON.stringify(messages || [])]
             )
             return NextResponse.json({ chat: result.rows[0] })
         } finally {

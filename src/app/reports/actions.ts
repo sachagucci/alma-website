@@ -12,11 +12,7 @@ export async function getMonthlyReportData() {
 
         if (!clientIdStr) return { executiveSummary: null, efficiencyTrend: [], smsGrowth: [], retention: [] }
 
-        // Get Company ID
-        const companyRes = await client.query('SELECT id FROM companies WHERE client_id = $1', [clientIdStr])
-        if (companyRes.rows.length === 0) return { executiveSummary: null, efficiencyTrend: [], smsGrowth: [], retention: [] }
-
-        const companyId = companyRes.rows[0].id
+        // Use stable client_id for data queries
 
         // 1. Executive Summary
         const execSummaryQuery = `
@@ -81,10 +77,10 @@ export async function getMonthlyReportData() {
     `
 
         const [execRes, efficiencyRes, smsRes, retentionRes] = await Promise.all([
-            client.query(execSummaryQuery, [companyId]),
-            client.query(efficiencyQuery, [companyId]),
-            client.query(smsGrowthQuery, [companyId]),
-            client.query(retentionQuery, [companyId])
+            client.query(execSummaryQuery, [clientIdStr]),
+            client.query(efficiencyQuery, [clientIdStr]),
+            client.query(smsGrowthQuery, [clientIdStr]),
+            client.query(retentionQuery, [clientIdStr])
         ])
 
         return {

@@ -13,15 +13,10 @@ export async function resolveCallbackAction(callId: string) {
 
         if (!clientIdStr) return
 
-        // Get Company ID
-        const companyRes = await client.query('SELECT id FROM companies WHERE client_id = $1', [clientIdStr])
-        if (companyRes.rows.length === 0) return
-
-        const companyId = companyRes.rows[0].id
-
+        // Update using stable client_id
         await client.query(
             `UPDATE call_logs SET callback_required = FALSE WHERE call_id = $1 AND clinic_id = $2::text`,
-            [callId, companyId]
+            [callId, clientIdStr]
         )
         revalidatePath('/calls')
     } catch (err) {
@@ -39,11 +34,7 @@ export async function getTriageData() {
 
         if (!clientIdStr) return { urgentCalls: [], recentMessages: [] }
 
-        // Get Company ID
-        const companyRes = await client.query('SELECT id FROM companies WHERE client_id = $1', [clientIdStr])
-        if (companyRes.rows.length === 0) return { urgentCalls: [], recentMessages: [] }
-
-        const companyId = companyRes.rows[0].id
+        // Use stable client_id for data queries
 
         const urgentCallsQuery = `
         SELECT * FROM call_logs 
@@ -60,8 +51,8 @@ export async function getTriageData() {
     `
 
         const [urgentCallsRes, recentMessagesRes] = await Promise.all([
-            client.query(urgentCallsQuery, [companyId]),
-            client.query(recentMessagesQuery, [companyId])
+            client.query(urgentCallsQuery, [clientIdStr]),
+            client.query(recentMessagesQuery, [clientIdStr])
         ])
 
         return {

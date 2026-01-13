@@ -12,11 +12,7 @@ export async function getClients(query: string = '') {
 
         if (!clientIdStr) return []
 
-        // Get Company ID
-        const companyRes = await client.query('SELECT id FROM companies WHERE client_id = $1', [clientIdStr])
-        if (companyRes.rows.length === 0) return []
-
-        const companyId = companyRes.rows[0].id
+        // Use stable client_id for data queries
 
         // Simple search by phone for now
         // Grouping by patient_phone to get unique patients
@@ -31,7 +27,7 @@ export async function getClients(query: string = '') {
       ORDER BY last_activity DESC
       LIMIT 50
     `
-        const res = await client.query(sql, [`%${query}%`, companyId])
+        const res = await client.query(sql, [`%${query}%`, clientIdStr])
         return res.rows
     } catch (err) {
         console.error('Error fetching patients:', err)
@@ -49,11 +45,7 @@ export async function getClientDetails(phone: string) {
 
         if (!clientIdStr) return []
 
-        // Get Company ID
-        const companyRes = await client.query('SELECT id FROM companies WHERE client_id = $1', [clientIdStr])
-        if (companyRes.rows.length === 0) return []
-
-        const companyId = companyRes.rows[0].id
+        // Use stable client_id for data queries
 
         // Decode phone if it was URL encoded
         const decodedPhone = decodeURIComponent(phone)
@@ -88,8 +80,8 @@ export async function getClientDetails(phone: string) {
 
         // Combine and order
         const [smsRes, callRes] = await Promise.all([
-            client.query(smsQuery, [decodedPhone, companyId]),
-            client.query(callQuery, [decodedPhone, companyId])
+            client.query(smsQuery, [decodedPhone, clientIdStr]),
+            client.query(callQuery, [decodedPhone, clientIdStr])
         ])
 
         const timeline = [...smsRes.rows, ...callRes.rows].sort((a, b) =>

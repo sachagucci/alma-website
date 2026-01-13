@@ -2,28 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import pool from '@/lib/db'
 
-// Get company ID from session
-async function getCompanyIdFromSession(): Promise<number | null> {
+// Get stable client ID from session
+async function getClientIdFromSession(): Promise<string | null> {
     const cookieStore = await cookies()
     const clientId = cookieStore.get('alma_client_id')?.value
-    if (!clientId) return null
-
-    const client = await pool.connect()
-    try {
-        const result = await client.query(
-            'SELECT id FROM companies WHERE client_id = $1',
-            [clientId]
-        )
-        return result.rows[0]?.id || null
-    } finally {
-        client.release()
-    }
+    return clientId || null
 }
 
 export async function POST(request: NextRequest) {
     try {
-        const companyId = await getCompanyIdFromSession()
-        if (!companyId) {
+        const clientId = await getClientIdFromSession()
+        if (!clientId) {
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
         }
 
@@ -36,12 +25,12 @@ export async function POST(request: NextRequest) {
         try {
             const result = await client.query(
                 `INSERT INTO client_invoices 
-                 (company_id, invoice_number, vendor_name, invoice_date, due_date, 
+                 (client_id, invoice_number, vendor_name, invoice_date, due_date, 
                   subtotal, tax_amount, total_amount, currency, category, invoice_type, line_items)
                  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
                  RETURNING *`,
                 [
-                    companyId,
+                    clientId,
                     invoiceData.invoice_number,
                     invoiceData.vendor_name,
                     invoiceData.invoice_date || null,

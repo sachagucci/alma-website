@@ -2,21 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import pool from '@/lib/db'
 
-async function getCompanyIdFromSession(): Promise<number | null> {
+async function getClientIdFromSession(): Promise<string | null> {
     const cookieStore = await cookies()
     const clientId = cookieStore.get('alma_client_id')?.value
-    if (!clientId) return null
-
-    const client = await pool.connect()
-    try {
-        const result = await client.query(
-            'SELECT id FROM companies WHERE client_id = $1',
-            [clientId]
-        )
-        return result.rows[0]?.id || null
-    } finally {
-        client.release()
-    }
+    return clientId || null
 }
 
 export async function GET(
@@ -24,8 +13,8 @@ export async function GET(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const companyId = await getCompanyIdFromSession()
-        if (!companyId) {
+        const clientId = await getClientIdFromSession()
+        if (!clientId) {
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
         }
 
@@ -34,8 +23,8 @@ export async function GET(
         const client = await pool.connect()
         try {
             const result = await client.query(
-                `SELECT * FROM user_chats WHERE id = $1 AND company_id = $2`,
-                [id, companyId]
+                `SELECT * FROM user_chats WHERE id = $1 AND client_id = $2`,
+                [id, clientId]
             )
 
             if (result.rows.length === 0) {
@@ -57,8 +46,8 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const companyId = await getCompanyIdFromSession()
-        if (!companyId) {
+        const clientId = await getClientIdFromSession()
+        if (!clientId) {
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
         }
 
@@ -81,8 +70,8 @@ export async function PUT(
                 values.push(title)
             }
 
-            query += ` WHERE id = $${valIdx++} AND company_id = $${valIdx++} RETURNING *`
-            values.push(id, companyId)
+            query += ` WHERE id = $${valIdx++} AND client_id = $${valIdx++} RETURNING *`
+            values.push(id, clientId)
 
             const result = await client.query(query, values)
 
@@ -105,8 +94,8 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const companyId = await getCompanyIdFromSession()
-        if (!companyId) {
+        const clientId = await getClientIdFromSession()
+        if (!clientId) {
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
         }
 
@@ -115,8 +104,8 @@ export async function DELETE(
         const client = await pool.connect()
         try {
             const result = await client.query(
-                `DELETE FROM user_chats WHERE id = $1 AND company_id = $2 RETURNING id`,
-                [id, companyId]
+                `DELETE FROM user_chats WHERE id = $1 AND client_id = $2 RETURNING id`,
+                [id, clientId]
             )
 
             if (result.rows.length === 0) {

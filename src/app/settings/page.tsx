@@ -411,22 +411,65 @@ export default function SettingsPage() {
                                     />
                                 </div>
 
-                                {/* Service Type */}
-                                <div>
+                                {/* Service Types - Multi-select */}
+                                <div className="col-span-2">
                                     {/* @ts-ignore */}
-                                    <label className="text-sm font-medium text-gray-700 mb-1 block">{t.settings.knowledge.serviceType}</label>
-                                    <select
-                                        value={companyInfo.service_type || ''}
-                                        onChange={e => setCompanyInfo(c => ({ ...c, service_type: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-black/5 focus:border-black outline-none"
-                                    >
-                                        <option value="">Select type</option>
-                                        <option value="Medical Clinic">Medical Clinic</option>
-                                        <option value="Dental Practice">Dental Practice</option>
-                                        <option value="Wellness Center">Wellness Center</option>
-                                        <option value="Legal Office">Legal Office</option>
-                                        <option value="Other">Other</option>
-                                    </select>
+                                    <label className="text-sm font-medium text-gray-700 mb-2 block">{t.settings.knowledge.serviceType}</label>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {(() => {
+                                            const availableServices = [
+                                                { value: 'Électricien', label: 'Électricien' },
+                                                { value: 'Plombier', label: 'Plombier' },
+                                                { value: 'CVC/HVAC', label: 'CVC/HVAC' },
+                                                { value: 'Entrepreneur général', label: 'Entrepreneur général' },
+                                                { value: 'Menuisier', label: 'Menuisier' },
+                                                { value: 'Peintre', label: 'Peintre' },
+                                                { value: 'Couvreur', label: 'Couvreur' },
+                                                { value: 'Paysagiste', label: 'Paysagiste' },
+                                                { value: 'Nettoyage', label: 'Nettoyage' },
+                                                { value: 'Autre', label: 'Autre' }
+                                            ]
+
+                                            // Get valid service values (filter out old legacy values)
+                                            const validServiceValues = availableServices.map(s => s.value)
+                                            const allSelectedServices = companyInfo.service_type ? companyInfo.service_type.split(',').map(s => s.trim()) : []
+                                            const selectedServices = allSelectedServices.filter(s => validServiceValues.includes(s))
+
+                                            return availableServices.map(service => {
+                                                const isSelected = selectedServices.includes(service.value)
+
+                                                return (
+                                                    <label
+                                                        key={service.value}
+                                                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-all ${isSelected
+                                                                ? 'bg-black text-white border-black'
+                                                                : 'bg-gray-50 border-gray-200 hover:border-gray-300'
+                                                            }`}
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={isSelected}
+                                                            onChange={(e) => {
+                                                                let newServices = [...selectedServices]
+                                                                if (e.target.checked) {
+                                                                    newServices.push(service.value)
+                                                                } else {
+                                                                    newServices = newServices.filter(s => s !== service.value)
+                                                                }
+                                                                setCompanyInfo(c => ({ ...c, service_type: newServices.join(', ') }))
+                                                            }}
+                                                            className="hidden"
+                                                        />
+                                                        <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${isSelected ? 'bg-white border-white' : 'border-gray-300'
+                                                            }`}>
+                                                            {isSelected && <Check className="w-3 h-3 text-black" />}
+                                                        </div>
+                                                        <span className="text-sm font-medium">{service.label}</span>
+                                                    </label>
+                                                )
+                                            })
+                                        })()}
+                                    </div>
                                 </div>
 
                                 {/* Company Size */}
