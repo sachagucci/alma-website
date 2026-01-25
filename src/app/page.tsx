@@ -324,14 +324,7 @@ export default function AlmaLandingPage() {
             <span className="text-lg font-medium tracking-tight">Alma</span>
           </div>
 
-          {/* Center: Phone Number (Absolute) */}
-          <a
-            href="tel:+14385009000"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm text-stone-500 hover:text-stone-900 transition-colors hidden md:flex items-center gap-2 whitespace-nowrap z-10"
-          >
-            <span className="hidden lg:inline">{t.nav.callUs}:</span>
-            <span className="font-medium">+1 438 500 9000</span>
-          </a>
+          {/* Center: Phone Number (removed) */}
 
           {/* Right: Language & CTAs */}
           <div className="flex items-center gap-3 relative z-20 bg-white/50 backdrop-blur-sm rounded-full pl-2">
