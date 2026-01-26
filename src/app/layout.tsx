@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alma — Votre secrétariat IA | AI Receptionist for Quebec Contractors",
-  description: "Alma simplifie la gestion des appels et rendez-vous pour les plombiers, électriciens et entrepreneurs CVAC au Québec. Hébergement local, conformité Loi 25.",
+  title: "Alma — Votre assistant clinique IA | AI Receptionist for Clinics in Quebec",
+  description: "Alma simplifie la gestion des appels et rendez‑vous pour cliniques et praticiens. Hébergement sécurisé, conformité des données patients.",
 };
 
 export default function RootLayout({

@@ -418,15 +418,11 @@ export default function SettingsPage() {
                                     <div className="grid grid-cols-2 gap-2">
                                         {(() => {
                                             const availableServices = [
-                                                { value: 'Électricien', label: 'Électricien' },
-                                                { value: 'Plombier', label: 'Plombier' },
-                                                { value: 'CVC/HVAC', label: 'CVC/HVAC' },
-                                                { value: 'Entrepreneur général', label: 'Entrepreneur général' },
-                                                { value: 'Menuisier', label: 'Menuisier' },
-                                                { value: 'Peintre', label: 'Peintre' },
-                                                { value: 'Couvreur', label: 'Couvreur' },
-                                                { value: 'Paysagiste', label: 'Paysagiste' },
-                                                { value: 'Nettoyage', label: 'Nettoyage' },
+                                                { value: 'Médecine générale', label: 'Médecine générale' },
+                                                { value: 'Dentisterie', label: 'Dentisterie' },
+                                                { value: 'Physiothérapie', label: 'Physiothérapie' },
+                                                { value: 'Psychologie', label: 'Psychologie' },
+                                                { value: 'Clinique multidisciplinaire', label: 'Clinique multidisciplinaire' },
                                                 { value: 'Autre', label: 'Autre' }
                                             ]
 

@@ -12,25 +12,25 @@ const translations = {
         subtitle: "Découvrez comment Alma peut simplifier votre quotidien.",
         support: "Besoin d'aide? Écrivez à",
         testimonial: {
-            quote: "Alma a transformé notre façon de gérer les appels clients. Avec notre agent IA, on a traité des milliers d'appels avec une constance remarquable. Plus de stress, plus de clients perdus.",
-            name: "Marc-André Tremblay",
-            role: "Propriétaire, Plomberie Tremblay & Fils"
+            quote: "Alma a transformé notre façon de gérer les appels patients. Avec notre agent IA, nous avons réduit les absences et fluidifié la planification. Plus de sérénité pour l'équipe clinique.",
+            name: "Dr. Sophie Martin",
+            role: "Directrice, Clinique Sainte‑Marie"
         },
         form: {
             firstName: "Prénom",
             lastName: "Nom",
             email: "Courriel",
             phone: "Téléphone",
-            companySize: "Combien d'employés dans votre entreprise?",
+            companySize: "Combien d'employés dans votre clinique?",
             companySizeOptions: ["1-5", "6-15", "16-50", "50+"],
-            trade: "Quel est votre métier?",
-            tradeOptions: ["Plomberie", "Électricité", "CVAC", "Construction générale", "Autre"],
+            trade: "Quel est votre domaine clinique?",
+            tradeOptions: ["Médecine générale", "Dentisterie", "Physiothérapie", "Psychologie", "Clinique multidisciplinaire", "Autre"],
             howFound: "Comment avez-vous entendu parler de nous?",
             howFoundOptions: ["Recherche Google", "Bouche-à-oreille", "Réseaux sociaux", "Association professionnelle", "Autre"],
             message: "Décrivez brièvement vos besoins",
-            messagePlaceholder: "Ex: Je reçois 20+ appels par jour et je perds des clients...",
+            messagePlaceholder: "Ex: Nous recevons 50+ appels/semaine et avons du mal à gérer les rendez‑vous...",
             submit: "Envoyer",
-            success: "Merci! On vous revient dans les 24 heures."
+            success: "Merci! Nous vous répondrons sous 24 heures."
         }
     },
     en: {
@@ -38,23 +38,23 @@ const translations = {
         subtitle: "See how Alma can simplify your day.",
         support: "Need support? Email",
         testimonial: {
-            quote: "Alma transformed how we manage client calls. With our AI agent, we've handled thousands of calls with remarkable consistency. No more stress, no more lost clients.",
-            name: "Marc-André Tremblay",
-            role: "Owner, Tremblay & Sons Plumbing"
+            quote: "Alma transformed how we manage patient calls. With our AI agent, we've reduced no‑shows and streamlined scheduling. More peace of mind for the clinical team.",
+            name: "Dr. Sophie Martin",
+            role: "Director, Sainte‑Marie Clinic"
         },
         form: {
             firstName: "First Name",
             lastName: "Last Name",
             email: "Email",
             phone: "Phone",
-            companySize: "How many employees at your company?",
+            companySize: "How many employees at your clinic?",
             companySizeOptions: ["1-5", "6-15", "16-50", "50+"],
-            trade: "What's your trade?",
-            tradeOptions: ["Plumbing", "Electrical", "HVAC", "General Construction", "Other"],
+            trade: "What's your clinical specialty?",
+            tradeOptions: ["General Practice", "Dentistry", "Physiotherapy", "Psychology", "Multidisciplinary Clinic", "Other"],
             howFound: "How did you hear about us?",
             howFoundOptions: ["Google Search", "Word of mouth", "Social media", "Professional association", "Other"],
             message: "Briefly describe your needs",
-            messagePlaceholder: "E.g., I receive 20+ calls per day and I'm losing clients...",
+            messagePlaceholder: "E.g., We receive 50+ calls/week and struggle to manage scheduling...",
             submit: "Submit",
             success: "Thanks! We'll get back to you within 24 hours."
         }

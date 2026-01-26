@@ -22,5 +22,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+    // Exclude API, Next.js static/image handlers, favicon and public `images` folder from auth redirects
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|images).*)'],
 }

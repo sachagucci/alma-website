@@ -26,85 +26,125 @@ export const translations = {
             signOut: "Se déconnecter"
         },
         hero: {
-            tagline: "Simplifiez-vous la vie.",
-            tagline2: "Concentrez-vous sur votre travail.",
-            tagline3: "On s'occupe du reste.",
-            subheadline: "Votre talent est sur le chantier, pas derrière un écran ou un téléphone. Alma gère vos appels et votre agenda pour que vous ne manquiez plus jamais un contrat.",
+            tagline: "Le soin d'abord.",
+            tagline2: "Concentrez-vous sur vos patients.",
+            tagline3: "Nous gérons le reste.",
+            subheadline: "Votre équipe est dédiée aux patients. Alma gère le reste.",
             videoHint: "Rencontrez l'équipe Alma",
-            ctaPrimary: "Parler à un humain",
-            ctaSecondary: "S'inscrire"
+            ctaPrimary: "Parler à Sacha",
+            ctaSecondary: "Demander une démo"
         },
-        local: {
-            title: "L'humain d'abord",
-            subtitle: "On ne remplace personne. On vous libère.",
-            description: "Alma n'est pas là pour remplacer les humains. On est là pour vous libérer de la paperasse, des appels manqués et de l'admin qui vous empêche de faire ce que vous aimez. Vous êtes l'expert. Alma, c'est juste votre bras droit."
+        mission: {
+            title: "Notre Histoire",
+            foundersLabel: "Fondateurs",
+            founders: "Nous sommes Mathéo et Sacha, co-fondateurs de Alma.",
+            storyIntro: "*Le stress de poser le bon diagnostic est immense, mais l'esprit des médecins est aujourd'hui pollué par la paperasse. Nous venons de la tech, et nous voulions supprimer ce bruit*.",
+            stats: {
+                crisis: {
+                    highlight: "72 %",
+                    text: "Des médecins sont en épuisement professionnel. La cause principale ? La surcharge administrative."
+                },
+                burnout: {
+                    highlight: "25 %",
+                    text: "C'est une journée complète par semaine passée loin des patients à remplir des formulaires. Un gaspillage que le système ne peut plus se permettre."
+                }
+            },
+            conclusion: "*Alma rend ce temps aux médecins.*",
+            description: "Nous supprimons la charge mentale administrative pour qu'ils se concentrent sur l'essentiel : prendre soin de leurs patients.",
+            // Legacy/Unused keys can be cleaned up or kept if likely to be reused, but for minimalist design we focus on the above.
+            productIntro: "C'est pourquoi nous avons créé Mia.",
+            productDesc: "Mia est une réceptionniste virtuelle qui gère tous vos appels.",
+            prediction: "Elle réduit considérablement les absences.",
+            philosophy: "Simple. Humain. Efficace."
         },
-        agents: {
-            sectionTitle: "Rencontrez vos nouveaux collègues",
-            mia: {
-                name: "Mia",
-                title: "Votre réceptionniste",
-                subtitle: "On jurerait parler à une vraie personne. Mais en plus efficace.",
-                points: [
-                    "Disponible 24/7 par appel et texto",
-                    "Représentation uniforme de votre marque",
-                    "Opérationnelle en moins d'une journée, sans formation",
-                    "Suivi automatique pour une satisfaction client maximale"
-                ]
+        mia: {
+            role: "Duo Intelligent",
+            headline: "Rencontrez Mia et Eva.",
+            subheadline: "Eva décide. Mia exécute.",
+            flowConnector: {
+                evaToMia: "→ Aiguillage vers Mia",
+                color: "green"
             },
-            leo: {
-                name: "Léo",
-                title: "Votre assistant personnel",
-                subtitle: "Posez n'importe quelle question sur votre entreprise.",
-                points: [
-                    "Connaît tout sur votre entreprise",
-                    "Questions sur vos factures, clients, revenus",
-                    "Conseils pour optimiser vos opérations",
-                    "Toujours disponible, jamais dans le néant"
-                ]
+            layer1: {
+                title: "Couche 1 : MIA - L'Exécutante",
+                inputFrom: "↓ Reçoit les directives d'Eva",
+                steps: [
+                    {
+                        title: "Interaction Client",
+                        desc: "Interface vocale chaleureuse qui accueille, comprend le besoin et rassure le patient en temps réel."
+                    },
+                    {
+                        title: "Action & DME",
+                        desc: "Applique la décision d'Eva : réserve dans votre logiciel (DME), répond aux FAQs ou gère le dossier."
+                    },
+                    {
+                        title: "Escalade Humaine",
+                        desc: "Si la situation dépasse le cadre, Mia transfère l'appel et le contexte complet à votre équipe."
+                    }
+                ],
+                outcome: "Exécution Parfaite"
             },
-            eva: {
-                name: "Eva",
-                title: "Votre vue d'ensemble",
-                subtitle: "Prenez des décisions éclairées. Facturez en 30 secondes.",
-                points: [
-                    "Connectée à QuickBooks et vos outils",
-                    "Créez des factures en 30 secondes",
-                    "Fini la paperasse manuelle",
-                    "Envoi automatique aux clients"
+            layer2: {
+                title: "Couche 2 : EVA - Le Cerveau",
+                decision: {
+                    title: "Prise de Décision et Aiguillage",
+                    desc: "Coordonne et fusionne les analyses pour générer la directive optimale transmise à Mia."
+                },
+                flowDown: "⬇ Déclenche les analyses ⬇",
+                analyses: [
+                    {
+                        title: "Analyse de Risque",
+                        desc: "Évalue le profil du patient et calcule la probabilité de no-show pour adapter le protocole."
+                    },
+                    {
+                        title: "Optimisation Ressources",
+                        desc: "Scan les disponibilités du staff, des salles et des équipements pour valider le créneau idéal."
+                    }
+                ],
+                steps: []
+            },
+            layer3: {
+                title: "Niveau 3 : La Sécurité (Fondation)",
+                description: "Le bouclier invisible qui assure que chaque action est sûre, conforme et tracée.",
+                features: [
+                    {
+                        title: "Journal d'Audit",
+                        desc: "Chaque décision, mot et action est loggé et consultable."
+                    },
+                    {
+                        title: "Validation Humaine",
+                        desc: "Les actions critiques passent par une file d'approbation (HITL) avant confirmation."
+                    }
                 ]
             }
         },
         features: {
             voice: {
                 title: "Voix Réelle",
-                desc: "On répond à vos appels et on gère les rendez-vous. Comme une vraie personne, mais sans les vacances."
+                desc: "Nous répondons à vos appels, planifions les rendez‑vous et gérons l'accueil des patients. Comme une vraie réception, sans les congés."
             },
             compliance: {
-                title: "Conformité",
-                desc: "Loi 25, hébergement local, données au Québec. Pas de maux de tête."
+                title: "Confidentialité & conformité",
+                desc: "Protection des données patients, hébergement sécurisé et conformité aux exigences locales en santé."
             },
             freedom: {
-                title: "Liberté",
-                desc: "On est là pour vous redonner le contrôle de votre temps. Faites ce que vous aimez, on gère le reste."
+                title: "Plus de temps pour soigner",
+                desc: "Nous rapportons du temps à vos équipes cliniques pour qu'elles se concentrent sur les patients."
             }
         },
-        proof: {
-            title: "Compatible avec vos outils"
-        },
         contact: {
-            title: "Parler à un humain",
-            description: "Entrez votre courriel et on vous rappelle.",
-            placeholder: "votrenom@entreprise.com",
+            title: "Parler à Sacha",
+            description: "Entrez votre courriel et nous vous contacterons.",
+            placeholder: "votrenom@clinique.com",
             submit: "Envoyer",
-            success: "Merci ! On vous revient sous peu."
+            success: "Merci ! Nous vous contacterons sous peu."
         },
         cta: {
-            title: "Prêt à vous simplifier la vie?"
+            title: "Prêt à simplifier votre clinique?"
         },
         footer: {
-            tagline: "Votre secrétariat IA",
-            address: "1475 Rue Peel, Bureau 200, Montréal, QC H3A 1T1",
+            tagline: "Le soin d'abord.",
+            address: "Montréal, QC",
             email: "info@alma.quebec",
             copyright: "© 2026 Alma Technologies Inc."
         },
@@ -121,13 +161,13 @@ export const translations = {
             signUp: "S'inscrire",
             error: "Une erreur est survenue",
             heroTitle: "Alma",
-            heroSubtitle: "Votre réceptionniste IA intelligente pour l'entreprise de service moderne.",
-            heroQuote: "\"La façon la plus efficace de gérer les communications clients. Simple, puissant et invisible.\""
+            heroSubtitle: "Votre réceptionniste IA intelligente.",
+            heroQuote: "\"Le soin d'abord.\""
         },
         onboarding: {
             welcome: {
                 title: "Bienvenue chez Alma",
-                subtitle: "Configurez votre réceptionniste IA intelligent en quelques étapes."
+                subtitle: "Configurez votre réceptionniste IA intelligent."
             },
             steps: {
                 1: "Infos Perso",
@@ -153,11 +193,11 @@ export const translations = {
                 serviceType: "Type de service",
                 companySize: "Taille de l'entreprise",
                 regions: "Régions desservies",
-                regionsPlaceholder: "ex: Montréal, Québec, Laval...",
+                regionsPlaceholder: "ex: Montréal, Québec...",
                 description: "Parlez-nous de votre entreprise",
-                descriptionPlaceholder: "Quels services offrez-vous ? Qui sont vos clients ?",
+                descriptionPlaceholder: "Quels services offrez-vous ?",
                 docsLabel: "Documents d'entreprise (Optionnel)",
-                docsHint: "Téléversez brochures ou guides de service",
+                docsHint: "Téléversez brochures ou guides",
                 dragDrop: "Glisser-déposer PDF ou images",
                 browse: "ou cliquer pour parcourir",
                 back: "Retour",
@@ -190,7 +230,7 @@ export const translations = {
         },
         settings: {
             title: "Paramètres",
-            subtitle: "Configurez votre réceptionniste Mia et gérez vos connaissances",
+            subtitle: "Configurez votre réceptionniste Mia",
             back: "Retour au tableau de bord",
             tabs: {
                 agent: "Configuration de Mia",
@@ -223,7 +263,7 @@ export const translations = {
                 readyToUpload: "Fichiers prêts à être téléversés :",
                 uploadProcess: "Téléverser et traiter",
                 trustedSources: "Sources de confiance",
-                trustedSourcesDesc: "Ajoutez des URL que vous jugez fiables. L'assistant pourra les utiliser pour fournir des réponses plus précises.",
+                trustedSourcesDesc: "Ajoutez des URL que vous jugez fiables.",
                 addSource: "Ajouter",
                 noSources: "Aucune source ajoutée",
                 documents: "Documents de la base de connaissances",
@@ -258,10 +298,10 @@ export const translations = {
             expenses: "Dépenses",
             recentInvoices: "Factures Récentes",
             status: {
-                paid: "Payée",
-                pending: "En attente",
-                overdue: "En retard",
-                draft: "Brouillon"
+                paid: "Paid",
+                pending: "Pending",
+                overdue: "Overdue",
+                draft: "Draft"
             },
             table: {
                 invoice: "Facture",
@@ -273,7 +313,7 @@ export const translations = {
         },
         dashboard: {
             title: "Mission Control",
-            subtitle: "Cockpit de performance clinique en temps réel",
+            subtitle: "Cockpit de performance clinique",
             stats: {
                 calls: "Appels Traités",
                 sms: "Total SMS",
@@ -325,97 +365,132 @@ export const translations = {
             mia: "Mia",
             missionControl: "Mission Control",
             journalLog: "Call Log",
-            // Leo
-            leo: "Leo",
-            // Eva
-            eva: "Eva",
         },
         hero: {
-            tagline: "Simplify your life.",
-            tagline2: "Focus on your work.",
+            tagline: "Care first.",
+            tagline2: "Focus on your patients.",
             tagline3: "We handle the rest.",
-            subheadline: "Your talent is on the job site, not behind a screen or a phone. Alma handles your calls and schedule so you never miss a contract.",
+            subheadline: "Your team is focused on patient care. Alma manages the rest.",
             videoHint: "Meet the Alma Team",
-            ctaPrimary: "Talk to a Human",
-            ctaSecondary: "Sign Up"
+            ctaPrimary: "Talk to Sacha",
+            ctaSecondary: "Request a Demo"
         },
-        local: {
-            title: "Humans First",
-            subtitle: "We don't replace people. We free them.",
-            description: "Alma isn't here to replace humans. We're here to free you from paperwork, missed calls, and the admin that keeps you from doing what you love. You're the expert. Alma is just your right hand."
+        mission: {
+            title: "Our Story",
+            foundersLabel: "Founders",
+            founders: "We are Mathéo and Sacha, co-founders of Alma.",
+            storyIntro: "*The stress of making the right diagnosis is heavy, yet doctors' minds are polluted by paperwork. We come from tech, and we wanted to clear that noise*.",
+            stats: {
+                crisis: {
+                    highlight: "72%",
+                    text: "Of physicians are experiencing burnout. The main driver? Administrative overload."
+                },
+                burnout: {
+                    highlight: "25%",
+                    text: "That’s one full day every week spent away from patients, filling out forms. A waste the system can no longer afford."
+                }
+            },
+            conclusion: "*Alma gives that time back.*",
+            description: "We strip away the administrative mental load so doctors can focus on what matters: taking care of their patients. ",
+            productIntro: "That's why we created Mia.",
+            productDesc: "Mia is a virtual receptionist that takes care of all your calls.",
+            prediction: "She significantly reduces no-shows.",
+            philosophy: "Simple. Human. Effective."
         },
-        agents: {
-            sectionTitle: "Meet Your New Colleagues",
-            mia: {
-                name: "Mia",
-                title: "Your Receptionist",
-                subtitle: "Sounds exactly like a real person. But more efficient.",
-                points: [
-                    "Available 24/7 via call and text",
-                    "Consistent brand representation",
-                    "Operational in less than a day, no training",
-                    "Automatic follow-up for maximum client satisfaction"
-                ]
+        mia: {
+            role: "Intelligent Duo",
+            headline: "Meet Mia and Eva.",
+            subheadline: "Eva decides. Mia executes.",
+            flowConnector: {
+                evaToMia: "→ Routing to Mia",
+                color: "green"
             },
-            leo: {
-                name: "Leo",
-                title: "Your Personal Assistant",
-                subtitle: "Ask any question about your business.",
-                points: [
-                    "Knows everything about your business",
-                    "Questions about invoices, clients, revenue",
-                    "Tips to optimize your operations",
-                    "Always available, never in the dark"
-                ]
+            layer1: {
+                title: "Layer 1: MIA - The Executor",
+                inputFrom: "↓ Receives directives from Eva",
+                steps: [
+                    {
+                        title: "Client Interaction",
+                        desc: "Warm voice interface that welcomes, understands needs, and reassures the patient in real-time."
+                    },
+                    {
+                        title: "Action & EMR",
+                        desc: "Applies Eva's decision: books in your software (EMR), answers FAQs, or manages the file."
+                    },
+                    {
+                        title: "Human Escalation",
+                        desc: "If the situation exceeds scope, Mia transfers the call and complete context to your team."
+                    }
+                ],
+                outcome: "Perfect Execution"
             },
-            eva: {
-                name: "Eva",
-                title: "Your Overview",
-                subtitle: "Make informed decisions. Invoice in 30 seconds.",
-                points: [
-                    "Connected to QuickBooks and your tools",
-                    "Create invoices in 30 seconds",
-                    "No more manual paperwork",
-                    "Automatic sending to clients"
+            layer2: {
+                title: "Layer 2: EVA - The Brain",
+                decision: {
+                    title: "Decision Making & Routing",
+                    desc: "Coordinates and merges analyses to generate the optimal directive transmitted to Mia."
+                },
+                flowDown: "⬇ Triggers analyses ⬇",
+                analyses: [
+                    {
+                        title: "Risk Analysis",
+                        desc: "Evaluates patient profile and calculates no-show probability to adapt protocol."
+                    },
+                    {
+                        title: "Resource Optimization",
+                        desc: "Scans staff, room, and equipment availability to validate the ideal time slot."
+                    }
+                ],
+                steps: []
+            },
+            layer3: {
+                title: "Level 3: The Safety & Control Net",
+                description: "The invisible shield that ensures every action is safe, compliant, and tracked.",
+                features: [
+                    {
+                        title: "Journal d'Audit",
+                        desc: "Chaque décision, mot et action est loggé et consultable."
+                    },
+                    {
+                        title: "Validation Humaine",
+                        desc: "Les actions critiques passent par une file d'approbation (HITL) avant confirmation."
+                    }
                 ]
             }
         },
         features: {
             voice: {
                 title: "Real Voice",
-                desc: "We answer your calls and handle appointments. Like a real person, but without the vacation."
+                desc: "We answer your calls, manage appointments and intake. Like a real receptionist, without the time off."
             },
             compliance: {
-                title: "Compliance",
-                desc: "Law 25, local hosting, Quebec data. No headaches."
+                title: "Privacy & Compliance",
+                desc: "Patient privacy, secure hosting, and local healthcare data compliance."
             },
             freedom: {
-                title: "Freedom",
-                desc: "We're here to give you back control of your time. Do what you love, we handle the rest."
+                title: "More Time for Patients",
+                desc: "We give clinical teams back their time so they can focus on patient care."
             }
         },
-        proof: {
-            title: "Compatible with your tools"
-        },
         contact: {
-            title: "Talk to a Human",
-            description: "Enter your email and we'll call you back.",
-            placeholder: "yourname@company.com",
+            title: "Talk to Sacha",
+            description: "Enter your email and we'll reach out.",
+            placeholder: "yourname@clinic.com",
             submit: "Send",
-            success: "Thanks! We'll be in touch shortly."
+            success: "Thanks! We'll be in touch."
         },
         cta: {
-            title: "Ready to simplify your life?"
+            title: "Ready to simplify your clinic?"
         },
         footer: {
-            tagline: "Your AI Receptionist",
-            address: "1475 Peel St, Suite 200, Montreal, QC H3A 1T1",
+            tagline: "Care First.",
+            address: "Montreal, QC",
             email: "info@alma.quebec",
             copyright: "© 2026 Alma Technologies Inc."
         },
         login: {
             title: "Sign In",
-            subtitle: "Access your business dashboard",
+            subtitle: "Access your dashboard",
             emailLabel: "Email address",
             passwordLabel: "Password",
             emailPlaceholder: "name@example.com",
@@ -426,13 +501,13 @@ export const translations = {
             signUp: "Sign up",
             error: "An error occurred",
             heroTitle: "Alma",
-            heroSubtitle: "Your intelligent AI receptionist for the modern service business.",
-            heroQuote: "\"The most efficient way to manage client communications. Simple, powerful, and invisible.\""
+            heroSubtitle: "Your intelligent AI receptionist.",
+            heroQuote: "\"Care first.\""
         },
         onboarding: {
             welcome: {
                 title: "Welcome to Alma",
-                subtitle: "Set up your intelligent AI receptionist in just a few steps."
+                subtitle: "Set up your intelligent AI receptionist."
             },
             steps: {
                 1: "Personal Info",
@@ -458,12 +533,12 @@ export const translations = {
                 serviceType: "Service Type",
                 companySize: "Company Size",
                 regions: "Regions Served",
-                regionsPlaceholder: "e.g., Montreal, Quebec City, Toronto",
+                regionsPlaceholder: "e.g., Montreal",
                 description: "Tell us more about your business",
-                descriptionPlaceholder: "What services do you offer? Who are your typical clients?",
+                descriptionPlaceholder: "What services do you offer?",
                 docsLabel: "Company Documents (Optional)",
-                docsHint: "Upload brochures, service guides, or any documents that describe your business",
-                dragDrop: "Drag & drop PDF or images here",
+                docsHint: "Upload brochures or guides",
+                dragDrop: "Drag & drop PDF or images",
                 browse: "or click to browse",
                 back: "Back",
                 continue: "Continue"
@@ -495,7 +570,7 @@ export const translations = {
         },
         settings: {
             title: "Settings",
-            subtitle: "Configure your receptionist Mia and manage company knowledge",
+            subtitle: "Configure your receptionist Mia",
             back: "Back to Dashboard",
             tabs: {
                 agent: "Configure Mia",
@@ -528,7 +603,7 @@ export const translations = {
                 readyToUpload: "Files ready to upload:",
                 uploadProcess: "Upload & Process",
                 trustedSources: "Trusted Sources",
-                trustedSourcesDesc: "Add URLs that you trust as reference sources. The chat assistant can use these to provide more accurate answers.",
+                trustedSourcesDesc: "Add URLs that you trust as reference sources.",
                 addSource: "Add",
                 noSources: "No trusted sources added yet",
                 documents: "Knowledge Base Documents",
@@ -556,7 +631,7 @@ export const translations = {
             totalInvoices: "Total Invoices",
             expensesByCategory: "Expenses by Category",
             noExpenses: "No expense data yet",
-            noInvoices: "No invoices yet. Upload one in Chat!",
+            noInvoices: "No invoices yet.",
             unknownVendor: "Unknown Vendor",
             other: "Other",
             outstandingInvoices: "Outstanding Invoices",

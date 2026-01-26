@@ -1,19 +1,20 @@
 'use client'
 
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
-import { useState, useRef, useEffect } from 'react'
-import { ArrowRight, Play, X, Phone } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useState } from 'react'
+import { ArrowRight, Play, X, Star, Check } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useLanguage } from '@/hooks/useLanguage'
 
 type Language = 'fr' | 'en'
 
-// Contact Modal Component
+// Minimalist Contact Modal
 function ContactModal({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () => void; lang: Language }) {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
-  const { t } = useLanguage() // Use the hook directly in the modal
-  const contactTranslations = t.contact // Access the contact specific translations
+  const { t } = useLanguage()
+  const contactTranslations = t.contact
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,35 +36,32 @@ function ContactModal({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[60] bg-black/30 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] bg-white/80 backdrop-blur-sm"
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.98, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: 10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[70] w-full max-w-md p-8 bg-white rounded-2xl shadow-xl"
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.98 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[70] w-full max-w-sm p-8 bg-white border border-stone-100 shadow-2xl rounded-2xl"
           >
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 p-2 text-stone-400 hover:text-stone-600 rounded-full hover:bg-stone-50 transition-colors"
+              className="absolute right-4 top-4 p-2 text-stone-400 hover:text-stone-900 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="mb-6">
-              <div className="w-12 h-12 rounded-xl bg-stone-100 flex items-center justify-center mb-4">
-                <Phone className="w-5 h-5 text-stone-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-stone-900 mb-2">{contactTranslations.title}</h3>
-              <p className="text-stone-500 text-sm">{contactTranslations.description}</p>
+            <div className="mb-8">
+              <h3 className="text-xl font-medium tracking-tight text-stone-900 mb-2">{contactTranslations.title}</h3>
+              <p className="text-stone-500 text-sm leading-relaxed">{contactTranslations.description}</p>
             </div>
 
             {submitted ? (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-4 bg-stone-50 text-stone-700 rounded-xl text-center text-sm"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-4 bg-stone-50 text-stone-600 rounded-lg text-center text-sm"
               >
                 {contactTranslations.success}
               </motion.div>
@@ -75,11 +73,11 @@ function ContactModal({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={contactTranslations.placeholder}
-                  className="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200 focus:border-stone-300 transition-all text-sm"
+                  className="w-full px-4 py-3 bg-stone-50 border-0 rounded-lg text-stone-900 placeholder:text-stone-400 focus:ring-1 focus:ring-stone-900 transition-all text-sm"
                 />
                 <button
                   type="submit"
-                  className="w-full py-3 bg-stone-900 text-white font-medium rounded-xl hover:bg-stone-800 transition-all text-sm"
+                  className="w-full py-3 bg-stone-900 text-white font-medium rounded-lg hover:bg-black transition-all text-sm"
                 >
                   {contactTranslations.submit}
                 </button>
@@ -92,17 +90,12 @@ function ContactModal({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () 
   )
 }
 
-// Video Placeholder Component
+// Minimal Video Placeholder
 function VideoPlaceholder({ hint }: { hint: string }) {
   const [isPlaying, setIsPlaying] = useState(false)
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className="relative w-full max-w-3xl mx-auto aspect-[16/9] rounded-2xl overflow-hidden shadow-lg group bg-stone-900"
-    >
+    <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-stone-50 group">
       {isPlaying ? (
         <iframe
           src="https://www.youtube.com/embed/Th8JoIan4dg?autoplay=1&rel=0"
@@ -116,409 +109,398 @@ function VideoPlaceholder({ hint }: { hint: string }) {
           onClick={() => setIsPlaying(true)}
           className="block w-full h-full relative cursor-pointer"
         >
-          {/* Thumbnail */}
           <img
             src="https://img.youtube.com/vi/Th8JoIan4dg/maxresdefault.jpg"
             alt="Video Thumbnail"
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="absolute inset-0 w-full h-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
           />
-
-          {/* Soft dark overlay for better text contrast */}
-          <div className="absolute inset-0 bg-stone-900/40 group-hover:bg-stone-900/30 transition-colors duration-300" />
-
-          {/* Play button */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30 mb-4 group-hover:bg-white/30 transition-all shadow-lg"
-            >
-              <Play className="w-6 h-6 text-white fill-white ml-0.5" />
-            </motion.div>
-            <p className="text-white font-medium text-shadow-sm group-hover:text-white/90 transition-colors">{hint}</p>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-white/90 backdrop-blur flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
+              <Play className="w-6 h-6 text-stone-900 fill-stone-900 ml-1" />
+            </div>
           </div>
         </button>
       )}
-    </motion.div>
-  )
-}
-
-// Feature Card Component
-function FeatureCard({ title, desc, delay }: { title: string; desc: string; delay: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      className="p-8"
-    >
-      <h3 className="text-lg font-semibold text-stone-900 mb-3">
-        {title}
-      </h3>
-      <p className="text-stone-500 leading-relaxed text-sm">{desc}</p>
-    </motion.div>
-  )
-}
-
-// Logo Component for Social Proof
-function PartnerLogo({ name }: { name: string }) {
-  return (
-    <div className="flex items-center justify-center h-12 px-6 opacity-40 hover:opacity-70 transition-opacity duration-300">
-      <span className="text-sm font-medium text-stone-600 tracking-wide">{name}</span>
     </div>
   )
 }
 
-// Agent Selector Button (left side)
-function AgentButton({
-  name,
-  isSelected,
-  onClick
-}: {
-  name: string
-  isSelected: boolean
-  onClick: () => void
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`w-full text-left px-6 py-5 rounded-2xl transition-all duration-300 ${isSelected
-        ? 'bg-stone-900 text-white shadow-lg'
-        : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
-        }`}
-    >
-      <span className="text-xl font-semibold">{name}</span>
-    </button>
-  )
-}
-
-// Agent Detail Panel (right side)
-function AgentDetailPanel({
-  name,
-  title,
-  subtitle,
-  points
-}: {
-  name: string
-  title: string
-  subtitle: string
-  points: string[]
-}) {
-  return (
-    <motion.div
-      key={name}
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.3 }}
-      className="h-[320px] p-8 rounded-2xl bg-gradient-to-br from-stone-50 to-stone-100/50 border border-stone-200/50"
-    >
-      <div className="mb-4">
-        <h3 className="text-3xl font-bold text-stone-900 mb-1">{name}</h3>
-        <p className="text-stone-500 font-medium">{title}</p>
-      </div>
-
-      <p className="text-stone-700 mb-5 text-sm">{subtitle}</p>
-
-      <div className="flex flex-wrap gap-2">
-        {points.map((point, i) => (
-          <motion.span
-            key={i}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.08 }}
-            whileHover={{ scale: 1.02 }}
-            className="inline-block px-4 py-2 rounded-full bg-white border border-stone-200 text-sm text-stone-600 cursor-default transition-all duration-300 hover:bg-gradient-to-r hover:from-amber-300 hover:via-orange-400 hover:to-red-400 hover:border-transparent hover:text-white hover:shadow-md"
-          >
-            {point}
-          </motion.span>
-        ))}
-      </div>
-    </motion.div>
-  )
-}
-
-// Hero Section Component
+// Hero Section
 function HeroSection({ t }: { t: any }) {
-  const heroRef = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  })
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const heroY = useTransform(scrollYProgress, [0, 0.5], [0, -50])
-
   return (
-    <section ref={heroRef} className="pt-28 pb-16 px-6">
-      <motion.div
-        style={{ opacity: heroOpacity, y: heroY }}
-        className="max-w-5xl mx-auto"
-      >
-        {/* Tagline */}
-        <motion.div
+    <section className="pt-42 pb-32 lg:pt-52 lg:pb-40 px-6 md:px-8 max-w-7xl mx-auto">
+      <div className="max-w-4xl mx-auto text-center">
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tighter text-stone-900 mb-12 leading-[0.95]"
+        >
+          {t.hero.tagline} <span className="text-stone-300 block">{t.hero.tagline2}</span>
+        </motion.h1>
+
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="text-xl md:text-2xl text-stone-500 font-light leading-relaxed max-w-2xl mx-auto mb-20 md:mb-28"
         >
-          <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold tracking-tight leading-[1.2] mb-4 text-stone-900">
-            <span className="block">{t.hero.tagline}</span>
-            <span className="block">{t.hero.tagline2}</span>
-            <span className="block bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 bg-clip-text text-transparent">{t.hero.tagline3}</span>
-          </h1>
-          <p className="text-stone-500 text-base max-w-2xl mx-auto">{t.hero.subheadline}</p>
-        </motion.div>
+          {t.hero.subheadline}
+        </motion.p>
 
-        {/* Video Placeholder */}
-        <div className="mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-2xl overflow-hidden shadow-2xl shadow-stone-200/50"
+        >
           <VideoPlaceholder hint={t.hero.videoHint} />
-        </div>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3"
-        >
-          <Link
-            href="/contact"
-            className="h-12 px-6 flex items-center justify-center bg-stone-900 text-white font-medium rounded-xl hover:bg-stone-800 transition-all text-sm"
-          >
-            {t.hero.ctaPrimary}
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Link>
-          <Link
-            href="/onboarding"
-            className="h-12 px-6 flex items-center justify-center text-stone-600 font-medium rounded-xl border border-stone-200 hover:border-stone-300 hover:text-stone-900 transition-all text-sm"
-          >
-            {t.hero.ctaSecondary}
-          </Link>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   )
 }
 
-// Main Page Component
-export default function AlmaLandingPage() {
-  const { lang, setLang, t, mounted } = useLanguage()
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isContactOpen, setIsContactOpen] = useState(false)
-  const [openAgent, setOpenAgent] = useState<'mia' | 'leo' | 'eva' | null>('mia')
+// Text Highlighter Component
+function Highlight({ text }: { text: string }) {
+  if (!text) return null
+  const parts = text.split('*')
+  return (
+    <>
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <span key={i} className="font-medium text-stone-900">
+            {part}
+          </span>
+        ) : (
+          part
+        )
+      )}
+    </>
+  )
+}
 
-  if (!mounted) return null // Prevent hydration mismatch
+// Founders Section (Narrative & Minimalist)
+function FoundersSection({ t }: { t: any }) {
+  const { mission } = t
 
   return (
-    <div className="min-h-screen bg-white text-stone-900 font-sans">
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} lang={lang} />
+    <section className="py-32 px-6 md:px-8 relative bg-white flex flex-col justify-center">
+      <div className="max-w-7xl mx-auto w-full">
 
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-100">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between relative">
-          {/* Logo */}
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-stone-900 rounded-lg flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">A</span>
-            </div>
-            <span className="text-lg font-medium tracking-tight">Alma</span>
+        {/* Header Block - Centered Top */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl mx-auto text-center mb-20"
+        >
+          <p className="text-sm font-semibold tracking-widest uppercase text-stone-500 mb-6 flex items-center justify-center gap-3">
+            <span className="w-8 h-px bg-stone-300"></span>
+            {mission.foundersLabel}
+            <span className="w-8 h-px bg-stone-300"></span>
+          </p>
+          <p className="text-3xl md:text-5xl font-light text-stone-900 leading-[1.15] tracking-tight">
+            <Highlight text={mission.founders} />
+          </p>
+        </motion.div>
+
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+          {/* Left: Image (Centered in column) */}
+          <div className="flex justify-center lg:justify-end w-full">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="relative aspect-[4/5] w-full max-w-md rounded-lg overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 ease-out bg-stone-100 shadow-xl shadow-stone-200/50"
+            >
+              <Image
+                src="/images/founders.png"
+                alt="Sacha & Mathéo"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </motion.div>
           </div>
 
-          {/* Center: Phone Number (removed) */}
+          {/* Right: Narrative (Vertically Centered) */}
+          <div className="flex flex-col justify-center space-y-10 max-w-lg mx-auto lg:mx-0">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-10"
+            >
+              <p className="text-lg md:text-xl text-stone-600 leading-relaxed">
+                <Highlight text={mission.storyIntro} />
+              </p>
 
-          {/* Right: Language & CTAs */}
-          <div className="flex items-center gap-3 relative z-20 bg-white/50 backdrop-blur-sm rounded-full pl-2">
-            {/* Language Toggle */}
-            <div className="flex bg-stone-100 rounded-full p-0.5">
-              {(['fr', 'en'] as const).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l)}
-                  className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${lang === l
-                    ? 'bg-white text-stone-900 shadow-sm'
-                    : 'text-stone-500 hover:text-stone-700'
-                    }`}
-                >
-                  {l.toUpperCase()}
-                </button>
-              ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 border-t border-b border-stone-100 py-8">
+                <div>
+                  <span className="block text-4xl py-1 font-medium text-stone-900 mb-2">{mission.stats.crisis.highlight}</span>
+                  <p className="text-sm text-stone-500 leading-relaxed">{mission.stats.crisis.text}</p>
+                </div>
+                <div>
+                  <span className="block text-4xl py-1 font-medium text-stone-900 mb-2">{mission.stats.burnout.highlight}</span>
+                  <p className="text-sm text-stone-500 leading-relaxed">{mission.stats.burnout.text}</p>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-2xl font-light text-stone-900 leading-tight mb-2">
+                  <Highlight text={mission.conclusion} />
+                </p>
+                <p className="text-lg text-stone-500 leading-relaxed">
+                  {mission.description}
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// Product / Mia Section (Dark & Schema-Based)
+function ProductSection({ t }: { t: any }) {
+  const { layer1, layer2, layer3 } = t.mia
+
+  const SchemaRow = ({ title, steps, delay }: { title: string, steps: any[], delay: number }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay }}
+      className="mb-20 last:mb-0"
+    >
+      <h3 className="text-xl md:text-2xl font-light text-stone-400 mb-8 border-l-2 border-green-500/50 pl-4">{title}</h3>
+
+      {/* Scrollable container for mobile */}
+      <div className="relative overflow-x-auto pb-8 -mx-6 px-6 md:overflow-visible md:pb-0 md:px-0">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 min-w-[700px] md:min-w-0">
+
+          {steps.map((step: any, i: number) => {
+            const isHub = step.title.includes("Aiguillage")
+            return (
+              <div key={i} className="flex-1 flex items-center relative">
+                {/* Connector Logic for Hub */}
+                {isHub && (
+                  <>
+                    {/* Left Input Arrow */}
+                    <div className="hidden md:block absolute -left-3 top-1/2 -translate-y-1/2 z-10 text-stone-600">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 7L18 12L13 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </div>
+                    {/* Right Input Arrow (Actually from right neighbor) -> We need arrows pointing IN to the hub. 
+                         So arrow on Left side pointing Right. Arrow on Right side pointing Left.
+                     */}
+                    <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-stone-600 rotate-180">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 7L18 12L13 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </div>
+                  </>
+                )}
+
+                <div className={`flex-1 p-6 rounded-2xl border min-h-[140px] flex flex-col justify-center relative group transition-all duration-500 
+                  ${isHub ? 'bg-white/[0.08] border-green-500/30 shadow-[0_0_30px_rgba(74,222,128,0.1)]' : 'bg-white/[0.03] border-white/10 hover:bg-white/[0.05]'}`}>
+
+                  {isHub && (
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/[0.03] px-2 text-[10px] text-stone-200 uppercase tracking-widest border border-white/10 rounded-full">
+                        Hub
+                      </div>
+                    )}
+
+                    <h4 className={`text-base font-medium mb-2 ${isHub ? 'text-stone-200' : 'text-stone-200'}`}>{step.title}</h4>
+                  <p className="text-xs text-stone-400 leading-relaxed">{step.desc}</p>
+                </div>
+              </div>
+            )
+          })}
+
+        </div>
+      </div>
+    </motion.div>
+  )
+
+  return (
+    <section className="py-32 px-6 md:px-8 bg-[#0a0a0a] text-white relative isolate overflow-hidden">
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+
+        <div className="mb-24 md:mb-32">
+          <span className="inline-flex items-center gap-3 py-2 px-4 rounded-full bg-white/5 text-stone-300 text-xs font-medium tracking-widest uppercase mb-8 border border-white/5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
+            {t.mia.role}
+          </span>
+          <h2 className="text-6xl md:text-8xl font-semibold text-white tracking-tighter leading-[0.9]">
+            {t.mia.headline}
+          </h2>
+          <p className="text-xl text-stone-400 mt-6 max-w-2xl font-light">{t.mia.subheadline}</p>
+        </div>
+
+        {/* Layer 1: Interaction */}
+        <div className="relative">
+          <SchemaRow title={layer1.title} steps={layer1.steps} delay={0.2} />
+        </div>
+
+        {/* Spacer for Connector */}
+        <div className="h-20" />
+
+        {/* Layer 2: The Brain */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mb-20 relative"
+        >
+          {/* Animated Flow Connector from Eva to Mia (going upward) */}
+          <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-full w-px h-20 bg-gradient-to-t from-stone-800 to-transparent overflow-hidden flex items-center justify-center">
+            <motion.div
+              initial={{ y: 40, opacity: 0 }}
+              whileInView={{ y: -40, opacity: 1 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+              className="w-1 h-3 bg-green-500 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)]"
+            />
+          </div>
+
+          <h3 className="text-xl md:text-2xl font-light text-stone-400 mb-8 border-l-2 border-white/10 pl-4">{layer2.title}</h3>
+
+          {/* Decision Hub Container with nested analyses */}
+          {layer2.decision && (
+            <div className="relative overflow-x-auto pb-8 -mx-6 px-6 md:overflow-visible md:pb-0 md:px-0">
+              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 min-h-[140px] flex flex-col justify-center relative group transition-all duration-500">
+                {/* Hub Décisionnel Badge */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#0a0a0a] px-3 py-1 text-[10px] text-white uppercase tracking-widest border border-white/10 rounded-full">
+                  Hub Décisionnel
+                </div>
+
+                {/* Decision Title and Description */}
+                <div className="mb-6 text-center">
+                  <h4 className="text-lg font-medium text-white mb-2">{layer2.decision.title}</h4>
+                  <p className="text-sm text-stone-400 leading-relaxed max-w-2xl mx-auto">{layer2.decision.desc}</p>
+                </div>
+
+                {/* Nested Analyses */}
+                {layer2.analyses && (
+                  <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 min-w-0">
+                    {layer2.analyses.map((analysis: any, i: number) => (
+                      <div key={i} className="flex-1">
+                        <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10 min-h-[120px] flex flex-col justify-center transition-all duration-500 hover:bg-white/[0.05]">
+                          <h4 className="text-base font-medium text-stone-200 mb-2">{analysis.title}</h4>
+                          <p className="text-xs text-stone-400 leading-relaxed">{analysis.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </motion.div>
+
+        {/* Layer 3: Safety Foundation */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mt-24 pt-12 border-t border-white/10"
+        >
+          <div className="flex flex-col lg:flex-row gap-12 items-start">
+            <div className="lg:w-1/3">
+              <h3 className="text-xl md:text-2xl font-light text-stone-400 mb-4 border-l-2 border-green-500/50 pl-4">{layer3.title}</h3>
+              <p className="text-stone-500 max-w-sm">{layer3.description}</p>
             </div>
 
-            <Link
-              href="/login"
-              className="text-sm text-stone-500 hover:text-stone-900 transition-colors hidden sm:block"
-            >
+            <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+              {layer3.features.map((feature: any, i: number) => (
+                <div key={i} className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 flex gap-4 items-start">
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-stone-300">
+                    {i === 0 ? <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                      : <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+                  </div>
+                  <div>
+                    <h4 className="text-white font-medium mb-1">{feature.title}</h4>
+                    <p className="text-sm text-stone-500 leading-relaxed">{feature.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+      </div>
+    </section>
+  )
+}
+
+// Main Page
+export default function AlmaLandingPage() {
+  const { lang, setLang, t, mounted } = useLanguage()
+  const [isContactOpen, setIsContactOpen] = useState(false)
+
+  if (!mounted) return null
+
+  return (
+    <div className="min-h-screen bg-white text-stone-900 font-sans selection:bg-stone-900 selection:text-white">
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} lang={lang} />
+
+      {/* Navbar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-100 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <Link href="/" className="text-xl font-semibold tracking-tight">Alma</Link>
+
+          <div className="flex items-center gap-6">
+            {/* Language Toggle */}
+            <div className="flex items-center gap-1 text-xs font-medium text-stone-400">
+              <button onClick={() => setLang('fr')} className={lang === 'fr' ? 'text-stone-900' : 'hover:text-stone-600'}>FR</button>
+              <span>/</span>
+              <button onClick={() => setLang('en')} className={lang === 'en' ? 'text-stone-900' : 'hover:text-stone-600'}>EN</button>
+            </div>
+
+            <Link href="/login" className="text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors hidden sm:block">
               {t.nav.signIn}
             </Link>
-            <Link
-              href="/contact"
-              className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-lg hover:bg-stone-800 transition-colors"
+            <button
+              onClick={() => setIsContactOpen(true)}
+              className="px-6 py-2.5 bg-stone-900 text-white text-sm font-medium rounded-full hover:opacity-90 transition-opacity"
             >
               {t.nav.demo}
-            </Link>
+            </button>
           </div>
         </div>
       </nav>
 
       <main>
-        {/* Hero Section */}
         <HeroSection t={t} />
+        <FoundersSection t={t} />
+        <ProductSection t={t} />
 
-        {/* "Bâti par des gens d'ici" Section */}
-        <section className="py-12 px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-2xl mx-auto text-center"
+        {/* CTA Footer */}
+        <section className="py-32 px-6 text-center">
+          <h2 className="text-3xl md:text-5xl font-light text-stone-900 mb-10 tracking-tight">{t.cta.title}</h2>
+          <button
+            onClick={() => setIsContactOpen(true)}
+            className="group h-14 px-10 inline-flex items-center justify-center bg-stone-900 text-white font-medium rounded-full hover:scale-105 transition-all duration-300"
           >
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-3 text-stone-900">
-              {t.local.title}
-            </h2>
-            <p className="text-sm text-stone-500 mb-4">
-              {t.local.subtitle}
-            </p>
-            <p className="text-stone-500 leading-relaxed text-sm">
-              {t.local.description}
-            </p>
-          </motion.div>
-        </section>
-
-        {/* Agents Section */}
-        <section className="py-12 px-6 bg-stone-50/50">
-          <div className="max-w-5xl mx-auto">
-            {/* Section Title */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-stone-900 text-center mb-8"
-            >
-              {t.agents.sectionTitle}
-            </motion.h2>
-
-            {/* Two Column Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Left: Agent Buttons */}
-              <div className="space-y-3">
-                <AgentButton
-                  name={t.agents.mia.name}
-                  isSelected={openAgent === 'mia'}
-                  onClick={() => setOpenAgent('mia')}
-                />
-                <AgentButton
-                  name={t.agents.leo.name}
-                  isSelected={openAgent === 'leo'}
-                  onClick={() => setOpenAgent('leo')}
-                />
-                <AgentButton
-                  name={t.agents.eva.name}
-                  isSelected={openAgent === 'eva'}
-                  onClick={() => setOpenAgent('eva')}
-                />
-              </div>
-
-              {/* Right: Detail Panel */}
-              <div className="md:col-span-2 min-h-[320px]">
-                <AnimatePresence mode="wait">
-                  {openAgent === 'mia' && (
-                    <AgentDetailPanel
-                      name={t.agents.mia.name}
-                      title={t.agents.mia.title}
-                      subtitle={t.agents.mia.subtitle}
-                      points={t.agents.mia.points}
-                    />
-                  )}
-                  {openAgent === 'leo' && (
-                    <AgentDetailPanel
-                      name={t.agents.leo.name}
-                      title={t.agents.leo.title}
-                      subtitle={t.agents.leo.subtitle}
-                      points={t.agents.leo.points}
-                    />
-                  )}
-                  {openAgent === 'eva' && (
-                    <AgentDetailPanel
-                      name={t.agents.eva.name}
-                      title={t.agents.eva.title}
-                      subtitle={t.agents.eva.subtitle}
-                      points={t.agents.eva.points}
-                    />
-                  )}
-                  {!openAgent && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="h-full flex items-center justify-center p-8 rounded-2xl bg-gradient-to-br from-stone-50 to-stone-100/50 border border-stone-200/50 border-dashed"
-                    >
-                      <p className="text-stone-400 text-center">
-                        {lang === 'fr' ? 'Cliquez sur un nom pour en savoir plus' : 'Click a name to learn more'}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
+            {t.hero.ctaPrimary}
+            <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+          </button>
+          <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-8 text-sm text-stone-400">
+            <span>© 2026 Alma Technologies Inc.</span>
+            <span className="hidden md:inline">•</span>
+            <span>Montréal, QC</span>
+            <span className="hidden md:inline">•</span>
+            <a href="mailto:info@alma.quebec" className="hover:text-stone-900 transition-colors">info@alma.quebec</a>
           </div>
-        </section>
-
-        {/* CTA Banner */}
-        <section className="py-12 px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <div className="bg-gradient-to-r from-amber-300 via-orange-400 to-red-400 backdrop-blur-sm rounded-2xl px-8 py-10 text-center shadow-lg border border-orange-300/50">
-              <h2 className="text-2xl font-semibold text-white mb-6">
-                {t.cta.title}
-              </h2>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Link
-                  href="/contact"
-                  className="h-12 px-6 flex items-center justify-center bg-white text-orange-600 font-medium rounded-xl hover:bg-orange-50 transition-all text-sm shadow-md"
-                >
-                  {t.hero.ctaPrimary}
-                </Link>
-                <Link
-                  href="/onboarding"
-                  className="h-12 px-6 flex items-center justify-center text-white font-medium rounded-xl border border-white/40 hover:bg-white/20 transition-all text-sm"
-                >
-                  {t.hero.ctaSecondary}
-                </Link>
-              </div>
-            </div>
-          </motion.div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className="py-10 px-6 border-t border-stone-100">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-stone-500">
-            {/* Logo & Tagline */}
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-stone-900 rounded flex items-center justify-center">
-                <span className="text-white font-medium text-xs">A</span>
-              </div>
-              <span className="text-stone-900 font-medium">Alma</span>
-              <span className="text-stone-400">·</span>
-              <span className="text-stone-400">{t.footer.tagline}</span>
-            </div>
-
-            {/* Contact & Copyright */}
-            <div className="text-center md:text-right text-xs">
-              <a href="tel:+14385009000" className="text-stone-500 hover:text-stone-700 transition-colors">+1 438 500 9000</a>
-              <span className="text-stone-300 mx-2">·</span>
-              <span className="text-stone-500">{t.footer.email}</span>
-              <span className="text-stone-300 mx-2">·</span>
-              <span className="text-stone-400">{t.footer.copyright}</span>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }
