@@ -91,7 +91,7 @@ function ContactModal({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () 
 }
 
 // Minimal Video Placeholder
-function VideoPlaceholder({ hint }: { hint: string }) {
+function VideoPlaceholder({ hint, title, thumbnailAlt }: { hint: string; title?: string; thumbnailAlt?: string }) {
   const [isPlaying, setIsPlaying] = useState(false)
 
   return (
@@ -99,7 +99,7 @@ function VideoPlaceholder({ hint }: { hint: string }) {
       {isPlaying ? (
         <iframe
           src="https://www.youtube.com/embed/Th8JoIan4dg?autoplay=1&rel=0"
-          title="Alma Demo"
+          title={title || 'Alma Demo'}
           className="w-full h-full"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -111,7 +111,7 @@ function VideoPlaceholder({ hint }: { hint: string }) {
         >
           <img
             src="https://img.youtube.com/vi/Th8JoIan4dg/maxresdefault.jpg"
-            alt="Video Thumbnail"
+            alt={thumbnailAlt || 'Video Thumbnail'}
             className="absolute inset-0 w-full h-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
           />
           <div className="absolute inset-0 flex items-center justify-center">
@@ -154,7 +154,7 @@ function HeroSection({ t }: { t: any }) {
           transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="rounded-2xl overflow-hidden shadow-2xl shadow-stone-200/50"
         >
-          <VideoPlaceholder hint={t.hero.videoHint} />
+          <VideoPlaceholder hint={t.hero.videoHint} title={t.hero.videoTitle} thumbnailAlt={t.hero.videoThumbnailAlt} />
         </motion.div>
       </div>
     </section>
@@ -310,9 +310,9 @@ function ProductSection({ t }: { t: any }) {
                 <div className={`flex-1 p-6 rounded-2xl border min-h-[140px] flex flex-col justify-center relative group transition-all duration-500 
                   ${isHub ? 'bg-white/[0.08] border-green-500/30 shadow-[0_0_30px_rgba(74,222,128,0.1)]' : 'bg-white/[0.03] border-white/10 hover:bg-white/[0.05]'}`}>
 
-                  {isHub && (
+                    {isHub && (
                       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/[0.03] px-2 text-[10px] text-stone-200 uppercase tracking-widest border border-white/10 rounded-full">
-                        Hub
+                        {t.mia?.hubLabel || 'Hub'}
                       </div>
                     )}
 
@@ -359,17 +359,27 @@ function ProductSection({ t }: { t: any }) {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mb-20 relative"
         >
-          {/* Animated Flow Connector from Eva to Mia (going upward) */}
-          <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-full w-px h-20 bg-gradient-to-t from-stone-800 to-transparent overflow-hidden flex items-center justify-center">
+          {/* Animated Flow Connector from Hub Décisionnel up to Action & EMR (wider) */}
+          <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-[2px] bg-gradient-to-t from-stone-800 to-transparent overflow-hidden flex items-center justify-center" style={{ top: '40px', height: '140px', transform: 'translate(-50%, -120px) translateX(12px)' }}>
             <motion.div
-              initial={{ y: 40, opacity: 0 }}
-              whileInView={{ y: -40, opacity: 1 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-              className="w-1 h-3 bg-green-500 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)]"
+              initial={{ y: 100, opacity: 1 }}
+              animate={{ y: -100, opacity: 1 }}
+              transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop", ease: "linear" }}
+                  className="w-2 h-4 bg-green-500 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)]"
             />
           </div>
 
-          <h3 className="text-xl md:text-2xl font-light text-stone-400 mb-8 border-l-2 border-white/10 pl-4">{layer2.title}</h3>
+          {/* Mirrored Flow Connector from Hub Décisionnel down (symmetric) */}
+          <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-[2px] bg-gradient-to-b from-stone-800 to-transparent overflow-hidden flex items-center justify-center" style={{ top: '40px', height: '140px', transform: 'translate(-50%, -120px) translateX(-12px)' }}>
+            <motion.div
+              initial={{ y: -100, opacity: 1 }}
+              animate={{ y: 100, opacity: 1 }}
+              transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop", ease: "linear" }}
+                  className="w-2 h-4 bg-green-500 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)]"
+            />
+          </div>
+
+          <h3 className="text-xl md:text-2xl font-light text-stone-400 mb-8 border-l-2 border-green-500/50 pl-4">{layer2.title}</h3>
 
           {/* Decision Hub Container with nested analyses */}
           {layer2.decision && (
@@ -479,8 +489,8 @@ export default function AlmaLandingPage() {
 
       <main>
         <HeroSection t={t} />
-        <FoundersSection t={t} />
         <ProductSection t={t} />
+        <FoundersSection t={t} />
 
         {/* CTA Footer */}
         <section className="py-32 px-6 text-center">
@@ -493,11 +503,11 @@ export default function AlmaLandingPage() {
             <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
           </button>
           <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-8 text-sm text-stone-400">
-            <span>© 2026 Alma Technologies Inc.</span>
+            <span>{t.footer.copyright}</span>
             <span className="hidden md:inline">•</span>
-            <span>Montréal, QC</span>
+            <span>{t.footer.address}</span>
             <span className="hidden md:inline">•</span>
-            <a href="mailto:info@alma.quebec" className="hover:text-stone-900 transition-colors">info@alma.quebec</a>
+            <a href={`mailto:${t.footer.email}`} className="hover:text-stone-900 transition-colors">{t.footer.email}</a>
           </div>
         </section>
       </main>

@@ -4,7 +4,7 @@ export const translations = {
     fr: {
         nav: {
             signIn: "Se connecter",
-            demo: "Parler à un humain",
+            demo: "Parler à Sacha",
             callUs: "Appelez-nous",
             overview: "Vue d'ensemble",
             callLog: "Journal d'appels",
@@ -31,6 +31,8 @@ export const translations = {
             tagline3: "Nous gérons le reste.",
             subheadline: "Votre équipe est dédiée aux patients. Alma gère le reste.",
             videoHint: "Rencontrez l'équipe Alma",
+            videoTitle: "Démo Alma",
+            videoThumbnailAlt: "Vignette vidéo",
             ctaPrimary: "Parler à Sacha",
             ctaSecondary: "Demander une démo"
         },
@@ -58,15 +60,16 @@ export const translations = {
             philosophy: "Simple. Humain. Efficace."
         },
         mia: {
-            role: "Duo Intelligent",
+            role: "L'équipe de réception autonome et intelligente",
             headline: "Rencontrez Mia et Eva.",
+            hubLabel: "Hub",
             subheadline: "Eva décide. Mia exécute.",
             flowConnector: {
                 evaToMia: "→ Aiguillage vers Mia",
                 color: "green"
             },
             layer1: {
-                title: "Couche 1 : MIA - L'Exécutante",
+                title: "Couche 1 : MIA - La réceptionniste",
                 inputFrom: "↓ Reçoit les directives d'Eva",
                 steps: [
                     {
@@ -88,7 +91,7 @@ export const translations = {
                 title: "Couche 2 : EVA - Le Cerveau",
                 decision: {
                     title: "Prise de Décision et Aiguillage",
-                    desc: "Coordonne et fusionne les analyses pour générer la directive optimale transmise à Mia."
+                    desc: "Coordonne et fusionne les analyses pour transmettre la directive optimale à Mia."
                 },
                 flowDown: "⬇ Déclenche les analyses ⬇",
                 analyses: [
@@ -104,7 +107,7 @@ export const translations = {
                 steps: []
             },
             layer3: {
-                title: "Niveau 3 : La Sécurité (Fondation)",
+                title: "Sécurité et Contrôles (Fondation)",
                 description: "Le bouclier invisible qui assure que chaque action est sûre, conforme et tracée.",
                 features: [
                     {
@@ -350,7 +353,7 @@ export const translations = {
     en: {
         nav: {
             signIn: "Sign In",
-            demo: "Talk to a Human",
+            demo: "Talk to Sacha",
             callUs: "Call us directly",
             overview: "Overview",
             callLog: "Call Log",
@@ -372,6 +375,8 @@ export const translations = {
             tagline3: "We handle the rest.",
             subheadline: "Your team is focused on patient care. Alma manages the rest.",
             videoHint: "Meet the Alma Team",
+            videoTitle: "Alma Demo",
+            videoThumbnailAlt: "Video Thumbnail",
             ctaPrimary: "Talk to Sacha",
             ctaSecondary: "Request a Demo"
         },
@@ -398,7 +403,8 @@ export const translations = {
             philosophy: "Simple. Human. Effective."
         },
         mia: {
-            role: "Intelligent Duo",
+            role: "The autonomous and smart reception team",
+            hubLabel: "Hub",
             headline: "Meet Mia and Eva.",
             subheadline: "Eva decides. Mia executes.",
             flowConnector: {
@@ -406,7 +412,7 @@ export const translations = {
                 color: "green"
             },
             layer1: {
-                title: "Layer 1: MIA - The Executor",
+                title: "Layer 1: MIA - The Receptionist",
                 inputFrom: "↓ Receives directives from Eva",
                 steps: [
                     {
@@ -428,7 +434,7 @@ export const translations = {
                 title: "Layer 2: EVA - The Brain",
                 decision: {
                     title: "Decision Making & Routing",
-                    desc: "Coordinates and merges analyses to generate the optimal directive transmitted to Mia."
+                    desc: "Coordinates and merges analyses to transmit the optimal directive to Mia."
                 },
                 flowDown: "⬇ Triggers analyses ⬇",
                 analyses: [
@@ -444,16 +450,16 @@ export const translations = {
                 steps: []
             },
             layer3: {
-                title: "Level 3: The Safety & Control Net",
+                title: "Safety & Controls (Foundation)",
                 description: "The invisible shield that ensures every action is safe, compliant, and tracked.",
                 features: [
                     {
-                        title: "Journal d'Audit",
-                        desc: "Chaque décision, mot et action est loggé et consultable."
+                        title: "Audit Log",
+                        desc: "Every decision, word and action is logged and viewable."
                     },
                     {
-                        title: "Validation Humaine",
-                        desc: "Les actions critiques passent par une file d'approbation (HITL) avant confirmation."
+                        title: "Human Validation",
+                        desc: "Critical actions go through an approval queue (HITL) before confirmation."
                     }
                 ]
             }

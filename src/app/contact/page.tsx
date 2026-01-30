@@ -8,7 +8,7 @@ type Language = 'fr' | 'en'
 
 const translations = {
     fr: {
-        title: "Parler à un humain",
+        title: "Parler à Sacha",
         subtitle: "Découvrez comment Alma peut simplifier votre quotidien.",
         support: "Besoin d'aide? Écrivez à",
         testimonial: {
@@ -34,7 +34,7 @@ const translations = {
         }
     },
     en: {
-        title: "Talk to a Human",
+        title: "Talk to Sacha",
         subtitle: "See how Alma can simplify your day.",
         support: "Need support? Email",
         testimonial: {
