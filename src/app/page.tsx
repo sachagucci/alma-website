@@ -127,37 +127,87 @@ function VideoPlaceholder({ hint, title, thumbnailAlt }: { hint: string; title?:
 
 // Hero Section
 function HeroSection({ t }: { t: any }) {
+  const [showContactModal, setShowContactModal] = useState(false)
+
   return (
-    <section className="pt-42 pb-32 lg:pt-52 lg:pb-40 px-6 md:px-8 max-w-7xl mx-auto">
-      <div className="max-w-4xl mx-auto text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tighter text-stone-900 mb-12 leading-[0.95]"
-        >
-          {t.hero.tagline} <span className="text-stone-300 block">{t.hero.tagline2}</span>
-        </motion.h1>
+    <>
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} lang="fr" />
+      <section className="relative pt-24 pb-12 lg:pt-28 lg:pb-16 px-6 md:px-8 max-w-6xl mx-auto overflow-hidden">
+        {/* Subtle gradient glow background */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-to-br from-orange-200/30 via-amber-100/20 to-transparent rounded-full blur-3xl" />
+        </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-xl md:text-2xl text-stone-500 font-light leading-relaxed max-w-2xl mx-auto mb-20 md:mb-28"
-        >
-          {t.hero.subheadline}
-        </motion.p>
+        <div className="max-w-3xl mx-auto text-center">
+          {/* Authority Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-200/60 text-orange-600 text-sm font-medium mb-6">
+              <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+              {t.hero.badge}
+            </span>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-2xl overflow-hidden shadow-2xl shadow-stone-200/50"
-        >
-          <VideoPlaceholder hint={t.hero.videoHint} title={t.hero.videoTitle} thumbnailAlt={t.hero.videoThumbnailAlt} />
-        </motion.div>
-      </div>
-    </section>
+          {/* Main Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tighter text-stone-900 mb-4 leading-[1.1]"
+          >
+            {t.hero.tagline}
+            <span className="block bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent">
+              {t.hero.tagline2}
+            </span>
+          </motion.h1>
+
+          {/* Subheadline */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="text-base md:text-lg text-stone-500 font-light leading-relaxed max-w-xl mx-auto mb-8"
+          >
+            {t.hero.subheadline}
+          </motion.p>
+
+          {/* Dual CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col sm:flex-row gap-3 justify-center mb-10"
+          >
+            <button
+              className="px-6 py-3 bg-stone-900 text-white font-medium rounded-lg hover:bg-black transition-all shadow-lg shadow-stone-900/20 flex items-center justify-center gap-2"
+            >
+              <Play className="w-4 h-4" />
+              {t.hero.ctaPrimary}
+            </button>
+            <button
+              onClick={() => setShowContactModal(true)}
+              className="px-6 py-3 border border-stone-300 text-stone-700 font-medium rounded-lg hover:border-stone-400 hover:bg-stone-50 transition-all flex items-center justify-center gap-2"
+            >
+              {t.hero.ctaSecondary}
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </motion.div>
+
+          {/* Video */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="rounded-xl overflow-hidden shadow-xl shadow-stone-200/50 max-w-2xl mx-auto"
+          >
+            <VideoPlaceholder hint={t.hero.videoHint} title={t.hero.videoTitle} thumbnailAlt={t.hero.videoThumbnailAlt} />
+          </motion.div>
+        </div>
+      </section>
+    </>
   )
 }
 
@@ -180,271 +230,277 @@ function Highlight({ text }: { text: string }) {
   )
 }
 
-// Founders Section (Narrative & Minimalist)
-function FoundersSection({ t }: { t: any }) {
-  const { mission } = t
+// Comparison Section (Traditional vs Alma)
+function ComparisonSection({ t }: { t: any }) {
+  const { comparison } = t
 
   return (
-    <section className="py-32 px-6 md:px-8 relative bg-white flex flex-col justify-center">
-      <div className="max-w-7xl mx-auto w-full">
-
-        {/* Header Block - Centered Top */}
-        <motion.div
+    <section className="py-20 px-6 md:px-8 bg-stone-50">
+      <div className="max-w-5xl mx-auto">
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="max-w-3xl mx-auto text-center mb-20"
+          className="text-3xl md:text-4xl font-semibold text-center text-stone-900 mb-12 tracking-tight"
         >
-          <p className="text-sm font-semibold tracking-widest uppercase text-stone-500 mb-6 flex items-center justify-center gap-3">
-            <span className="w-8 h-px bg-stone-300"></span>
-            {mission.foundersLabel}
-            <span className="w-8 h-px bg-stone-300"></span>
-          </p>
-          <p className="text-3xl md:text-5xl font-light text-stone-900 leading-[1.15] tracking-tight">
-            <Highlight text={mission.founders} />
-          </p>
-        </motion.div>
+          {comparison.title}
+        </motion.h2>
 
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Traditional */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="bg-white rounded-2xl p-8 border border-stone-200"
+          >
+            <h3 className="text-lg font-semibold text-stone-500 mb-6 flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-stone-300" />
+              {comparison.traditional.title}
+            </h3>
+            <ul className="space-y-4">
+              {comparison.traditional.items.map((item: string, i: number) => (
+                <li key={i} className="flex items-start gap-3 text-stone-600">
+                  <X className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-          {/* Left: Image (Centered in column) */}
-          <div className="flex justify-center lg:justify-end w-full">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="relative aspect-[4/5] w-full max-w-md rounded-lg overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 ease-out bg-stone-100 shadow-xl shadow-stone-200/50"
-            >
-              <Image
-                src="/images/founders.png"
-                alt="Sacha & Mathéo"
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            </motion.div>
-          </div>
-
-          {/* Right: Narrative (Vertically Centered) */}
-          <div className="flex flex-col justify-center space-y-10 max-w-lg mx-auto lg:mx-0">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-10"
-            >
-              <p className="text-lg md:text-xl text-stone-600 leading-relaxed">
-                <Highlight text={mission.storyIntro} />
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 border-t border-b border-stone-100 py-8">
-                <div>
-                  <span className="block text-4xl py-1 font-medium text-stone-900 mb-2">{mission.stats.crisis.highlight}</span>
-                  <p className="text-sm text-stone-500 leading-relaxed">{mission.stats.crisis.text}</p>
-                </div>
-                <div>
-                  <span className="block text-4xl py-1 font-medium text-stone-900 mb-2">{mission.stats.burnout.highlight}</span>
-                  <p className="text-sm text-stone-500 leading-relaxed">{mission.stats.burnout.text}</p>
-                </div>
-              </div>
-
-              <div>
-                <p className="text-2xl font-light text-stone-900 leading-tight mb-2">
-                  <Highlight text={mission.conclusion} />
-                </p>
-                <p className="text-lg text-stone-500 leading-relaxed">
-                  {mission.description}
-                </p>
-              </div>
-            </motion.div>
-          </div>
-
+          {/* Alma */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-8 border border-orange-200/60 shadow-lg shadow-orange-100/50"
+          >
+            <h3 className="text-lg font-semibold text-orange-600 mb-6 flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-orange-500 animate-pulse" />
+              {comparison.alma.title}
+            </h3>
+            <ul className="space-y-4">
+              {comparison.alma.items.map((item: string, i: number) => (
+                <li key={i} className="flex items-start gap-3 text-stone-700">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="font-medium">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
       </div>
     </section>
   )
 }
 
-// Product / Mia Section (Dark & Schema-Based)
-function ProductSection({ t }: { t: any }) {
-  const { layer1, layer2, layer3 } = t.mia
+// Stats Section (Metric Cards)
+function StatsSection({ t }: { t: any }) {
+  const { stats } = t
 
-  const SchemaRow = ({ title, steps, delay }: { title: string, steps: any[], delay: number }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, delay }}
-      className="mb-20 last:mb-0"
-    >
-      <h3 className="text-xl md:text-2xl font-light text-stone-400 mb-8 border-l-2 border-green-500/50 pl-4">{title}</h3>
-
-      {/* Scrollable container for mobile */}
-      <div className="relative overflow-x-auto pb-8 -mx-6 px-6 md:overflow-visible md:pb-0 md:px-0">
-        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 min-w-[700px] md:min-w-0">
-
-          {steps.map((step: any, i: number) => {
-            const isHub = step.title.includes("Aiguillage")
-            return (
-              <div key={i} className="flex-1 flex items-center relative">
-                {/* Connector Logic for Hub */}
-                {isHub && (
-                  <>
-                    {/* Left Input Arrow */}
-                    <div className="hidden md:block absolute -left-3 top-1/2 -translate-y-1/2 z-10 text-stone-600">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 7L18 12L13 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    </div>
-                    {/* Right Input Arrow (Actually from right neighbor) -> We need arrows pointing IN to the hub. 
-                         So arrow on Left side pointing Right. Arrow on Right side pointing Left.
-                     */}
-                    <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-stone-600 rotate-180">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 7L18 12L13 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    </div>
-                  </>
-                )}
-
-                <div className={`flex-1 p-6 rounded-2xl border min-h-[140px] flex flex-col justify-center relative group transition-all duration-500 
-                  ${isHub ? 'bg-white/[0.08] border-green-500/30 shadow-[0_0_30px_rgba(74,222,128,0.1)]' : 'bg-white/[0.03] border-white/10 hover:bg-white/[0.05]'}`}>
-
-                    {isHub && (
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/[0.03] px-2 text-[10px] text-stone-200 uppercase tracking-widest border border-white/10 rounded-full">
-                        {t.mia?.hubLabel || 'Hub'}
-                      </div>
-                    )}
-
-                    <h4 className={`text-base font-medium mb-2 ${isHub ? 'text-stone-200' : 'text-stone-200'}`}>{step.title}</h4>
-                  <p className="text-xs text-stone-400 leading-relaxed">{step.desc}</p>
-                </div>
-              </div>
-            )
-          })}
-
-        </div>
-      </div>
-    </motion.div>
-  )
+  const statItems = [
+    { ...stats.canadians, accent: 'from-orange-500 to-amber-500' },
+    { ...stats.reduction, accent: 'from-green-500 to-emerald-500' },
+    { ...stats.availability, accent: 'from-blue-500 to-cyan-500' },
+    { ...stats.appointments, accent: 'from-purple-500 to-pink-500' },
+  ]
 
   return (
-    <section className="py-32 px-6 md:px-8 bg-[#0a0a0a] text-white relative isolate overflow-hidden">
-      <div className="max-w-7xl mx-auto w-full relative z-10">
+    <section className="py-20 px-6 md:px-8 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {statItems.map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="text-center p-6 rounded-2xl bg-stone-50 border border-stone-100"
+            >
+              <span className={`text-4xl md:text-5xl font-bold bg-gradient-to-r ${stat.accent} bg-clip-text text-transparent`}>
+                {stat.value}
+              </span>
+              <p className="text-sm text-stone-500 mt-2 leading-tight">{stat.label}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 
-        <div className="mb-24 md:mb-32">
-          <span className="inline-flex items-center gap-3 py-2 px-4 rounded-full bg-white/5 text-stone-300 text-xs font-medium tracking-widest uppercase mb-8 border border-white/5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
-            {t.mia.role}
+// Founders Section
+function FoundersSection({ t }: { t: any }) {
+  const { mission } = t
+
+  return (
+    <section className="py-24 px-6 md:px-8 bg-white">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <span className="text-sm font-medium text-stone-500 uppercase tracking-widest mb-4 block">
+            {mission.foundersLabel}
           </span>
-          <h2 className="text-6xl md:text-8xl font-semibold text-white tracking-tighter leading-[0.9]">
-            {t.mia.headline}
+          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight mb-3">
+            <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent">
+              {mission.foundersHeadline}
+            </span>
           </h2>
-          <p className="text-xl text-stone-400 mt-6 max-w-2xl font-light">{t.mia.subheadline}</p>
-        </div>
-
-        {/* Layer 1: Interaction */}
-        <div className="relative">
-          <SchemaRow title={layer1.title} steps={layer1.steps} delay={0.2} />
-        </div>
-
-        {/* Spacer for Connector */}
-        <div className="h-20" />
-
-        {/* Layer 2: The Brain */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mb-20 relative"
-        >
-          {/* Animated Flow Connector from Hub Décisionnel up to Action & EMR (wider) */}
-          <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-[2px] bg-gradient-to-t from-stone-800 to-transparent overflow-hidden flex items-center justify-center" style={{ top: '40px', height: '140px', transform: 'translate(-50%, -120px) translateX(12px)' }}>
-            <motion.div
-              initial={{ y: 100, opacity: 1 }}
-              animate={{ y: -100, opacity: 1 }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop", ease: "linear" }}
-                  className="w-2 h-4 bg-green-500 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)]"
-            />
-          </div>
-
-          {/* Mirrored Flow Connector from Hub Décisionnel down (symmetric) */}
-          <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-[2px] bg-gradient-to-b from-stone-800 to-transparent overflow-hidden flex items-center justify-center" style={{ top: '40px', height: '140px', transform: 'translate(-50%, -120px) translateX(-12px)' }}>
-            <motion.div
-              initial={{ y: -100, opacity: 1 }}
-              animate={{ y: 100, opacity: 1 }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop", ease: "linear" }}
-                  className="w-2 h-4 bg-green-500 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)]"
-            />
-          </div>
-
-          <h3 className="text-xl md:text-2xl font-light text-stone-400 mb-8 border-l-2 border-green-500/50 pl-4">{layer2.title}</h3>
-
-          {/* Decision Hub Container with nested analyses */}
-          {layer2.decision && (
-            <div className="relative overflow-x-auto pb-8 -mx-6 px-6 md:overflow-visible md:pb-0 md:px-0">
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 min-h-[140px] flex flex-col justify-center relative group transition-all duration-500">
-                {/* Hub Décisionnel Badge */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#0a0a0a] px-3 py-1 text-[10px] text-white uppercase tracking-widest border border-white/10 rounded-full">
-                  Hub Décisionnel
-                </div>
-
-                {/* Decision Title and Description */}
-                <div className="mb-6 text-center">
-                  <h4 className="text-lg font-medium text-white mb-2">{layer2.decision.title}</h4>
-                  <p className="text-sm text-stone-400 leading-relaxed max-w-2xl mx-auto">{layer2.decision.desc}</p>
-                </div>
-
-                {/* Nested Analyses */}
-                {layer2.analyses && (
-                  <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 min-w-0">
-                    {layer2.analyses.map((analysis: any, i: number) => (
-                      <div key={i} className="flex-1">
-                        <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10 min-h-[120px] flex flex-col justify-center transition-all duration-500 hover:bg-white/[0.05]">
-                          <h4 className="text-base font-medium text-stone-200 mb-2">{analysis.title}</h4>
-                          <p className="text-xs text-stone-400 leading-relaxed">{analysis.desc}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+          <p className="text-xl text-stone-600">
+            {mission.founders}
+          </p>
         </motion.div>
 
-        {/* Layer 3: Safety Foundation */}
+        {/* Two-column layout: Photo + Story */}
+        <div className="grid lg:grid-cols-2 gap-12 items-start mb-12">
+          {/* Photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-2xl overflow-hidden border border-stone-200 shadow-sm"
+          >
+            <Image
+              src="/images/founders.png"
+              alt="Sacha & Mathéo"
+              fill
+              className="object-cover"
+              unoptimized
+            />
+          </motion.div>
+
+          {/* Story + Health Scare */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <p className="text-lg text-stone-600 leading-relaxed">
+              <Highlight text={mission.storyIntro} />
+            </p>
+
+            {mission.healthScare && (
+              <p className="text-lg text-stone-600 leading-relaxed">
+                {mission.healthScare}
+              </p>
+            )}
+          </motion.div>
+        </div>
+
+        {/* Stats Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-24 pt-12 border-t border-white/10"
+          className="grid md:grid-cols-2 gap-6 mb-12"
         >
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
-            <div className="lg:w-1/3">
-              <h3 className="text-xl md:text-2xl font-light text-stone-400 mb-4 border-l-2 border-green-500/50 pl-4">{layer3.title}</h3>
-              <p className="text-stone-500 max-w-sm">{layer3.description}</p>
-            </div>
-
-            <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              {layer3.features.map((feature: any, i: number) => (
-                <div key={i} className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 flex gap-4 items-start">
-                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-stone-300">
-                    {i === 0 ? <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                      : <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-                  </div>
-                  <div>
-                    <h4 className="text-white font-medium mb-1">{feature.title}</h4>
-                    <p className="text-sm text-stone-500 leading-relaxed">{feature.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
+            <span className="block text-4xl font-semibold mb-3 bg-gradient-to-r from-stone-800 to-stone-600 bg-clip-text text-transparent">
+              {mission.stats.crisis.highlight}
+            </span>
+            <p className="text-sm text-stone-500 leading-relaxed">{mission.stats.crisis.text}</p>
+          </div>
+          <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
+            <span className="block text-4xl font-semibold mb-3 bg-gradient-to-r from-stone-800 to-stone-600 bg-clip-text text-transparent">
+              {mission.stats.burnout.highlight}
+            </span>
+            <p className="text-sm text-stone-500 leading-relaxed">{mission.stats.burnout.text}</p>
           </div>
         </motion.div>
 
+        {/* Conclusion */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center max-w-3xl mx-auto"
+        >
+          <p className="text-2xl font-semibold text-stone-900 mb-3">
+            <Highlight text={mission.conclusion} />
+          </p>
+          <p className="text-lg text-stone-500 leading-relaxed">
+            {mission.description}
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+// Product / Mia Section (Clean Feature Cards)
+function ProductSection({ t }: { t: any }) {
+  const { mia } = t
+
+  return (
+    <section className="py-24 px-6 md:px-8 bg-stone-50 relative overflow-hidden">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-t from-orange-100/30 via-amber-50/20 to-transparent rounded-full blur-3xl" />
+      </div>
+
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <span className="text-sm font-medium text-stone-500 uppercase tracking-widest mb-4 block">
+            {mia.role}
+          </span>
+          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight mb-4">
+            <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent">
+              {mia.headline}
+            </span>
+          </h2>
+          <p className="text-lg text-stone-500 max-w-2xl mx-auto">
+            {mia.subheadline}
+          </p>
+        </motion.div>
+
+        {/* Feature Cards Grid */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          {mia.features?.map((feature: any, i: number) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white rounded-2xl p-8 border border-stone-200 shadow-sm hover:shadow-lg transition-all duration-300"
+            >
+              <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-stone-800 to-stone-600 bg-clip-text text-transparent">
+                {feature.title}
+              </h3>
+              <p className="text-stone-500 leading-relaxed text-sm">{feature.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Security Card - Same formatting as feature cards */}
+        {mia.security && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-white rounded-2xl p-8 border border-stone-200 shadow-sm"
+          >
+            <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-stone-800 to-stone-600 bg-clip-text text-transparent">
+              {mia.security.title}
+            </h3>
+            <p className="text-stone-500 leading-relaxed text-sm">{mia.security.desc}</p>
+          </motion.div>
+        )}
       </div>
     </section>
   )
@@ -489,6 +545,7 @@ export default function AlmaLandingPage() {
 
       <main>
         <HeroSection t={t} />
+        <ComparisonSection t={t} />
         <ProductSection t={t} />
         <FoundersSection t={t} />
 

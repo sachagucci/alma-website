@@ -26,21 +26,51 @@ export const translations = {
             signOut: "Se déconnecter"
         },
         hero: {
-            tagline: "Le soin d'abord.",
-            tagline2: "Concentrez-vous sur vos patients.",
+            badge: "#1 Réceptionniste IA au Québec",
+            tagline: "La main-d'œuvre IA",
+            tagline2: "pour la santé.",
             tagline3: "Nous gérons le reste.",
-            subheadline: "Votre équipe est dédiée aux patients. Alma gère le reste.",
-            videoHint: "Rencontrez l'équipe Alma",
+            subheadline: "Rendre le système de santé accessible aux millions de Canadiens qui peinent à y accéder, en automatisant les tâches administratives qui surchargent nos premières lignes.",
+            videoHint: "Voir Mia en action",
             videoTitle: "Démo Alma",
             videoThumbnailAlt: "Vignette vidéo",
-            ctaPrimary: "Parler à Sacha",
-            ctaSecondary: "Demander une démo"
+            ctaPrimary: "Voir la démo",
+            ctaSecondary: "Parler à Sacha"
+        },
+        comparison: {
+            title: "Pourquoi Alma?",
+            traditional: {
+                title: "Réception Traditionnelle",
+                items: [
+                    "Appels manqués, ligne occupée ou équipe débordée",
+                    "Absences qui impactent la rentabilité",
+                    "Des heures au téléphone, loin des tâches essentielles",
+                    "Roulement coûteux et formation constante"
+                ]
+            },
+            alma: {
+                title: "Avec Alma",
+                items: [
+                    "Disponible 24/7, appels simultanés illimités",
+                    "40% moins d'absences, plus de revenus",
+                    "Réservation instantanée, équipe libérée",
+                    "Multilingue, expérience patient exceptionnelle"
+                ]
+            }
+        },
+        stats: {
+            canadians: { value: "6,5M", label: "Canadiens sans médecin de famille" },
+            reduction: { value: "40%", label: "Réduction des absences" },
+            availability: { value: "24/7", label: "Toujours disponible" },
+            appointments: { value: "720K", label: "Rendez-vous récupérés/an" }
         },
         mission: {
             title: "Notre Histoire",
-            foundersLabel: "Fondateurs",
-            founders: "Nous sommes Mathéo et Sacha, co-fondateurs de Alma.",
-            storyIntro: "*Le stress de poser le bon diagnostic est immense, mais l'esprit des médecins est aujourd'hui pollué par la paperasse. Nous venons de la tech, et nous voulions supprimer ce bruit*.",
+            foundersLabel: "Les Fondateurs",
+            foundersHeadline: "Rencontrez les fondateurs",
+            founders: "Mathéo et Sacha",
+            healthScare: "Début 2025, j'ai vécu une urgence médicale majeure. C'était la première fois que j'étais confronté au système de santé, et c'était effrayant. Ce jour-là, j'ai décidé que je voulais avoir un impact significatif. Ces événements nous forcent à nous poser des questions plus profondes. J'ai réalisé que même une amélioration de 1% du système de santé pourrait sauver des milliers de vies.",
+            storyIntro: "Le système de santé actuel est surchargé par les tâches administratives, laissant nos médecins en épuisement professionnel. Chez Alma, nous croyons que la santé est la priorité absolue d'un pays. Une population en santé est une population prospère. Mais pour être en santé, nous avons besoin que nos médecins le soient aussi. En ce moment, le fardeau administratif les épuise, s'ajoutant à la pénurie de médecins et aux listes d'attente croissantes en médecine familiale. Nous savions qu'il fallait agir.",
             stats: {
                 crisis: {
                     highlight: "72 %",
@@ -60,65 +90,26 @@ export const translations = {
             philosophy: "Simple. Humain. Efficace."
         },
         mia: {
-            role: "L'équipe de réception autonome et intelligente",
-            headline: "Rencontrez Mia et Eva.",
-            hubLabel: "Hub",
-            subheadline: "Eva décide. Mia exécute.",
-            flowConnector: {
-                evaToMia: "→ Aiguillage vers Mia",
-                color: "green"
-            },
-            layer1: {
-                title: "Couche 1 : MIA - La réceptionniste",
-                inputFrom: "↓ Reçoit les directives d'Eva",
-                steps: [
-                    {
-                        title: "Interaction Client",
-                        desc: "Interface vocale chaleureuse qui accueille, comprend le besoin et rassure le patient en temps réel."
-                    },
-                    {
-                        title: "Action & DME",
-                        desc: "Applique la décision d'Eva : réserve dans votre logiciel (DME), répond aux FAQs ou gère le dossier."
-                    },
-                    {
-                        title: "Escalade Humaine",
-                        desc: "Si la situation dépasse le cadre, Mia transfère l'appel et le contexte complet à votre équipe."
-                    }
-                ],
-                outcome: "Exécution Parfaite"
-            },
-            layer2: {
-                title: "Couche 2 : EVA - Le Cerveau",
-                decision: {
-                    title: "Prise de Décision et Aiguillage",
-                    desc: "Coordonne et fusionne les analyses pour transmettre la directive optimale à Mia."
+            role: "Votre réceptionniste IA autonome",
+            headline: "Rencontrez Mia.",
+            subheadline: "L'IA qui répond à vos appels, réduit les absences et libère votre équipe.",
+            features: [
+                {
+                    title: "Disponible 24/7",
+                    desc: "Mia répond à chaque appel, en français ou en anglais, sans temps d'attente. Appels simultanés illimités."
                 },
-                flowDown: "⬇ Déclenche les analyses ⬇",
-                analyses: [
-                    {
-                        title: "Analyse de Risque",
-                        desc: "Évalue le profil du patient et calcule la probabilité de no-show pour adapter le protocole."
-                    },
-                    {
-                        title: "Optimisation Ressources",
-                        desc: "Scan les disponibilités du staff, des salles et des équipements pour valider le créneau idéal."
-                    }
-                ],
-                steps: []
-            },
-            layer3: {
-                title: "Sécurité et Contrôles (Fondation)",
-                description: "Le bouclier invisible qui assure que chaque action est sûre, conforme et tracée.",
-                features: [
-                    {
-                        title: "Journal d'Audit",
-                        desc: "Chaque décision, mot et action est loggé et consultable."
-                    },
-                    {
-                        title: "Validation Humaine",
-                        desc: "Les actions critiques passent par une file d'approbation (HITL) avant confirmation."
-                    }
-                ]
+                {
+                    title: "Réduit les absences de 40%",
+                    desc: "Appels de rappel proactifs et confirmations automatiques pour que chaque rendez-vous soit honoré."
+                },
+                {
+                    title: "Réservation instantanée",
+                    desc: "Synchronisation directe avec votre DME pour réserver, modifier ou annuler en temps réel."
+                }
+            ],
+            security: {
+                title: "Sécurité et Conformité",
+                desc: "Protection des données patients, hébergement au Canada, conformité aux normes de santé."
             }
         },
         features: {
@@ -370,21 +361,51 @@ export const translations = {
             journalLog: "Call Log",
         },
         hero: {
-            tagline: "Care first.",
-            tagline2: "Focus on your patients.",
+            badge: "#1 AI Receptionist in Quebec",
+            tagline: "The AI workforce",
+            tagline2: "for healthcare.",
             tagline3: "We handle the rest.",
-            subheadline: "Your team is focused on patient care. Alma manages the rest.",
-            videoHint: "Meet the Alma Team",
+            subheadline: "Making healthcare accessible to the millions of Canadians struggling to access it by automating the admin tasks burdening our front lines.",
+            videoHint: "See Mia in Action",
             videoTitle: "Alma Demo",
             videoThumbnailAlt: "Video Thumbnail",
-            ctaPrimary: "Talk to Sacha",
-            ctaSecondary: "Request a Demo"
+            ctaPrimary: "See the Demo",
+            ctaSecondary: "Talk to Sacha"
+        },
+        comparison: {
+            title: "Why Alma?",
+            traditional: {
+                title: "Traditional Reception",
+                items: [
+                    "Missed calls, busy lines or overwhelmed staff",
+                    "No-shows hurting profitability",
+                    "Hours on the phone, away from high-value tasks",
+                    "Costly turnover and constant training"
+                ]
+            },
+            alma: {
+                title: "With Alma",
+                items: [
+                    "Available 24/7, unlimited simultaneous calls",
+                    "40% fewer no-shows, more revenue",
+                    "Instant booking, team freed up",
+                    "Multilingual, exceptional patient experience"
+                ]
+            }
+        },
+        stats: {
+            canadians: { value: "6.5M", label: "Canadians without a family doctor" },
+            reduction: { value: "40%", label: "Reduction in no-shows" },
+            availability: { value: "24/7", label: "Always available" },
+            appointments: { value: "720K", label: "Appointments recovered yearly" }
         },
         mission: {
             title: "Our Story",
             foundersLabel: "Founders",
-            founders: "We are Mathéo and Sacha, co-founders of Alma.",
-            storyIntro: "*The stress of making the right diagnosis is heavy, yet doctors' minds are polluted by paperwork. We come from tech, and we wanted to clear that noise*.",
+            foundersHeadline: "Meet the founders",
+            founders: "Mathéo and Sacha",
+            healthScare: "In early 2025, I experienced a major health scare. It was the first time I was confronted with the healthcare system, and it was scary. That day, I decided I wanted to make a meaningful impact. These kinds of events force you to ask deeper questions. I realized that even a 1% improvement to the healthcare system could save thousands of lives.",
+            storyIntro: "The current healthcare system is overburdened by administrative tasks, leaving our doctors burnt out. At Alma, we believe health is the top priority in a country. A healthy population is a wealthy population. But to be healthy, we need our doctors to be healthy. Right now, admin burden is causing them to burn out on top of the doctor shortages we have and the growing waitlist for family medicine. We knew something had to be done.",
             stats: {
                 crisis: {
                     highlight: "72%",
@@ -403,65 +424,26 @@ export const translations = {
             philosophy: "Simple. Human. Effective."
         },
         mia: {
-            role: "The autonomous and smart reception team",
-            hubLabel: "Hub",
-            headline: "Meet Mia and Eva.",
-            subheadline: "Eva decides. Mia executes.",
-            flowConnector: {
-                evaToMia: "→ Routing to Mia",
-                color: "green"
-            },
-            layer1: {
-                title: "Layer 1: MIA - The Receptionist",
-                inputFrom: "↓ Receives directives from Eva",
-                steps: [
-                    {
-                        title: "Client Interaction",
-                        desc: "Warm voice interface that welcomes, understands needs, and reassures the patient in real-time."
-                    },
-                    {
-                        title: "Action & EMR",
-                        desc: "Applies Eva's decision: books in your software (EMR), answers FAQs, or manages the file."
-                    },
-                    {
-                        title: "Human Escalation",
-                        desc: "If the situation exceeds scope, Mia transfers the call and complete context to your team."
-                    }
-                ],
-                outcome: "Perfect Execution"
-            },
-            layer2: {
-                title: "Layer 2: EVA - The Brain",
-                decision: {
-                    title: "Decision Making & Routing",
-                    desc: "Coordinates and merges analyses to transmit the optimal directive to Mia."
+            role: "Your autonomous AI receptionist",
+            headline: "Meet Mia.",
+            subheadline: "The AI that answers your calls, reduces no-shows, and frees your team.",
+            features: [
+                {
+                    title: "Available 24/7",
+                    desc: "Mia answers every call, in English or French, with zero wait time. Unlimited simultaneous calls."
                 },
-                flowDown: "⬇ Triggers analyses ⬇",
-                analyses: [
-                    {
-                        title: "Risk Analysis",
-                        desc: "Evaluates patient profile and calculates no-show probability to adapt protocol."
-                    },
-                    {
-                        title: "Resource Optimization",
-                        desc: "Scans staff, room, and equipment availability to validate the ideal time slot."
-                    }
-                ],
-                steps: []
-            },
-            layer3: {
-                title: "Safety & Controls (Foundation)",
-                description: "The invisible shield that ensures every action is safe, compliant, and tracked.",
-                features: [
-                    {
-                        title: "Audit Log",
-                        desc: "Every decision, word and action is logged and viewable."
-                    },
-                    {
-                        title: "Human Validation",
-                        desc: "Critical actions go through an approval queue (HITL) before confirmation."
-                    }
-                ]
+                {
+                    title: "40% Fewer No-Shows",
+                    desc: "Proactive reminder calls and automatic confirmations ensure every appointment is honored."
+                },
+                {
+                    title: "Instant Booking",
+                    desc: "Direct sync with your EMR to book, reschedule, or cancel in real-time."
+                }
+            ],
+            security: {
+                title: "Security & Compliance",
+                desc: "Patient data protection, Canadian hosting, healthcare compliance."
             }
         },
         features: {
