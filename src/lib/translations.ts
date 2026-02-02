@@ -4,10 +4,18 @@ export const translations = {
     fr: {
         nav: {
             demo: "Réserver une démo",
-            callUs: "Appelez-nous"
+            callUs: "Appelez-nous",
+            banner: "Embauchez votre main-d'œuvre IA maintenant"
+        },
+        sectionLabels: {
+            whyChooseUs: "Pourquoi nous choisir",
+            ourProcess: "Notre processus"
         },
         hero: {
-            title: "Conçu pour éliminer les absences avant qu'elles ne se produisent.",
+            title: "Conçu pour éliminer les no-shows avant qu'ils ne se produisent.",
+            titlePrefix: "Conçu pour",
+            titleHighlight: "éliminer les no-shows",
+            titleSuffix: "avant qu'ils ne se produisent.",
             subtitle: "Alma est la main-d'œuvre IA pour la santé. Mia, notre réceptionniste IA, prédit quels patients ne se présenteront pas, les appelle de manière proactive pour confirmer, et remplit les annulations en quelques minutes, pendant que votre équipe se concentre sur le soin.",
             ctaPrimary: "Réserver une démo",
             ctaSecondary: "Parler à l'équipe",
@@ -15,6 +23,9 @@ export const translations = {
         },
         comparison: {
             title: "Opérations cliniques à l'ère de l'IA.",
+            titlePrefix: "Opérations cliniques à",
+            titleHighlight: "l'ère de l'IA",
+            titleSuffix: ".",
             intro: "Alma est votre partenaire à long terme avec des possibilités infinies.",
             traditional: {
                 title: "Réception Traditionnelle",
@@ -38,28 +49,42 @@ export const translations = {
         mia: {
             role: "Votre première collègue IA",
             headline: "Rencontrez Mia.",
+            headlinePrefix: "Rencontrez",
+            headlineHighlight: "Mia",
+            activeLabel: "Actif",
             subheadline: "Mia ne se contente pas de répondre au téléphone. Elle pense, planifie et agit pour que chaque rendez-vous compte.",
             features: [
                 {
-                    title: "Disponible 24/7",
-                    desc: "Répond à chaque appel en français ou en anglais, sans temps d'attente. Appels simultanés illimités. Jamais malade, jamais en pause."
+                    title: "Toujours disponible, jamais débordée",
+                    desc: "Répond à chaque appel en français ou en anglais sans temps d'attente. Gère un nombre illimité d'appels simultanés. Libère votre équipe administrative pour se concentrer sur les tâches à haute valeur qui nécessitent une touche humaine."
                 },
                 {
                     title: "Réduit les absences de 40%",
-                    desc: "Identifie les patients à risque d'absence grâce au machine learning. Les appelle proactivement pour confirmer. Remplit les plages libérées en contactant votre liste d'attente."
+                    desc: "Identifie les patients à risque d'absence grâce à nos modèles ML propriétaires. Les appelle de manière proactive pour confirmer les rendez-vous. Remplit automatiquement les plages libérées en contactant votre liste d'attente."
                 },
                 {
-                    title: "Réservation instantanée",
-                    desc: "Synchronisation directe avec votre DME. Réserve, modifie ou annule en temps réel. Optimise les plages horaires pour maximiser votre efficacité."
+                    title: "S'intègre à vos systèmes actuels",
+                    desc: "Synchronisation directe avec votre DME. Réserve, modifie ou annule des rendez-vous en temps réel. Aucune perturbation du flux de travail—juste une amélioration transparente."
                 },
                 {
-                    title: "Sécurité et Conformité",
-                    desc: "Protection des données patients, hébergement au Canada, conformité totale aux normes de santé québécoises et canadiennes."
+                    title: "Optimise votre horaire intelligemment",
+                    desc: "Modèle d'optimisation des ressources propriétaire qui calcule les plages horaires les plus efficaces. Regroupe les procédures similaires, tient compte de la disponibilité de l'équipement et du personnel. Maximise la capacité de votre établissement."
+                },
+                {
+                    title: "Sécurité et conformité avant tout",
+                    desc: "Protection des données patients avec hébergement canadien. Conformité totale aux réglementations de santé québécoises et canadiennes. Toutes les interactions sont auditables et contrôlables."
+                },
+                {
+                    title: "Escalade intelligente quand nécessaire",
+                    desc: "Détecte les urgences et dirige les patients vers le 911 si nécessaire. Fait remonter les situations complexes au personnel humain. Assure la sécurité tout en gérant les tâches routinières de manière autonome."
                 }
             ]
         },
         thousandReceptionists: {
             title: "Mille réceptionnistes, dans votre poche.",
+            titlePrefix: "",
+            titleHighlight: "Mille réceptionnistes",
+            titleSuffix: ", dans votre poche.",
             subtitle: "En quelques minutes, déployez toute une équipe de réceptionnistes IA pour gérer votre clinique 24/7.",
             steps: [
                 {
@@ -143,10 +168,18 @@ export const translations = {
     en: {
         nav: {
             demo: "Book a Demo",
-            callUs: "Call Us"
+            callUs: "Call Us",
+            banner: "Hire your AI workforce now"
+        },
+        sectionLabels: {
+            whyChooseUs: "Why choose us",
+            ourProcess: "Our Process"
         },
         hero: {
             title: "Built to eliminate no-shows before they happen.",
+            titlePrefix: "Built to",
+            titleHighlight: "eliminate no-shows",
+            titleSuffix: "before they happen.",
             subtitle: "Alma is the AI workforce for healthcare. Mia, our AI receptionist, predicts which patients won't show up, calls them proactively to confirm, and fills cancellations within minutes, while your team focuses on care.",
             ctaPrimary: "Book a Demo",
             ctaSecondary: "Talk to the Team",
@@ -154,6 +187,9 @@ export const translations = {
         },
         comparison: {
             title: "Clinic operations in the AI Age.",
+            titlePrefix: "Clinic operations in the",
+            titleHighlight: "AI Age",
+            titleSuffix: ".",
             intro: "Alma is your long term partner with infinite possibilities.",
             traditional: {
                 title: "Traditional Reception",
@@ -177,28 +213,42 @@ export const translations = {
         mia: {
             role: "Your first AI colleague",
             headline: "Meet Mia.",
+            headlinePrefix: "Meet",
+            headlineHighlight: "Mia",
+            activeLabel: "Active",
             subheadline: "Mia doesn't just answer the phone. She thinks, plans, and acts so every appointment counts.",
             features: [
                 {
-                    title: "Available 24/7",
-                    desc: "Answers every call in English or French, with zero wait time. Unlimited simultaneous calls. Never sick, never on break."
+                    title: "Always Available, Never Overwhelmed",
+                    desc: "Answers every call in English or French with zero wait time. Handles unlimited simultaneous calls. Frees your admin team to focus on high-value tasks that require the human touch."
                 },
                 {
-                    title: "Reduces no-shows by 40%",
-                    desc: "Identifies at-risk patients using machine learning. Proactively calls to confirm. Fills freed slots by contacting your waitlist."
+                    title: "Reduces No-Shows by 40%",
+                    desc: "Identifies at-risk patients using our proprietary ML models. Proactively calls to confirm appointments. Automatically fills freed slots by contacting your waitlist."
                 },
                 {
-                    title: "Instant booking",
-                    desc: "Direct sync with your EMR. Books, modifies, or cancels in real-time. Optimizes time slots to maximize your efficiency."
+                    title: "Integrates with Your Current Systems",
+                    desc: "Direct sync with your EMR. Books, modifies, or cancels appointments in real-time. No workflow disruption—just seamless enhancement."
                 },
                 {
-                    title: "Security & Compliance",
-                    desc: "Patient data protection, Canadian hosting, full compliance with Quebec and Canadian healthcare regulations."
+                    title: "Optimizes Your Schedule Intelligently",
+                    desc: "Proprietary resource optimization model calculates the most efficient appointment slots. Groups similar procedures, accounts for equipment and staff availability. Maximizes your facility's capacity."
+                },
+                {
+                    title: "Security & Compliance First",
+                    desc: "Patient data protection with Canadian hosting. Full compliance with Quebec and Canadian healthcare regulations. All interactions auditable and controllable."
+                },
+                {
+                    title: "Smart Escalation When It Matters",
+                    desc: "Detects emergencies and directs patients to 911 when needed. Escalates complex situations to human staff. Ensures safety while handling routine tasks autonomously."
                 }
             ]
         },
         thousandReceptionists: {
             title: "A thousand receptionists, in your palm.",
+            titlePrefix: "A",
+            titleHighlight: "thousand receptionists",
+            titleSuffix: ", in your palm.",
             subtitle: "Within minutes, deploy a whole team of AI receptionists to manage your clinic 24/7.",
             steps: [
                 {
@@ -251,7 +301,7 @@ export const translations = {
             foundersLabel: "Founders",
             sachaName: "Sacha Gucciardo",
             matheoName: "Mathéo Vaulet",
-            quote: "\"In early 2025, I experienced a major health scare. It was the first time I was confronted with the Canadian healthcare system, and it was scary. That day, I decided I wanted to make a meaningful impact. I realized that even a 1% improvement to the healthcare system could save thousands of lives.\n\nThe system is overloaded. Not from lack of dedication, but from an overwhelming administrative burden. 72% of physicians are burnt out. They spend 25% of their time—a full day every week—away from patients.\n\nWe can't train 64,000 new healthcare workers overnight. But we can give time back to those who are already there.\"",
+            quote: "\"In early 2025, I experienced a major health scare. It was the first time I was confronted with the Canadian healthcare system, and it was scary. That day, I decided I wanted to make a meaningful impact. I realized that even a 1% improvement to the healthcare system could save thousands of lives.\n\nThe system is overloaded. Not from lack of dedication, but from an overwhelming administrative burden. 72% of physicians are burnt out. They spend 25% of their time—a full day every week—away from patients.\n\nWe can't train 64,000 new healthcare workers overnight. But we can support our frontline in unprecedented ways. By using cutting-edge technology like Alma to prevent burnout and keep our doctors healthy, we can keep Canadians healthy.\"",
             attribution: "— Sacha Gucciardo, Co-founder"
         },
         urgentProblem: {
