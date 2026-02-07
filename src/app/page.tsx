@@ -613,12 +613,10 @@ function ThousandReceptionistsSection() {
               {/* Image */}
               <div className="relative mb-6">
                 <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg">
-                  <Image
-                    src="/images/process-abstract.jpg"
+                  <img
+                    src={`${process.env.NODE_ENV === 'production' ? '/alma-website' : ''}/images/process-abstract.jpg`}
                     alt="Mia AI Receptionist"
-                    fill
-                    className="object-cover"
-                    unoptimized
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </div>
@@ -733,12 +731,10 @@ function MissionSection() {
             <div className="relative max-w-sm mx-auto lg:mx-0">
               <div className="p-[2px] rounded-2xl bg-gradient-to-br from-orange-500/35 via-amber-500/35 to-orange-400/35">
                 <div className="aspect-[4/5] relative rounded-2xl overflow-hidden bg-white shadow-sm">
-                  <Image
-                    src="/images/founders.png"
+                  <img
+                    src={`${process.env.NODE_ENV === 'production' ? '/alma-website' : ''}/images/founders.png`}
                     alt="Sacha & Mathéo"
-                    fill
-                    className="object-cover"
-                    unoptimized
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </div>
