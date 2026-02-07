@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  /* Alma Brand Colors — Minimalist, Calming */
+  --color-charcoal: #1C1C1C;
+  --color-charcoal-soft: #2D2D2D;
+  --color-stone: #44403C;
+  --color-warm-gray: #78716C;
+  --color-light-gray: #A8A29E;
+  --color-cream: #FAFAF9;
+  --color-white: #FFFFFF;
+
+  /* Semantic Colors */
+  --foreground: var(--color-charcoal);
+  --background: var(--color-white);
+  --accent: var(--color-stone);
+  --muted: var(--color-warm-gray);
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(120, 113, 108, 0.2);
+  color: inherit;
+}
+
+::-moz-selection {
+  background: rgba(120, 113, 108, 0.2);
+  color: inherit;
+}
+
+@layer utilities {
+
+  /* Video placeholder styling */
+  .video-placeholder {
+    background: linear-gradient(135deg, var(--color-charcoal) 0%, var(--color-charcoal-soft) 100%);
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Logo grid muted effect */
+  .logo-muted {
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .logo-muted:hover {
+    opacity: 0.8;
+  }
+}
