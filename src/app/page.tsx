@@ -609,7 +609,7 @@ function ThousandReceptionistsSection() {
               <div className="relative mb-6">
                 <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg">
                   <img
-                    src={`${process.env.NODE_ENV === 'production' ? '/alma-website' : ''}/images/process-abstract.jpg`}
+                    src="/images/process-abstract.jpg"
                     alt="Mia AI Receptionist"
                     className="w-full h-full object-cover"
                   />
@@ -727,7 +727,7 @@ function MissionSection() {
               <div className="p-[2px] rounded-2xl bg-gradient-to-br from-orange-500/35 via-amber-500/35 to-orange-400/35">
                 <div className="aspect-[4/5] relative rounded-2xl overflow-hidden bg-white shadow-sm">
                   <img
-                    src={`${process.env.NODE_ENV === 'production' ? '/alma-website' : ''}/images/founders.png`}
+                    src="/images/founders.png"
                     alt="Sacha & Mathéo"
                     className="w-full h-full object-cover"
                   />

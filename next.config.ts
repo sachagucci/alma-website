@@ -1,12 +1,8 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === 'production';
-
 const nextConfig: NextConfig = {
   output: 'export',
-  // GitHub Pages deploys to https://sachagucci.github.io/alma-website/
-  basePath: isProd ? '/alma-website' : '',
-  assetPrefix: isProd ? '/alma-website/' : '',
+  // Using custom domain almahealth.ca - no basePath needed
   images: {
     unoptimized: true,
   },
