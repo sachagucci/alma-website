@@ -157,11 +157,6 @@ function Navigation({ onContactClick }: { onContactClick: () => void }) {
         <Link href="/" className="text-xl font-medium text-stone-900">
           Alma
         </Link>
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <span className="text-sm font-medium bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent opacity-80">
-            {t.nav.banner}
-          </span>
-        </div>
         <div className="flex items-center gap-4">
           <button
             onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
