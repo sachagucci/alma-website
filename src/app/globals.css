@@ -17,7 +17,7 @@
 
   /* Semantic Colors */
   --foreground: var(--color-charcoal);
-  --background: var(--color-white);
+  --background: #FAF9F7;
   --accent: var(--color-stone);
   --muted: var(--color-warm-gray);
 }

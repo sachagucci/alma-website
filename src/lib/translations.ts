@@ -52,10 +52,10 @@ export const translations = {
             headlinePrefix: "Rencontrez",
             headlineHighlight: "Mia",
             activeLabel: "Actif",
-            subheadline: "Mia ne se contente pas de répondre au téléphone. Elle pense, planifie et agit pour que chaque rendez-vous compte.",
+            subheadline: "Mia ne se contente pas de répondre au téléphone. Elle pense, planifie et agit de manière autonome pour que chaque rendez-vous compte.",
             features: [
                 {
-                    title: "Toujours disponible, jamais débordée",
+                    title: "Toujours disponible",
                     desc: "Répond à chaque appel en français ou en anglais sans temps d'attente. Gère un nombre illimité d'appels simultanés. Libère votre équipe administrative pour se concentrer sur les tâches à haute valeur qui nécessitent une touche humaine."
                 },
                 {
@@ -64,11 +64,11 @@ export const translations = {
                 },
                 {
                     title: "S'intègre à vos systèmes actuels",
-                    desc: "Synchronisation directe avec votre DME. Réserve, modifie ou annule des rendez-vous en temps réel. Aucune perturbation du flux de travail—juste une amélioration transparente."
+                    desc: "Synchronisation directe avec votre DME. Réserve, modifie ou annule des rendez-vous en temps réel. Aucune perturbation du flux de travail juste une amélioration transparente."
                 },
                 {
                     title: "Optimise votre horaire intelligemment",
-                    desc: "Modèle d'optimisation des ressources propriétaire qui calcule les plages horaires les plus efficaces. Regroupe les procédures similaires, tient compte de la disponibilité de l'équipement et du personnel. Maximise la capacité de votre établissement."
+                    desc: "Modèle d'optimisation des ressources propriétaire qui calcule les plages horaires les plus efficaces. Maximise la capacité de votre établissement."
                 },
                 {
                     title: "Sécurité et conformité avant tout",
@@ -97,13 +97,13 @@ export const translations = {
                     number: "02",
                     label: "Appeler",
                     title: "Appels Proactifs",
-                    description: "Notre système IA appelle des milliers de patients simultanément pour confirmer les rendez-vous, quelque chose qui prendrait des jours à une équipe de réception."
+                    description: "Mia appelle des milliers de patients simultanément pour confirmer les rendez-vous, quelque chose qui prendrait des jours à une équipe de réception."
                 },
                 {
                     number: "03",
                     label: "Remplir",
                     title: "Remplissage Instantané",
-                    description: "Quand une annulation survient, Mia contacte immédiatement votre liste d'attente et remplit le créneau en minutes—pas en heures ou en jours."
+                    description: "Quand une annulation survient, Mia contacte immédiatement votre liste d'attente et remplit le créneau en minutes, récupérant les rendez-vous qui auraient autrement été perdus."
                 },
                 {
                     number: "04",
@@ -216,10 +216,10 @@ export const translations = {
             headlinePrefix: "Meet",
             headlineHighlight: "Mia",
             activeLabel: "Active",
-            subheadline: "Mia doesn't just answer the phone. She thinks, plans, and acts so every appointment counts.",
+            subheadline: "Mia doesn't just answer the phone. She thinks, plans, and acts autonomously so every appointment counts.",
             features: [
                 {
-                    title: "Always Available, Never Overwhelmed",
+                    title: "Always Available",
                     desc: "Answers every call in English or French with zero wait time. Handles unlimited simultaneous calls. Frees your admin team to focus on high-value tasks that require the human touch."
                 },
                 {
@@ -228,11 +228,11 @@ export const translations = {
                 },
                 {
                     title: "Integrates with Your Current Systems",
-                    desc: "Direct sync with your EMR. Books, modifies, or cancels appointments in real-time. No workflow disruption—just seamless enhancement."
+                    desc: "Direct sync with your EMR. Books, modifies, or cancels appointments in real-time. No workflow disruption just seamless enhancement."
                 },
                 {
                     title: "Optimizes Your Schedule Intelligently",
-                    desc: "Proprietary resource optimization model calculates the most efficient appointment slots. Groups similar procedures, accounts for equipment and staff availability. Maximizes your facility's capacity."
+                    desc: "Proprietary resource optimization model calculates the most efficient appointment slots. Maximizes your facility's capacity."
                 },
                 {
                     title: "Security & Compliance First",
@@ -261,13 +261,13 @@ export const translations = {
                     number: "02",
                     label: "Reach",
                     title: "Proactive Outreach",
-                    description: "Our AI system calls thousands of patients simultaneously to confirm appointments, something that takes reception teams days to accomplish."
+                    description: "Mia calls thousands of patients simultaneously to confirm appointments, something that takes reception teams days to accomplish."
                 },
                 {
                     number: "03",
                     label: "Fill",
                     title: "Instant Backfill",
-                    description: "When a cancellation occurs, Mia immediately contacts your waitlist and fills the slot within minutes—not hours or days."
+                    description: "When a cancellation occurs, Mia immediately contacts your waitlist and fills the slot within minutes, recovering appointments that would otherwise be lost."
                 },
                 {
                     number: "04",

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { ArrowRight, X, Play, Clock, Shield, ArrowDown, ChevronDown } from 'lucide-react'
+import { X, Play, Clock, Shield, ArrowDown, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext'
@@ -167,12 +167,14 @@ function Navigation({ onContactClick }: { onContactClick: () => void }) {
           >
             {lang === 'fr' ? 'EN' : 'FR'}
           </button>
-          <button
-            onClick={onContactClick}
-            className="px-5 py-2.5 text-sm bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 text-white rounded-lg hover:shadow-lg transition-all font-medium"
-          >
-            {t.nav.demo}
-          </button>
+          <div className="p-[2px] rounded-lg bg-gradient-to-br from-orange-500/35 via-amber-500/35 to-orange-400/35">
+            <button
+              onClick={onContactClick}
+              className="px-5 py-2.5 text-sm bg-white text-stone-900 rounded-[6px] hover:bg-stone-50 transition-colors font-medium w-full"
+            >
+              {t.nav.demo}
+            </button>
+          </div>
         </div>
       </div>
     </nav>
@@ -203,13 +205,21 @@ function HeroSection({ onContactClick }: { onContactClick: () => void }) {
         </FadeIn>
 
         <FadeIn delay={0.2}>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <button
               onClick={onContactClick}
-              className="px-8 py-4 bg-stone-900 text-white font-medium rounded-xl hover:bg-black transition-all flex items-center justify-center gap-2"
+              className="group relative px-8 py-4 rounded-2xl text-stone-900 font-medium transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-2xl overflow-hidden hover:scale-[1.02] active:scale-[0.98]"
+              style={{
+                background: 'linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.45) 100%)',
+                boxShadow: '0 0.5px 0 0 rgba(255,255,255,0.9) inset, 0 -0.5px 0 0 rgba(0,0,0,0.05) inset, 0 2px 8px rgba(0,0,0,0.1), 0 10px 28px rgba(0,0,0,0.1)',
+                border: '0.5px solid rgba(255,255,255,0.6)',
+              }}
             >
-              {t.hero.ctaPrimary}
-              <ArrowRight className="w-4 h-4" />
+              <span className="relative z-10">{t.hero.ctaPrimary}</span>
+              {/* Top specular highlight */}
+              <div className="absolute inset-x-0 top-0 h-[50%] rounded-t-2xl pointer-events-none" style={{
+                background: 'linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%)',
+              }} />
             </button>
           </div>
         </FadeIn>
@@ -228,7 +238,7 @@ function ComparisonSection() {
   const { t } = useLanguage()
 
   return (
-    <section className="pt-12 pb-12 px-6 bg-gradient-to-b from-stone-50 to-white">
+    <section className="pt-12 pb-12 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Badge */}
         <FadeIn>
@@ -386,7 +396,7 @@ function MiaSection() {
           {/* Navigation arrows */}
           <button
             onClick={goPrev}
-            className="absolute left-4 md:left-8 z-20 w-12 h-12 rounded-full bg-white shadow-lg border border-stone-200 flex items-center justify-center hover:bg-stone-50 transition-colors"
+            className="absolute left-4 md:left-8 z-20 w-12 h-12 rounded-full bg-white/70 backdrop-blur-sm shadow-lg border border-stone-200/50 flex items-center justify-center hover:bg-white/90 transition-colors"
           >
             <svg className="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -394,7 +404,7 @@ function MiaSection() {
           </button>
           <button
             onClick={goNext}
-            className="absolute right-4 md:right-8 z-20 w-12 h-12 rounded-full bg-white shadow-lg border border-stone-200 flex items-center justify-center hover:bg-stone-50 transition-colors"
+            className="absolute right-4 md:right-8 z-20 w-12 h-12 rounded-full bg-white/70 backdrop-blur-sm shadow-lg border border-stone-200/50 flex items-center justify-center hover:bg-white/90 transition-colors"
           >
             <svg className="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -419,27 +429,27 @@ function MiaSection() {
                     damping: 30,
                     duration: 0.4
                   }}
-                  className={`absolute inset-0 rounded-3xl p-10 flex flex-col justify-between
+                  className={`absolute inset-0 rounded-3xl p-10 flex flex-col justify-between backdrop-blur-xl
                     ${position === 'center'
-                      ? 'bg-gradient-to-br from-orange-500 via-amber-500 to-rose-500 text-white shadow-2xl'
-                      : 'bg-white border border-stone-200 shadow-lg'
+                      ? 'bg-gradient-to-br from-orange-400/80 via-amber-400/80 to-rose-400/80 shadow-2xl border border-white/20'
+                      : 'bg-white/60 border border-stone-200/50 shadow-lg'
                     }`}
                   style={{
                     filter: position === 'center' ? 'none' : 'blur(2px)',
                   }}
                 >
                   <div>
-                    <h3 className={`text-2xl md:text-3xl font-light mb-4 ${position === 'center' ? 'text-white' : 'text-stone-300'}`}>
+                    <h3 className={`text-2xl md:text-3xl font-light mb-4 ${position === 'center' ? 'text-stone-900' : 'text-stone-300'}`}>
                       {feature.title}
                     </h3>
-                    <p className={`text-lg leading-relaxed ${position === 'center' ? 'text-white/90' : 'text-stone-200'}`}>
+                    <p className={`text-lg leading-relaxed ${position === 'center' ? 'text-stone-800' : 'text-stone-200'}`}>
                       {feature.desc}
                     </p>
                   </div>
                   {position === 'center' && (
                     <div className="flex items-center gap-2 mt-6">
-                      <div className="w-3 h-3 rounded-full bg-white/80 animate-pulse" />
-                      <span className="text-white/80 text-sm">{t.mia.activeLabel}</span>
+                      <div className="w-3 h-3 rounded-full bg-stone-900 animate-pulse" />
+                      <span className="text-stone-900 text-sm">{t.mia.activeLabel}</span>
                     </div>
                   )}
                 </motion.div>
@@ -475,7 +485,7 @@ function ThousandReceptionistsSection() {
   const [activeStep, setActiveStep] = useState(0) // Start with Predictive Analysis
 
   return (
-    <section className="pt-12 pb-12 px-6 bg-gradient-to-b from-white via-stone-50 to-stone-50">
+    <section className="pt-12 pb-12 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Badge */}
         <FadeIn>
@@ -796,7 +806,7 @@ function CTASection({ onContactClick }: { onContactClick: () => void }) {
   const { t } = useLanguage()
 
   return (
-    <section className="py-24 px-6 bg-white">
+    <section className="py-24 px-6">
       <div className="max-w-3xl mx-auto text-center">
         <FadeIn>
           <h2 className="text-4xl md:text-5xl font-light text-center mb-12">
@@ -810,10 +820,17 @@ function CTASection({ onContactClick }: { onContactClick: () => void }) {
           <div className="flex justify-center">
             <button
               onClick={onContactClick}
-              className="px-8 py-4 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 text-white font-medium rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
+              className="group relative px-8 py-4 rounded-2xl text-stone-900 font-medium transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-2xl overflow-hidden hover:scale-[1.02] active:scale-[0.98]"
+              style={{
+                background: 'linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.45) 100%)',
+                boxShadow: '0 0.5px 0 0 rgba(255,255,255,0.9) inset, 0 -0.5px 0 0 rgba(0,0,0,0.05) inset, 0 2px 8px rgba(0,0,0,0.1), 0 10px 28px rgba(0,0,0,0.1)',
+                border: '0.5px solid rgba(255,255,255,0.6)',
+              }}
             >
-              {t.cta.primary}
-              <ArrowRight className="w-4 h-4" />
+              <span className="relative z-10">{t.cta.primary}</span>
+              <div className="absolute inset-x-0 top-0 h-[50%] rounded-t-2xl pointer-events-none" style={{
+                background: 'linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%)',
+              }} />
             </button>
           </div>
         </FadeIn>
@@ -849,7 +866,7 @@ function AppContent() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-white text-stone-900">
+    <div className="min-h-screen text-stone-900" style={{ background: '#FAF9F7' }}>
       <Navigation onContactClick={() => setIsContactOpen(true)} />
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 
