@@ -23,6 +23,8 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
 }
 
 // Video Component (YC video, medium size)
+// Temporarily commented out - will be replaced with new video
+/*
 function VideoEmbed({ hint }: { hint: string }) {
   const [isPlaying, setIsPlaying] = useState(false)
   const videoId = 'hAKf6JWSCL4'
@@ -60,6 +62,7 @@ function VideoEmbed({ hint }: { hint: string }) {
     </div>
   )
 }
+*/
 
 // Contact Modal with Custom UI -> Google Form Backend
 function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -211,9 +214,10 @@ function HeroSection({ onContactClick }: { onContactClick: () => void }) {
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.3}>
+        {/* Temporarily commented out - will be replaced with new video */}
+        {/* <FadeIn delay={0.3}>
           <VideoEmbed hint={t.hero.videoHint} />
-        </FadeIn>
+        </FadeIn> */}
       </div>
     </section>
   )
