@@ -184,7 +184,7 @@ function HeroSection({ onContactClick }: { onContactClick: () => void }) {
   const { t } = useLanguage()
 
   return (
-    <section className="pt-28 pb-8 px-6">
+    <section className="pt-28 pb-4 px-6">
       <div className="max-w-5xl mx-auto">
         <FadeIn>
           <h1 className="text-4xl md:text-5xl font-light tracking-tight text-center mb-6">
@@ -206,7 +206,7 @@ function HeroSection({ onContactClick }: { onContactClick: () => void }) {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
             <button
               onClick={onContactClick}
-              className="px-8 py-4 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 text-white font-medium rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
+              className="px-8 py-4 bg-stone-900 text-white font-medium rounded-xl hover:bg-black transition-all flex items-center justify-center gap-2"
             >
               {t.hero.ctaPrimary}
               <ArrowRight className="w-4 h-4" />
@@ -359,15 +359,16 @@ function MiaSection() {
   }
 
   return (
-    <section className="pt-12 pb-12 px-6 overflow-hidden">
+    <section className="pt-4 pb-12 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <FadeIn>
           <div className="text-center mb-16">
-            <div className="flex justify-center mb-8">
+            {/* Temporarily commented out - badge doesn't look good without video */}
+            {/* <div className="flex justify-center mb-8">
               <span className="px-4 py-2 bg-stone-200/50 text-stone-600 text-sm font-medium rounded-full border border-stone-200">
                 {t.mia.role}
               </span>
-            </div>
+            </div> */}
             <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4">
               {t.mia.headlinePrefix}{' '}
               <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent">
