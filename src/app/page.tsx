@@ -52,7 +52,6 @@ function VideoEmbed({ hint }: { hint: string }) {
               <div className="w-16 h-16 rounded-full bg-white/95 flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
                 <Play className="w-6 h-6 text-stone-900 ml-1" fill="currentColor" />
               </div>
-              <span className="mt-3 text-white text-sm font-medium">{hint}</span>
             </div>
           </>
         )}
