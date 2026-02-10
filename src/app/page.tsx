@@ -22,12 +22,10 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
   )
 }
 
-// Video Component (YC video, medium size)
-// Temporarily commented out - will be replaced with new video
-/*
+// Video Component
 function VideoEmbed({ hint }: { hint: string }) {
   const [isPlaying, setIsPlaying] = useState(false)
-  const videoId = 'hAKf6JWSCL4'
+  const videoId = 'N5DJ3gppCdQ'
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -62,7 +60,6 @@ function VideoEmbed({ hint }: { hint: string }) {
     </div>
   )
 }
-*/
 
 // Contact Modal with Custom UI -> Google Form Backend
 function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -224,10 +221,9 @@ function HeroSection({ onContactClick }: { onContactClick: () => void }) {
           </div>
         </FadeIn>
 
-        {/* Temporarily commented out - will be replaced with new video */}
-        {/* <FadeIn delay={0.3}>
+        <FadeIn delay={0.3}>
           <VideoEmbed hint={t.hero.videoHint} />
-        </FadeIn> */}
+        </FadeIn>
       </div>
     </section>
   )
@@ -287,16 +283,16 @@ function ComparisonSection() {
             </div>
           </FadeIn>
 
-          {/* Right card - Orange gradient */}
+          {/* Right card - Same as Meet Mia tiles */}
           <FadeIn delay={0.3}>
-            <div className="bg-gradient-to-br from-orange-500 via-amber-500 to-rose-500 rounded-3xl p-10 text-white h-full flex flex-col">
-              <h3 className="text-3xl md:text-4xl font-light mb-10 leading-tight text-center">{t.comparison.alma.title}</h3>
+            <div className="bg-gradient-to-br from-orange-400/80 via-amber-400/80 to-rose-400/80 backdrop-blur-xl rounded-3xl p-10 h-full flex flex-col shadow-2xl border border-white/20">
+              <h3 className="text-3xl md:text-4xl font-light mb-10 leading-tight text-center text-stone-900">{t.comparison.alma.title}</h3>
               <div className="space-y-6 flex-1">
                 {t.comparison.alma.items.map((item: any, i: number) => (
                   <div key={i} className="flex items-start gap-4">
-                    <span className="text-white mt-1 text-lg">✓</span>
-                    <p className="text-white/95 text-base leading-relaxed">
-                      <span className="font-medium text-white">{item.highlight}</span> {item.text}
+                    <span className="text-stone-900 mt-1 text-lg">✓</span>
+                    <p className="text-stone-800 text-base leading-relaxed">
+                      <span className="font-medium text-stone-900">{item.highlight}</span> {item.text}
                     </p>
                   </div>
                 ))}
@@ -369,16 +365,15 @@ function MiaSection() {
   }
 
   return (
-    <section className="pt-4 pb-12 px-6 overflow-hidden">
+    <section className="pt-12 pb-12 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <FadeIn>
           <div className="text-center mb-16">
-            {/* Temporarily commented out - badge doesn't look good without video */}
-            {/* <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-8">
               <span className="px-4 py-2 bg-stone-200/50 text-stone-600 text-sm font-medium rounded-full border border-stone-200">
                 {t.mia.role}
               </span>
-            </div> */}
+            </div>
             <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4">
               {t.mia.headlinePrefix}{' '}
               <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent">
