@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Alma — The AI workforce for healthcare.",
   description: "Alma is the AI workforce for healthcare. Mia, our AI receptionist, predicts which patients won't show up, calls them proactively to confirm, and fills cancellations within minutes.",
+  icons: {
+    icon: "/images/logo_alma-noir_2.png",
+  },
 };
 
 export default function RootLayout({
