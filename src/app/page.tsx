@@ -163,6 +163,9 @@ function Navigation({ onContactClick }: { onContactClick: () => void }) {
           >
             {lang === 'fr' ? 'EN' : 'FR'}
           </button>
+          <Link href="/calculator" className="hidden sm:block px-4 py-2 text-sm text-stone-600 hover:text-stone-900 transition-colors font-medium">
+            {t.calculator.nav}
+          </Link>
           <div className="p-[2px] rounded-lg bg-gradient-to-br from-orange-500/35 via-amber-500/35 to-orange-400/35">
             <button
               onClick={onContactClick}
@@ -811,7 +814,7 @@ function CTASection({ onContactClick }: { onContactClick: () => void }) {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="flex justify-center">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <button
               onClick={onContactClick}
               className="group relative px-8 py-4 rounded-2xl text-stone-900 font-medium transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-2xl overflow-hidden hover:scale-[1.02] active:scale-[0.98]"
@@ -826,6 +829,9 @@ function CTASection({ onContactClick }: { onContactClick: () => void }) {
                 background: 'linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%)',
               }} />
             </button>
+            <Link href="/calculator" className="px-6 py-3 text-sm text-stone-600 hover:text-stone-900 transition-colors font-medium border border-stone-200 rounded-2xl hover:border-stone-300">
+              {t.calculator.nav} →
+            </Link>
           </div>
         </FadeIn>
       </div>
